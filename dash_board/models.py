@@ -13,6 +13,6 @@ class Shipment(models.Model):
 	uw = models.CharField(max_length= 10)
 	weight = models.CharField(max_length= 10)
 
-	def __str__(self):
-		return self.Shipment
+	def __str__(self) : 
+		return self.name
 
