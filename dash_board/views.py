@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Shipment
+from django.contrib import messages
+
 
 def home(request):
 	all_shipments = Shipment.objects.all
