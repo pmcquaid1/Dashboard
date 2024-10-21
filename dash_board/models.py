@@ -14,11 +14,7 @@ class Shipment(models.Model):
 	weight = models.CharField(max_length= 10)
 
 	def __str__(self): 
-		return self.shipment_id 
+		return self.shipment
 
-	def __str__(self): 
-		return self.consignee
 
-	def __str__(self):
-		return self.ata 
 
