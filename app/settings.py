@@ -84,11 +84,13 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        
+        'NAME': os.path.join(BASE_DIR, 'postgresql_psycopg2')
+
     }
 }
 
 DATABASES['default']= dj_database_url.config(default=REMOVED)
+
 db_from_env = dj_database_url.config(conn_max_age = 600)
 DATABASES['default'].update(db_from_env)
 
