@@ -2,7 +2,24 @@
 
 {% block content %}
 	<h1>SLL Dashboard</h1>
+	{% if all_shipments %}
+		{% for records in all_shipments %}
+			{{ record.shipment_id}}<br/>
+			{{ record.consignee}}<br/>
+			{{ record.ata}}<br/>
+			{{ record.cargo_available}}<br/>
+			{{ record.date_cleared}}<br/>
+			{{ record.actual_delivery}}<br/>
+			{{ record.cont}}<br/>
+			{{ record.twenty_ft}}<br/>
+			{{ record.forty_ft}}<br/>
+			{{ record.uw}}<br/>
+			{{ record.weight}}<br/>
+			<hr/>
+
+		{% endfor %}
+
 
 	{{ all_shipments}}
-	
+
 {% endblock %}
