@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Shipment
+from .forms import ShipmentForm
 from django.contrib import messages
 
 
