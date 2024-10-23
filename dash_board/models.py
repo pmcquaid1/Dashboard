@@ -8,10 +8,10 @@ class Shipment(models.Model):
 	date_cleared = models.DateField()
 	actual_delivery = models.DateField()
 	cont = models.CharField(max_length= 5)
-	twenty_ft = models.IntegerField(max_length= 10)
-	forty_ft = models.IntegerField(max_length= 10)
+	twenty_ft = models.IntegerField()
+	forty_ft = models.IntegerField()
 	uw = models.CharField(max_length= 5)
-	weight = models.IntegerField(max_length= 10)
+	weight = models.IntegerField()
 
 	def __str__(self): 
 		return self.shipment_id
