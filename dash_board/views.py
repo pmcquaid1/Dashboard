@@ -22,4 +22,5 @@ def kpi_reports(request):
 	else:
 		return render(request, 'kpi_reports.html', {})
 
-
+def edit(request, list_id):
+	return render(request, 'edit.html', {})
