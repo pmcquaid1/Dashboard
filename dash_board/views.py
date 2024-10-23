@@ -10,7 +10,7 @@ def home(request):
 
 def kpi_reports(request):
 	if request.method =='POST':
-		form = ShipmentForm(request.POST)
+		form = ShipmentForm(request.POST or None)
 		if form.is_valid():
 			form.save()
 			messages.success(request, ('Shipment has been added'))
