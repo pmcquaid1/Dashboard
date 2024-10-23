@@ -16,11 +16,24 @@ def kpi_reports(request):
 			messages.success(request, ('Shipment has been added'))
 			return redirect('home')
 		else:
-			messages.success(request, ('Error not saving to database'))
+			messages.success(request, ('Error'))
 			return render(request, 'kpi_reports.html', {})
 		
 	else:
 		return render(request, 'kpi_reports.html', {})
 
 def edit(request, list_id):
-	return render(request, 'edit.html', {})
+	if request.method =='POST':
+		current_shipment = Shipment.objects.get(pk=list_id)
+		form = ShipmentForm(request.POST or None, instance= current_shipment)
+		if form.is_valid():
+			form.save()
+			messages.success(request, ('Shipment has been edited'))
+			return redirect('home')
+		else:
+			messages.success(request, ('Error'))
+			return render(request, 'edit', {})
+		
+	else:
+		get_shipment = Shipment.objects.get(pk=list_id)
+		return render(request, 'edit.html', {'get_shipment': get_shipment})

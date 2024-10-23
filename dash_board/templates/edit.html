@@ -1,7 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<h1>Edit Shipment</h1>
-	<br/>
+	
+<h1>Edit Shipment</h1>
+<br/>
+
+{% if get_shipment %}
+
+	<form method="POST">
+	{% csrf_token %}
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Shipment #.name}}" name="shipment_id">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Consignee.name}}" name="consignee">
+</div>
+
+<div class="form-group">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Actual Arrival.name}}" name="ata">
+</div>
+
+<div class="form-group">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Cargo Available.name}}" name="cargo_available">
+</div
+
+<div class="form-group">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Date Cleared.name}}" name="date_cleared">
+</div>
+
+<div class="form-group">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Actual Delivery.name}}" name="actual_delivery">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Container Type.name}}" name="cont">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_20ft Container Quantity.name}}" name="twenty_ft">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_40ft Container Quantity.name}}" name="forty_ft">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Unit of Measure.name}}" name="uw">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Weight.name}}" name="weight">
+</div>
+
+<div class="form-group">
+	<input type="hidden" value="{{ get_shipment.id}}" name="id">
+</div>
+
+<br/>
+  <button type="submit" class="btn btn-secondary">Edit Shipment</button>
+</form>
+
+<br/>
+<br/>
+
+{% endif %}	
 
 {% endblock %}
