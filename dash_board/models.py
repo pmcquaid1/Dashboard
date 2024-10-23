@@ -7,11 +7,11 @@ class Shipment(models.Model):
 	cargo_available = models.DateField()
 	date_cleared = models.DateField()
 	actual_delivery = models.DateField()
-	cont = models.CharField(max_length= 5)
-	twenty_ft = models.IntegerField()
-	forty_ft = models.IntegerField()
-	uw = models.CharField(max_length= 5)
-	weight = models.IntegerField()
+	cont = models.CharField(max_length= 10)
+	twenty_ft = models.CharField(max_length= 20)
+	forty_ft = models.CharField(max_length= 20)
+	uw = models.CharField(max_length= 10)
+	weight = models.CharField()
 
 	def __str__(self): 
 		return self.shipment_id
