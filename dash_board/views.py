@@ -8,7 +8,7 @@ def home(request):
 	all_shipments = Shipment.objects.all
 	return render(request, 'home.html', {'all_shipments':all_shipments})
 
-def kpi_reports(request):
+def add_shipments(request):
 	if request.method =='POST':
 		form = ShipmentForm(request.POST or None)
 		if form.is_valid():
