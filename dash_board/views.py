@@ -5,8 +5,8 @@ from django.contrib import messages
 
 
 def home(request):
-	all_shipments = Shipment.objects.all
-	return render(request, 'home.html', {'all_shipments':all_shipments})
+	all_shipment = Shipment.objects.all
+	return render(request, 'home.html', {'all_shipments':all_shipment})
 
 def add_shipment(request):
 	if request.method =='POST':
