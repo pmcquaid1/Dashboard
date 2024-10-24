@@ -17,10 +17,10 @@ def kpi_reports(request):
 			return redirect('home')
 		else:
 			messages.success(request, ('Error'))
-			return render(request, 'kpi_reports.html', {})
+			return render(request, 'add_shipment.html', {})
 		
 	else:
-		return render(request, 'kpi_reports.html', {})
+		return render(request, 'add_shipment.html', {})
 
 def edit(request, list_id):
 	if request.method =='POST':
