@@ -11,47 +11,47 @@
 	{% csrf_token %}
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Shipment #.name}}" name="shipment_id">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.shipment_id}}" name="shipment_id">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Consignee.name}}" name="consignee">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.consignee}}" name="consignee">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Actual Arrival.name}}" name="ata">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.ata}}" name="ata">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Cargo Available.name}}" name="cargo_available">
-</div
-
-<div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Date Cleared.name}}" name="date_cleared">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.cargo_available}}" name="cargo_available">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Actual Delivery.name}}" name="actual_delivery">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.date_cleared}}" name="date_cleared">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Container Type.name}}" name="cont">
+	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.actual_delivery}}" name="actual_delivery">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_20ft Container Quantity.name}}" name="twenty_ft">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.cont}}" name="cont">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_40ft Container Quantity.name}}" name="forty_ft">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.twenty_ft}}" name="twenty_ft">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Unit of Measure.name}}" name="uw">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.forty_ft}}" name="forty_ft">
 </div>
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_Weight.name}}" name="weight">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.uw}}" name="uw">
+</div>
+
+<div class="form-group">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.weight}}" name="weight">
 </div>
 
 <div class="form-group">
