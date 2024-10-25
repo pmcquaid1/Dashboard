@@ -6,7 +6,7 @@ from django.contrib import messages
 
 def home(request):
 	all_shipment = Shipment.objects.all
-	return render(request, 'home.html', {'all_shipments':all_shipment})
+	return render(request, 'home.html', {'all_shipment':all_shipment})
 
 def add_shipment(request):
 	if request.method =='POST':
@@ -37,3 +37,13 @@ def edit(request, list_id):
 	else:
 		get_shipment = Shipment.objects.get(pk=list_id)
 		return render(request, 'edit.html', {'get_shipment': get_shipment})
+
+def delete(request, list_id):
+	if request.method =='POST':
+		current_shipment = Shipment.objects.get(pk=list_id)
+		current_shipment.delete()
+		message.success(request, ('Shipment deleted'))
+		return redirect ('home')
+	else:
+		message.success(request, ('Cannot delete from Page'))
+		return redirect ('home')
