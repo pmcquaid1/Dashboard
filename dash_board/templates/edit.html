@@ -65,7 +65,7 @@
 <br/>
 <br/>
 
-<form method="POST" action='{% url "delete" get_shipment.id %}'>
+<form method="POST" action="{% url 'delete' get_shipment.id %}">
 	{% csrf_token %}
 	<input type="hidden" value="{{ get_shipment.id }}" name="id">
 	<button type="submit" class="btn btn-secondary">Delete Shipment</button>

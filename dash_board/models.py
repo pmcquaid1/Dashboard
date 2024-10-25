@@ -14,7 +14,8 @@ class Shipment(models.Model):
 	weight = models.CharField()
 
 	def __str__(self): 
-		return self.shipment
+		return self.shipment_id
+		
 
 
 
