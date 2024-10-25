@@ -32,7 +32,7 @@ def edit(request, list_id):
 			return redirect('home')
 		else:
 			messages.success(request, ('Error'))
-			return render(request, 'edit', {})
+			return render(request, 'edit.html', {})
 		
 	else:
 		get_shipment = Shipment.objects.get(pk=list_id)
