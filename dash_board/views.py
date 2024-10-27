@@ -5,14 +5,14 @@ from django.contrib import messages
 
 
 def home(request):
-	all_shipment = Shipment.objects.all
-	return render(request, 'home.html', {'all_shipment':all_shipment})
+	all_shipments = Shipment.objects.all
+	return render(request, 'home.html', {'all_shipments':all_shipments})
 
 def add_shipment(request):
 	if request.method =='POST':
 		form = ShipmentForm(request.POST or None)
 		if form.is_valid():
-			form.save('home')
+			form.save()
 			messages.success(request, ('Shipment has been added'))
 			return redirect('home')
 		else:
