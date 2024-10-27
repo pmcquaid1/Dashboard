@@ -6,12 +6,11 @@
 <br/>
 
 {% if get_shipment %}
-
 	<form method="POST">
 	{% csrf_token %}
 
 <div class="form-group">
-	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.shipment_id}}" name="shipment_id">
+	<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={{get_shipment.shipment_id}} name="shipment_id">
 </div>
 
 <div class="form-group">
@@ -55,12 +54,13 @@
 </div>
 
 <div class="form-group">
-	<input type="hidden" value="{{ get_shipment.id}}" name="id">
+	<input type="hidden" value="{{ get_shipment.id" name="id">
 </div>
-
 <br/>
-  <button type="submit" class="btn btn-secondary">Edit Shipment</button>
+
+<button type="submit" class="btn btn-secondary">Edit Shipment</button>
 </form>
+
 <br/>
 <br/>
 
