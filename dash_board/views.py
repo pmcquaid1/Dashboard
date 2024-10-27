@@ -25,7 +25,7 @@ def add_shipment(request):
 def edit(request, list_id):
 	if request.method =='POST':
 		current_shipment = Shipment.objects.get(pk=list_id)
-		form = ShipmentForm(request.POST or None, instance= current_shipment)
+		form = ShipmentForm(request.POST or None, instance=current_shipment)
 		if form.is_valid():
 			form.save()
 			messages.success(request, ('Shipment has been edited'))
