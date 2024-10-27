@@ -3,7 +3,7 @@ from django.db import models
 class Shipment(models.Model):
 	shipment_id = models.CharField(max_length= 50)
 	consignee = models.CharField(max_length= 50)
-	ata = models.DateField(max_length= 20)
+	ata = models.DateField(max_length= 15)
 	cargo_available = models.DateField(max_length= 20)
 	date_cleared = models.DateField(max_length= 20)
 	actual_delivery = models.DateField(max_length= 20)
