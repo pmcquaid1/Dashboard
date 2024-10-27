@@ -11,11 +11,11 @@ class Shipment(models.Model):
 	twenty_ft = models.CharField(max_length= 20)
 	forty_ft = models.CharField(max_length= 20)
 	uw = models.CharField(max_length= 10)
-	weight = models.CharField()
+	weight = models.CharField(max_length= 15)
 
 	def __str__(self): 
 		return self.shipment_id
-		
+
 
 
 
