@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<a href="{% url 'newhome'%}">Newhome</a><br/>
 
 <div class="container">
 		<div class="row"> 
@@ -24,7 +25,6 @@
 								{{ records.forty_ft}}<br/>
 								{{ records.uw}}<br/>
 								{{ records.weight}}<br/>	
-
 							</p>
 	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
 		  				</div>
