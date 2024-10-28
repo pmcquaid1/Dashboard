@@ -4,6 +4,9 @@ from .forms import ShipmentForm
 from django.contrib import messages
 
 
+def newhome(request):
+	return render(request, 'newhome.html', {})
+
 def home(request):
 	all_shipments = Shipment.objects.all
 	return render(request, 'home.html', {'all_shipments':all_shipments})
@@ -45,7 +48,7 @@ def delete(request, list_id):
 		messages.success(request, ('Shipment deleted'))
 		return redirect ('home')
 	else:
-		message.success(request, ('Cannot delete from Page'))
+		messages.success(request, ('Cannot delete from Page'))
 		return redirect ('home')
 
 
