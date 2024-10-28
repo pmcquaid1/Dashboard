@@ -18,19 +18,19 @@
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.ata}}" name="ata">
+	<input type="date" class="form-control" id="date" aria-describedby="emailHelp" value="{{get_shipment.ata}}" name="ata">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.cargo_available}}" name="cargo_available">
+	<input type="date" class="form-control" id="date" aria-describedby="emailHelp" value="{{get_shipment.cargo_available}}" name="cargo_available">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.date_cleared}}" name="date_cleared">
+	<input type="date" class="form-control" id="date" aria-describedby="emailHelp" value="{{get_shipment.date_cleared}}" name="date_cleared">
 </div>
 
 <div class="form-group">
-	<input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{get_shipment.actual_delivery}}" name="actual_delivery">
+	<input type="date" class="form-control" id="date" aria-describedby="emailHelp" value="{{get_shipment.actual_delivery}}" name="actual_delivery">
 </div>
 
 <div class="form-group">
@@ -56,14 +56,12 @@
 <div class="form-group">
 	<input type="hidden" value="{{ get_shipment.id" name="id">
 </div>
-<br/>
 
+<br/>
 <button type="submit" class="btn btn-secondary">Edit Shipment</button>
 </form>
-
 <br/>
 <br/>
-
 
 
 {% endif %}	
