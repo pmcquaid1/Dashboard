@@ -38,3 +38,14 @@ def edit(request, list_id):
 		get_shipment = Shipment.objects.get(pk=list_id)
 		return render(request, 'edit.html', {'get_shipment': get_shipment})
 
+def delete(request, list_id):
+	if request.method =='POST':
+		current_shipment = Shipment.objects.get(pk=list_id)
+		current_shipment.delete()
+		messages.success(request, ('Shipment deleted'))
+		return redirect ('home')
+	else:
+		message.success(request, ('Cannot delete from Page'))
+		return redirect ('home')
+
+
