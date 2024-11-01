@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'home' %}">Home</a><br/>
+<div class="container">
+		<div class="row"> 
+
+	{% if all_shipments %}
+		{% for records in all_shipments %}
+			<div class="col-sm">
+				<div class="card" style="width: 18rem;">
+	  				<img src="..." class="card-img-top" alt="...">
+	  					<div class="card-body">
+		    				<h5 class="card-title">{{ records.shipment_id}}</h5>
+		    				<p class="card-text">
+			    				{{ records.shipment_id}}<br/>
+								{{ records.consignee}}<br/>
+								{{ records.ata}}<br/>
+								{{ records.cargo_available}}<br/>
+								{{ records.date_cleared}}<br/>
+								{{ records.actual_delivery}}<br/>
+								{{ records.cont}}<br/>
+								{{ records.twenty_ft}}<br/>
+								{{ records.forty_ft}}<br/>
+								{{ records.uw}}<br/>
+								{{ records.weight}}<br/>	
+							</p>
+	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
+		  				</div>
+					</div>
+					</br>
+				</div>
+
+			
+	
+
+		{% endfor %}
+
+	{% endif %}
+</div></div>
+
+{% endblock %}
