@@ -4,8 +4,8 @@ from .forms import ShipmentForm
 from django.contrib import messages
 
 
-def home(request):
-	return render(request, 'home.html', {})
+def home2(request):
+	return render(request, 'website/home2.html', {})
 	
 def samples(request):
 	return render(request, 'website/samples.html', {})
@@ -15,12 +15,18 @@ def ops(request):
 
 def finance(request):
 	return render(request, 'website/finance.html', {})
-	
+
 def qhse(request):
 	return render(request, 'website/qhse.html', {})
 
 def hr_support(request):
 	return render(request, 'website/hr_support.html', {})
+
+def upload(request):
+	return render(request, 'website/upload.html', {})
+
+
+
 
 def shipments(request):
 	all_shipments = Shipment.objects.all
