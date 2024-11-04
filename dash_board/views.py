@@ -66,8 +66,13 @@ def hr_support(request):
 def upload(request):
 	return render(request, 'website/upload.html', {})
 
+def tables(request):
+	return render(request, 'website/tables.html', {})
+	
 def shipments(request):
 	return render(request, 'shipments.html', {'all_shipments':all_shipments})
+
+
 
 
 
