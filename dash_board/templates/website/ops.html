@@ -54,13 +54,13 @@
                             
                             </a>
 
-                            <div class="sb-sidenav-menu-heading">Add Data</div>
+                            <div class="sb-sidenav-menu-heading">Data</div>
 	                            <div>
-	                            <a class="nav-link" href="{% url 'website:add_shipment' %}">
+	                            <a class="nav-link" href="{% url 'website:tables' %}">
 	                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-	                                Upload Data
+	                                Data
 
-	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /> 
+	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-1 h-1 ml-4 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /> 
 	                                </svg>
 
 	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /> </svg>
@@ -80,9 +80,9 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{% url 'website:ops' %">Add Shipment</a>
-                                            <a class="nav-link" href="">Transport Booking Report</a>
-                                            <a class="nav-link" href="">Invoice Status Report</a>
+                                            <a class="nav-link" href="{% url 'website:ops' %">View Table</a>
+                                            <a class="nav-link" href="{% url 'website:ops' %">View Transport Booking Report</a>
+                                            <a class="nav-link" href="{% url 'website:ops' %">View Invoice Status Report</a>
                                         </nav>
                                     </div>
                                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
@@ -91,7 +91,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="">Tables</a>
+                                            <a class="nav-link" href="{% url 'website:ops' %">Tables</a>
                                             <a class="nav-link" href="">Charts</a>
                                             
                                         </nav>
@@ -111,7 +111,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        Test User
                     </div>
                 </nav>
             </div>
@@ -180,6 +180,8 @@
                                 </div>
                             </div>
                         </div>
+
+ 						<div>
                         {% if all_shipments %}
 							
 								<table class="table">
@@ -221,6 +223,7 @@
 														
 
 						{% endif %}
+						</div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">

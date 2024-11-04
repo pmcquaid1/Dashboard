@@ -15,5 +15,6 @@ urlpatterns = [
     path('add_shipment', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>', views.edit, name="edit"),
     path('delete/<list_id>', views.delete, name= "delete"),
+    path('website/tables', views.tables, name= "tables"),
     
 ]  
