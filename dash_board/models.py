@@ -1,5 +1,13 @@
 from django.db import models
 
+class Category(models.Model):
+	name=models.CharField(max_length= 50, unique=True)
+	
+	class Meta:
+		verbose_name_plural= 'Categories'
+
+def __str__(self): 
+		return self.name
 
 class Shipment(models.Model):
 	shipment_id = models.CharField(max_length= 50)

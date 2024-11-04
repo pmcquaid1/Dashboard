@@ -12,7 +12,7 @@ urlpatterns = [
     path('upload', views.upload, name= "upload"),
     path('hr_support', views.hr_support, name= "hr_support"),
     path('shipments', views.shipments, name="shipments"),
-    path('upload/add_shipment', views.add_shipment, name="add_shipment"),
+    path('add_shipment', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>', views.edit, name="edit"),
     path('delete/<list_id>', views.delete, name= "delete"),
     
