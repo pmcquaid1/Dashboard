@@ -1,10 +1,7 @@
-LINK<br/><br/>
-
+{% extends 'website/base.html' %}
 {% load static %}
 
 {% block content %}
-
-<a href = "{% url 'hr_support' %"}>hr_support</a><br/>
 
 <!DOCTYPE html>
 
@@ -60,6 +57,8 @@ LINK<br/><br/>
                             <a class="nav-link" href="{% url 'website:ops' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Operations
+
+
                             </a>
 
                             <a class="nav-link" href="{% url 'website:finance' %}">

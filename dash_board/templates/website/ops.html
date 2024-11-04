@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<a href = "{% url 'home2' %"}>home2</a><br/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -51,12 +50,23 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Admin</div>
 
-
-
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             
                             </a>
 
+                            <div class="sb-sidenav-menu-heading">Add Data</div>
+	                            <div>
+	                            <a class="nav-link" href="{% url 'website:add_shipment' %}">
+	                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+	                                Upload Data
+
+	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" /> 
+	                                </svg>
+
+	                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 cursor-pointer"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" /> </svg>
+
+	                            </a>
+	                        	</div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                                 KPI's
@@ -70,7 +80,7 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{% url 'add_shipment' %}">Clearing Report</a>
+                                            <a class="nav-link" href="{% url 'website:ops' %">Add Shipment</a>
                                             <a class="nav-link" href="">Transport Booking Report</a>
                                             <a class="nav-link" href="">Invoice Status Report</a>
                                         </nav>
@@ -170,13 +180,53 @@
                                 </div>
                             </div>
                         </div>
-                        {{ all_shipments }}
+                        {% if all_shipments %}
+							
+								<table class="table">
+								  <thead>
+								    <tr>
+									<th scope="col">Shipment #</th>
+									<th scope="col">Consignee</th>
+									<th scope="col">Actual Arrival Date</th>
+									<th scope="col">Cargo Available Date</th>
+									<th scope="col">Date Cleared</th>
+									<th scope="col">Actual Delivery Date</th>
+									<th scope="col">Container Type</th>
+									<th scope="col">Twenty Foot</th>
+									<th scope="col">Forty Foot</th>
+									<th scope="col">Unit of Measure</th>
+									<th scope="col">Weight</th>
+								    </tr>
+								  </thead>
+								<tbody>
+
+							{% for records in all_shipments %}
+								    <tr>
+						    			<td>{{ records.shipment_id}}</td>
+										<td>{{ records.consignee}}</td>
+										<td>{{ records.ata}}</td>
+										<td>{{ records.cargo_available}}</td>
+										<td>{{ records.date_cleared}}</td>
+										<td>{{ records.actual_delivery}}</td>
+										<td>{{ records.cont}}</td>
+										<td>{{ records.twenty_ft}}</td>
+										<td>{{ records.forty_ft}}</td>
+										<td>{{ records.uw}}</td>
+										<td>{{ records.weight}}</td>	
+								      
+
+								    </tr>
+						    {% endfor %}
+								
+														
+
+						{% endif %}
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; Stellar Logistics Ltd 2024</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
