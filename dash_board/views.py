@@ -11,8 +11,7 @@ def samples(request):
 	return render(request, 'website/samples.html', {})
 
 def ops(request):
-	all_shipments = Shipment.objects.all
-	return render(request, 'website/ops.html', {'all_shipments': all_shipments})
+	return render(request, 'website/ops.html', {})
 
 def add_shipment(request):
 	if request.method =='POST':
@@ -67,8 +66,9 @@ def upload(request):
 	return render(request, 'website/upload.html', {})
 
 def tables(request):
-	return render(request, 'website/tables.html', {})
-	
+	all_shipments = Shipment.objects.all
+	return render(request, 'website/tables.html', {'all_shipments': all_shipments})
+
 def shipments(request):
 	return render(request, 'shipments.html', {'all_shipments':all_shipments})
 

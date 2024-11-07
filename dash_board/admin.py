@@ -5,5 +5,6 @@ from import_export.admin import ImportExportModelAdmin
 
 @admin.register(Shipment)
 
+
 class ViewAdmin(ImportExportModelAdmin):
 	pass
