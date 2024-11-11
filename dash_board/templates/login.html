@@ -1,4 +1,4 @@
-{% extends 'website/base.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -7,7 +7,7 @@
 <h1>Login</h1>
 <br/>
 
-<form method="POST" action="{% url 'website:login' %}">
+<form method="POST" action="{% url 'login' %}">
     {% csrf_token %}
 
     <div class= "mb-3">
