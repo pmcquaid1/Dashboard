@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name= 'website'
+app="dash_board"
 
 urlpatterns = [
     path('', views.home2, name="home2"),
@@ -16,7 +16,7 @@ urlpatterns = [
     path('edit/<list_id>', views.edit, name="edit"),
     path('delete/<list_id>', views.delete, name= "delete"),
     path('tables', views.tables, name= "tables"),
-    path('login/', views.login_user, name="login"),
+    path('login', views.login_user, name="login"),
     path('logout', views.logout_user, name="logout"),
     path('register', views.register_user, name="register"),
 ]  
