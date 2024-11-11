@@ -1,4 +1,4 @@
-{% extends 'website/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -26,11 +26,11 @@
 
             <!-- Login & Register-->
             <li class="nav-item">
-            	<a class="nav-link" href="{% url 'website:login' %}">Login</a>
+            	<a class="nav-link" href="{% url 'login/' %}">Login</a>
         	</li>
 
         	<li class="nav-item">
-            	<a class="nav-link" href="{% url 'website:register' %}">Register</a>
+            	<a class="nav-link" href="{% url 'register' %}">Register</a>
         	</li>
 
             <!-- Navbar Search-->
@@ -60,24 +60,24 @@
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Admin</div>
 
-                            <a class="nav-link" href="{% url 'website:ops' %}">
+                            <a class="nav-link" href="{% url 'ops' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Operations
 
 
                             </a>
 
-                            <a class="nav-link" href="{% url 'website:finance' %}">
+                            <a class="nav-link" href="{% url 'finance' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Finance
                             </a>
 
-                            <a class="nav-link" href="{% url 'website:qhse' %}">
+                            <a class="nav-link" href="{% url 'qhse' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 QHSE
                             </a>                 
                             
-                            <a class="nav-link" href="{% url 'website:hr_support' %}">
+                            <a class="nav-link" href="{% url 'hr_support' %}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 HR Support
                             </a>
@@ -155,7 +155,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Operations</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'website:ops' %}">View Details</a>
+                                        <a class="small text-white stretched-link" href="{% url 'ops' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@
                                 <div class="card bg-warning text-white mb-4">
                                     <div class="card-body">Finance</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'website:finance' %}">View Details</a>
+                                        <a class="small text-white stretched-link" href="{% url 'finance' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -173,7 +173,7 @@
                                 <div class="card bg-success text-white mb-4">
                                     <div class="card-body">QHSE</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'website:qhse' %}">View Details</a>
+                                        <a class="small text-white stretched-link" href="{% url 'qhse' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -182,7 +182,7 @@
                                 <div class="card bg-danger text-white mb-4">
                                     <div class="card-body">HR Resources</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'website:hr_support' %}">View Details</a>
+                                        <a class="small text-white stretched-link" href="{% url 'hr_support' %}">View Details</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>

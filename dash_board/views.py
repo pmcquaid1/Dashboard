@@ -12,13 +12,13 @@ def login_user(request):
 		if user is not None:
 			login(request,user)
 			messages.success(request, ('User Login Succssful'))
-			return redirect('home2.html')
+			return redirect('home2')
 		
 		else:
 			messages.success(request, "Login Unsuccesful")
 			return redirect('login')
 	else:
-		return render(request, 'login.html', {})
+		return render(request, 'login', {})
 
 def logout_user(request):
 	pass
