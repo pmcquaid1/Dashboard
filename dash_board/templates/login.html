@@ -1,0 +1,24 @@
+{% extends 'website/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h1>Login</h1>
+<br/>
+
+<form method="POST" action="{% url 'website:login' %}">
+    {% csrf_token %}
+
+    <div class= "mb-3">
+        <input type="text" class="form-control" name="username" placeholder="Enter User Username">
+    </div>
+
+    <div class= "mb-3">
+        <input type="password" class="form-control" name="password" placeholder="Enter Password">
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Login</button>
+</form>
+
+{% endblock %}
