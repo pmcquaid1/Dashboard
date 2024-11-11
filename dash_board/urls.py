@@ -15,8 +15,8 @@ urlpatterns = [
     path('add_shipment', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>', views.edit, name="edit"),
     path('delete/<list_id>', views.delete, name= "delete"),
-    path('website/tables', views.tables, name= "tables"),
-    path('website/login', views.login_user, name="login"),
-    path('website/logout', views.logout_user, name="logout"),
-    path('website/register', views.register_user, name="register"),
+    path('tables', views.tables, name= "tables"),
+    path('login/', views.login_user, name="login"),
+    path('logout/', views.logout_user, name="logout"),
+    path('register/', views.register_user, name="register"),
 ]  
