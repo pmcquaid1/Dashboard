@@ -5,6 +5,7 @@ from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required, permission_required
 
 def login_user(request):
 	if request.method=="POST":
@@ -13,7 +14,7 @@ def login_user(request):
 		user= authenticate(request, username=username, password=password)
 		if user is not None:
 			login(request,user)
-			messages.success(request, 'User Login Successful')
+			messages.success(request, "User Login Successful")
 			return redirect('home2')
 		
 		else:
@@ -23,7 +24,9 @@ def login_user(request):
 		return render(request,'login.html', {})
 
 def logout_user(request):
-	pass
+	logout(request)
+	messages.success(request, "User Logout Successful")
+	return redirect('home1')
 
 def register_user(request):
 	form = SignUpForm()
@@ -38,8 +41,8 @@ def register_user(request):
 			user = authenticate(username=username, password=password)
 			# log in
 			login(request, user)
-			messages.success(request, 'User Login Successful')
-			return redirect('home2')
+			messages.success(request, "User Login Successful")
+			return redirect('home1')
 		
 		else:
 			messages.success(request, "Login Unsuccessful")
@@ -60,7 +63,7 @@ def update_user(request):
 		# Log user back in
 			login(request, current_user)
 			messages.success(request, ("Your User Info Has Been Updated"))
-			return redirect('home2')	
+			return redirect('home1')	
 		return render(request, 'update_user.html', {'user_form':user_form})
 
 	else:
@@ -82,6 +85,8 @@ def home2(request):
 def samples(request):
 	return render(request, 'samples.html', {})
 
+@login_required
+@permission_required("dash_board.can_view_page")
 def ops(request):
 	return render(request, 'ops.html', {})
 
@@ -90,10 +95,10 @@ def add_shipment(request):
 		form = ShipmentForm(request.POST or None)
 		if form.is_valid():
 			form.save()
-			messages.success(request, 'Shipment has been added')
+			messages.success(request, "Shipment has been added")
 			return redirect('ops.html')
 		else:
-			messages.success(request, 'Error')
+			messages.success(request, "Error")
 			return render(request, 'add_shipment.html', {})
 		
 	else:
@@ -105,10 +110,10 @@ def edit(request, list_id):
 		form = ShipmentForm(request.POST or None, instance=current_shipment)
 		if form.is_valid():
 			form.save()
-			messages.success(request, 'Shipment has been edited')
+			messages.success(request, "Shipment has been edited")
 			return redirect('ops.html')
 		else:
-			messages.success(request, 'Error')
+			messages.success(request, "Error")
 			return render(request, 'add_shipment.html', {})
 		
 	else:
@@ -119,18 +124,24 @@ def delete(request, list_id):
 	if request.method =='POST':
 		current_shipment = Shipment.objects.get(pk=list_id)
 		current_shipment.delete()
-		messages.success(request, 'Shipment deleted')
+		messages.success(request, "Shipment deleted")
 		return redirect ('ops.html')
 	else:
-		messages.success(request, 'Cannot delete from Page')
+		messages.success(request, "Cannot delete from Page")
 		return redirect ('add_shipment.html')
-	
+
+@login_required
+@permission_required("dash_board.can_view_page")
 def finance(request):
 	return render(request, 'finance.html', {})
 
+@login_required
+@permission_required("dash_board.can_view_page")
 def qhse(request):
 	return render(request, 'qhse.html', {})
 
+@login_required
+@permission_required("dash_board.can_view_page")
 def hr_support(request):
 	return render(request, 'hr_support.html', {})
 
