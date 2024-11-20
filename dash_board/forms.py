@@ -39,6 +39,7 @@ class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email'}), required=False)
 	first_name = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}), required=False)
 	last_name = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}), required=False)
+	department = forms.CharField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Department'}), required=False)
 
 	class Meta:
 		model = User
