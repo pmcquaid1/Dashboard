@@ -86,7 +86,7 @@ def samples(request):
 	return render(request, 'samples.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("Dash_Board.can_view_page")
 def ops(request):
 	return render(request, 'ops.html', {})
 
@@ -131,17 +131,17 @@ def delete(request, list_id):
 		return redirect ('add_shipment.html')
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("Dash_Board.can_view_page")
 def finance(request):
 	return render(request, 'finance.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("Dash_Board.can_view_page")
 def qhse(request):
 	return render(request, 'qhse.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("Dash_Board.can_view_page")
 def hr_support(request):
 	return render(request, 'hr_support.html', {})
 
