@@ -27,7 +27,13 @@ class Contact(models.Model):
 	
 	class Meta:
 		# User Permissions to Department Page
-		permissions = (("can_view_page", "View Page"),) 
+		permissions = [
+			("can_view_page", "View Page"),
+			("can_view_page_ops", "View Ops Page"),
+			("can_view_page_finance", "View Finance Page"),
+			("can_view_page_qhse", "View QHSE Page"),
+			("can_view_page_hr", "View HR Page"),
+		] 
 	
 	def __str__(self): 
 		return self.first_name
