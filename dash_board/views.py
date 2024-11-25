@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 def login_user(request):
 	if request.method=="POST":
+		#grab form info
 		username= request.POST['username']
 		password= request.POST['password']
 		user= authenticate(request, username=username, password=password)
@@ -87,26 +88,10 @@ def home2(request):
 def samples(request):
 	return render(request, 'samples.html', {})
 
-@login_required
+@login_required()
 @permission_required("dash_board.can_view_page_ops")
 def ops(request):
-	if request.method=="POST":
-		username= request.POST['username']
-		password= request.POST['password']
-		user= authenticate(request, username=username, password=password, permission_required=permissionrequired)
-		print("user:", user.get_all_permissions())
-
-		if user is not None:
-			login(request,user)
-			messages.success(request, "User Login Successful")
-			return redirect('ops')
-		
-		else:
-			messages.success(request, "Login Unsuccessful")
-			return redirect('home2')
-	else:
-		return render(request,'home2.html', {})
-		
+	return render(request, 'ops.html' )
 	
 def add_shipment(request):
 	if request.method =='POST':
@@ -166,9 +151,13 @@ def hr_support(request):
 def upload(request):
 	return render(request, 'upload.html', {})
 
-def tables(request):
+def transport_table(request):
 	all_shipments = Shipment.objects.all
-	return render(request, 'tables.html', {'all_shipments': all_shipments})
+	return render(request, 'transport_table.html', {'all_shipments': all_shipments})
+
+def clearing_table(request):
+	all_shipments = Shipment.objects.all
+	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
 
 def shipments(request):
 	return render(request, 'shipments.html', {'all_shipments':all_shipments})

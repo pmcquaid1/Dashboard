@@ -93,8 +93,7 @@ DATABASES = {
 }
 
 DATABASES['default']= dj_database_url.config(default=REMOVED)
-
-""""
+"""
 db_from_env = dj_database_url.config(conn_max_age = 600)
 DATABASES['default'].update(db_from_env)
 """
@@ -146,3 +145,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 django_heroku.settings(locals())
+#login decorator statement
+LOGIN_URL = 'login'
+#permission required decorator statement
+PERMISSION_REQUIRED = 'home2' 
