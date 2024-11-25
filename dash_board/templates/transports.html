@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="{% url 'home2' %}">Home2</a><br/>
+<div class="container">
+		<div class="row"> 
+
+	{% if all_transports %}
+		{% for records in all_transports %}
+			<div class="col-sm">
+				<div class="card" style="width: 18rem;">
+	  				<img src="..." class="card-img-top" alt="...">
+	  					<div class="card-body">
+		    				<h5 class="card-title">{{ records.booking_id}}</h5>
+		    				<p class="card-text">
+			    				{{ records.booking_id}}<br/>
+								{{ records.parent_id}}<br/>
+								{{ records.branch}}<br/>
+								{{ records.client}}<br/>
+								{{ records.booking_req}}<br/>
+								{{ records.first_pic_actual}}<br/>
+								{{ records.first_pic_city}}<br/>
+								{{ records.last_del_act}}<br/>
+								{{ records.last_del_city}}<br/>
+								{{ records.status}}<br/>
+								{{ records.hazardous}}<br/>
+                                {{ records.goods_description}}<br/>
+                                {{ records.chargeable_wgt}}<br/>
+                                {{ records.chargeable_wgt_unit}}<br/>
+                                {{ records.transport}}<br/>
+                                {{ records.first_pic_equipment}}<br/>
+                                {{ records.first_pickup_instructions}}<br/>
+                                {{ records.first_pu_pkg_cont_id}}<br/>
+                                {{ records.first_pick_up_cont_mode}}<br/>
+                                {{ records.first_pu_cont_type}}<br/>
+                                {{ records.consignee_package_qty}}<br/>
+                                {{ records.first_pu_pkg_qty}}<br/>
+                                {{ records.first_pu_pkg_type}}<br/>
+                                {{ records.first_pickup_name}}<br/>
+                                {{ records.booked_by}}<br/>
+							</p>
+	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
+		  				</div>
+					</div>
+					</br>
+				</div>
+
+			
+	
+
+		{% endfor %}
+
+	{% endif %}
+</div></div>
+
+{% endblock %}

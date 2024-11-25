@@ -1,5 +1,6 @@
 from django import forms
 from .models import Shipment
+from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
 
