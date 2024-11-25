@@ -44,7 +44,7 @@ def register_user(request):
 			# log in
 			login(request, user)
 			messages.success(request, "User Login Successful")
-			return redirect('home1')
+			return redirect('home2')
 		
 		else:
 			messages.success(request, "Login Unsuccessful")
@@ -88,10 +88,26 @@ def samples(request):
 	return render(request, 'samples.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("dash_board.can_view_page_ops")
 def ops(request):
-	return render(request, 'ops.html', {})
+	if request.method=="POST":
+		username= request.POST['username']
+		password= request.POST['password']
+		user= authenticate(request, username=username, password=password, permission_required=permissionrequired)
+		print("user:", user.get_all_permissions())
 
+		if user is not None:
+			login(request,user)
+			messages.success(request, "User Login Successful")
+			return redirect('ops')
+		
+		else:
+			messages.success(request, "Login Unsuccessful")
+			return redirect('home2')
+	else:
+		return render(request,'home2.html', {})
+		
+	
 def add_shipment(request):
 	if request.method =='POST':
 		form = ShipmentForm(request.POST or None)
@@ -133,17 +149,17 @@ def delete(request, list_id):
 		return redirect ('add_shipment.html')
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("dash_board.can_view_page_finance")
 def finance(request):
 	return render(request, 'finance.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("dash_board.can_view_page_qhse")
 def qhse(request):
 	return render(request, 'qhse.html', {})
 
 @login_required
-@permission_required("dash_board.can_view_page")
+@permission_required("dash_board.can_view_page_hr")
 def hr_support(request):
 	return render(request, 'hr_support.html', {})
 
