@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Shipment
+from .models import Transport
 from .forms import ShipmentForm
 from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
@@ -161,6 +162,8 @@ def clearing_table(request):
 
 def shipments(request):
 	return render(request, 'shipments.html', {'all_shipments':all_shipments})
+def transports(request):
+	return render(request, 'transports.html', {'all_transports':all_transports})
 
 
 
