@@ -36,13 +36,9 @@ class Transport(models.Model):
 	chargeable_wgt_unit= models.CharField(max_length= 50)	
 	transport= models.CharField(max_length= 50)	
 	first_pic_equipment	= models.CharField(max_length= 50)
-	first_pickup_instructions	= models.CharField(max_length= 50)
-	first_pu_pkg_cont_id= models.CharField(max_length= 50)
 	first_pick_up_cont_mode	= models.CharField(max_length= 50)
 	first_pu_cont_type	= models.CharField(max_length= 50)
 	consignee_package_qty	= models.CharField(max_length= 50)
-	first_pu_pkg_qty	= models.CharField(max_length= 50)
-	first_pu_pkg_type= models.CharField(max_length= 50)	
 	first_pickup_name	= models.CharField(max_length= 50)
 	booked_by= models.CharField(max_length= 50)
 
