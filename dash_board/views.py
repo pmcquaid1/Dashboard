@@ -161,9 +161,10 @@ def clearing_table(request):
 	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
 
 def shipments(request):
-	return render(request, 'shipments.html', {'all_shipments':all_shipments})
+	return render(request, 'shipments.html', {})
+
 def transports(request):
-	return render(request, 'transports.html', {'all_transports':all_transports})
+	return render(request, 'transports.html', {})
 
 
 

@@ -56,7 +56,7 @@
 
                             <div class="sb-sidenav-menu-heading">View KPI's</div>
                                 <div>
-                                <a class="nav-link" href="{% url 'transport_table' %}">
+                                <a class="nav-link" href="{% url 'clearing_table' %}">
                                     <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                     Shipment Data
                                 </a>
@@ -135,40 +135,62 @@
                             </div>
                         </div>
                         <div>
-                            {% if all_shipments %}
+                            {% if all_transports %}
                             
                                 <table class="table table-bordered, table table-hover">
                                   <thead>
                                     <tr>
-                                    <th scope="col">Shipment #</th>
-                                    <th scope="col">Consignee</th>
-                                    <th scope="col">Actual Arrival Date</th>
-                                    <th scope="col">Cargo Available Date</th>
-                                    <th scope="col">Date Cleared</th>
-                                    <th scope="col">Actual Delivery Date</th>
-                                    <th scope="col">Container Type</th>
-                                    <th scope="col">Twenty Foot</th>
-                                    <th scope="col">Forty Foot</th>
-                                    <th scope="col">Unit of Measure</th>
-                                    <th scope="col">Weight</th>
+                                    <th scope="col">Booking ID</th>
+                                    <th scope="col">Parent ID</th>
+                                    <th scope="col">Branch</th>
+                                    <th scope="col">Client</th>
+                                    <th scope="col">Booking Request Date</th>
+                                    <th scope="col">Pick Up Date</th>
+                                    <th scope="col">Pick Up City</th>
+                                    <th scope="col">Delivery Date</th>
+                                    <th scope="col">Delivery City</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Hazardous</th>
+                                    <th scope="col">Goods Description</th>
+                                    <th scope="col">Chargeable Weight</th>
+                                    <th scope="col">Weight Unit</th>
+                                    <th scope="col">Transport</th>
+                                    <th scope="col">Truck</th>
+                                    <th scope="col">FCL/LCL</th>
+                                    <th scope="col">Container Size</th>
+                                    <th scope="col">Package Qty</th>
+                                    <th scope="col">Package Type</th>
+                                    <th scope="col">Pick Up Location</th>
+                                    <th scope="col">Booked By</th>
                                     </tr>
                                   </thead>
-                                
+                                 
                                 <tbody>
 
-                                {% for records in all_shipments %}
+                                {% for records in all_transports %}
                                         <tr>
-                                            <td>{{ records.shipment_id}}</td>
-                                            <td>{{ records.consignee}}</td>
-                                            <td>{{ records.ata}}</td>
-                                            <td>{{ records.cargo_available}}</td>
-                                            <td>{{ records.date_cleared}}</td>
-                                            <td>{{ records.actual_delivery}}</td>
-                                            <td>{{ records.cont}}</td>
-                                            <td>{{ records.twenty_ft}}</td>
-                                            <td>{{ records.forty_ft}}</td>
-                                            <td>{{ records.uw}}</td>
-                                            <td>{{ records.weight}}</td>    
+                                            <td>{{ records.booking_id}}</td>
+                                            <td>{{ records.parent_id}}</td>
+                                            <td>{{ records.branch}}</td>
+                                            <td>{{ records.client}}</td>
+                                            <td>{{ records.booking_req}}</td>
+                                            <td>{{ records.first_pic_actual}}</td>
+                                            <td>{{ records.first_pic_city}}</td>
+                                            <td>{{ records.last_del_act}}</td>
+                                            <td>{{ records.last_del_city}}</td>
+                                            <td>{{ records.status}}</td>
+                                            <td>{{ records.hazardous}}</td>
+                                            <td>{{ records.goods_description}}</td>
+                                            <td>{{ records.chargeable_wgt}}</td>
+                                            <td>{{ records.chargeable_wgt_unit}}</td>
+                                            <td>{{ records.transport}}</td>
+                                            <td>{{ records.first_pic_equipment}}</td>
+                                            <td>{{ records.first_pick_up_cont_mode}}</td>
+                                            <td>{{ records.first_pu_cont_type}}</td>
+                                            <td>{{ records.consignee_package_qty}}</td>
+                                            <td>{{ records.first_pu_pkg_type}}</td>
+                                            <td>{{ records.first_pickup_name}}</td>
+                                            <td>{{ records.booked_by}}</td>    
                                         </tr>
                                 {% endfor %}
 
