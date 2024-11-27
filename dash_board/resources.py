@@ -8,7 +8,7 @@ class dash_boardResource(resources.ModelResource):
 		attribute='category',
 		widget=ForeignKeyWidget(Category, field='name'))
 
-    class Meta:
+class Meta:
         model = dash_board
         fields =(
         	'shipment_id',
