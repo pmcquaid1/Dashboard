@@ -153,8 +153,8 @@ def upload(request):
 	return render(request, 'upload.html', {})
 
 def transport_table(request):
-	all_shipments = Shipment.objects.all
-	return render(request, 'transport_table.html', {'all_shipments': all_shipments})
+	all_transports = Transport.objects.all
+	return render(request, 'transport_table.html', {'all_transports': all_transports})
 
 def clearing_table(request):
 	all_shipments = Shipment.objects.all
@@ -165,6 +165,9 @@ def shipments(request):
 
 def transports(request):
 	return render(request, 'transports.html', {})
+
+def charts(request):
+	return render(request, 'charts', {})
 
 
 
