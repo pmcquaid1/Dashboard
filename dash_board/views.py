@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 
+
 def login_user(request):
 	if request.method=="POST":
 		#grab form info
@@ -167,7 +168,39 @@ def transports(request):
 	return render(request, 'transports.html', {})
 
 def charts(request):
-	return render(request, 'charts', {})
+	labels = []
+	data = []
+	
+	queryset = Shipment.objects.order_by('shipment_id')
+	
+	for shipment in queryset:
+		labels.append(shipment.actual_delivery)
+		data.append(shipment.shipment_id)
+
+	return render(request, 'charts.html', {
+		'labels': labels,
+		'data': data
+	})
+
+def charts(request):
+	return render(request, 'charts2.html', {})
+
+def transportsView(request):
+	jn_no= Transport.objects.filter(booking_id='Job Number').count()
+	jn_no= int(jn_no)
+	print('Number of Transport Jobs Completed Are',jn_no)
+
+	tw_no= Transport.objects.filter(chargeable_wgt='Total Weight').sum()
+	tw_no= int(tw_no)
+	print('Total Weight Transported',tw_no)
+
+	cm_no= Transport.objects.filter(first_pick_up_cont_mode='Container Mode').count()
+	cm_no= int(cm_no)
+	print('Container Mode',cm_no)
+
+	booking_id_list =[]
+	chargeable_wt_list=[]
+	first_pick_up_cont_mode_list=['FCL', 'LCL', 'Loose']
 
 
 
