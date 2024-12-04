@@ -25,6 +25,7 @@ urlpatterns = [
     path('update_password', views.update_password, name="update_password"),
     path('home2', views.home2, name="home2"),
     path('charts', views.charts, name= "charts"),
+    path('charts2', views.charts2, name= "charts2"),
   
 
 
