@@ -1,5 +1,6 @@
 from django.urls import path
 from .import views
+from dash_board.views import ShipmentChartView
 
 app="dash_board"
 
@@ -26,6 +27,8 @@ urlpatterns = [
     path('home2', views.home2, name="home2"),
     path('charts', views.charts, name= "charts"),
     path('charts2', views.charts2, name= "charts2"),
+    path('', ShipmentChartView.as_view(), name='home'),
+
   
 
 

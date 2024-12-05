@@ -7,6 +7,16 @@ from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
+from django.views.generic import TemplateView
+
+class ShipmentChartView(TemplateView):
+	template_name='charts2.html'
+	def get_context_data(self, **kwargs):
+		context=super
+		context["qs"]= Shipment.objects.all()
+		return context
+
+
 
 
 def login_user(request):
@@ -182,7 +192,7 @@ def charts(request):
 		'data': data
 	})
 
-def charts(request):
+def charts2(request):
 	return render(request, 'charts2.html', {})
 
 def transportsView(request):
