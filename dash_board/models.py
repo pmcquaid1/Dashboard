@@ -15,9 +15,9 @@ class Shipment(models.Model):
 	uw = models.CharField(max_length= 50)
 	weight = models.CharField(max_length= 50)
 
-	
+
 	def __str__(self): 
-		return self.shipment_id
+		return "{}-{}".format(self.shipment_id)
 
 class Transport(models.Model):
 	booking_id= models.CharField(max_length= 50)	
