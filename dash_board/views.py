@@ -1,3 +1,6 @@
+from calendar import HTMLCalendar
+import calendar
+from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import Shipment
 from .models import Transport
@@ -12,11 +15,42 @@ from django.views.generic import TemplateView
 class ShipmentChartView(TemplateView):
 	template_name='charts2.html'
 	def get_context_data(self, **kwargs):
-		context=super
+		context=super(ShipmentChartView, self).get_context_data(**kwargs)
 		context["qs"]= Shipment.objects.all()
 		return context
 
+def charts2(request, year, month):
+	month = month.capitalize()
 
+	# Convert month from name to number
+	month_number= list(calendar.month_name).index(month)
+	month_number= int(month_number)
+
+	# Create calendar
+	cal = HTMLCalendar().formatmonth(
+		year,
+		month_number)
+	# Get current year
+	now = datetime.now()
+	current_year = now.year
+
+	# Query the Shipment model for Dates
+	shipment_list = Shipment.objects.filter(
+	actual_delivery__year= year,
+	actual_delivery__month=month_number,	
+	)
+
+	# Get current time
+	time = now.strftime('%H:%M:%S')
+	return render(request, 'charts2.html', {
+		"year": year,
+		"month": month,
+		"month_number": month_number,
+		"cal": cal,
+		"current_year": current_year,
+		"time": time,
+		"shipment_list": shipment_list,
+		})
 
 
 def login_user(request):
@@ -95,7 +129,8 @@ def home1(request):
 def home2(request):
 	return render(request, 'home2.html', {})
 
-
+def calendar(request):
+	return render(request, 'calendar', {})
 	
 def samples(request):
 	return render(request, 'samples.html', {})
@@ -192,8 +227,6 @@ def charts(request):
 		'data': data
 	})
 
-def charts2(request):
-	return render(request, 'charts2.html', {})
 
 def transportsView(request):
 	jn_no= Transport.objects.filter(booking_id='Job Number').count()

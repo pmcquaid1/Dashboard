@@ -17,7 +17,7 @@ class Shipment(models.Model):
 
 
 	def __str__(self): 
-		return "{}-{}".format(self.shipment_id)
+		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, self.cargo_available, self.date_cleared, self.actual_delivery, self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
 
 class Transport(models.Model):
 	booking_id= models.CharField(max_length= 50)	

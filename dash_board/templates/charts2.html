@@ -2,23 +2,51 @@
 
 {% load static %}
 
-{% block content %}
-<h1>Charts 2</h1>
-
 {% block title %} Shipment Count {% endblock title %}
+{% block content %}
 
+    <center>
+    <h1>KPI Clearing Shipments for {{ month }} {{ year }}</h1>
+ 
+    As of {{ time }}
+    <br/><br>
+    
+    {{cal|safe }}
+    <br/><br>
+   
+    <h3> Shipments This Month</h3>
+    {% if shipment_list %}
+        {% for Shipment in shipment_list %}
+        {{shipment}} - {{shipment.actual_delivery}}
+        <br/>
+        {% endfor %}
+    {% else %}
+    Sorry...no shipments this month 
+    {% endif %}
+    </center>
+
+<canvas id="myChart" width="400" height="400"></canvas>
 
 {% block scripts %}
 <script>
 $(document).ready(function(){
-    var ctx = document.getElementById('myChart');
+    var ctx = document.getElementById('myChart').getContext("2d");
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: 
+            [{% for item in qs %},
+                {% if item.actual_delivery},
+            '{{item.actual_delivery}}',
+            {% endfor %}],
+
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
+                label: 'Clearing KPI',
+                data: 
+                [{% for item in qs %},
+                '{{count.shipment_id}}',
+                {% endfor %}],
+                
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
@@ -52,6 +80,10 @@ $(document).ready(function(){
 </script>
 {% endblock scripts %}
 
-<canvas id="myChart" width="400" height="400"></canvas>
+
+  
+
+
+Copyright (c) {{current_year}}
 {% endblock content %}
 
