@@ -17,7 +17,7 @@ urlpatterns = [
     path('add_shipment', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>', views.edit, name="edit"),
     path('delete/<list_id>', views.delete, name= "delete"),
-    path('clearing table', views.clearing_table, name= "clearing_table"),
+    path('clearing_table', views.clearing_table, name= "clearing_table"),
     path('transport_table', views.transport_table, name= "transport_table"),
     path('login', views.login_user, name="login"),
     path('logout', views.logout_user, name="logout"),
@@ -26,8 +26,9 @@ urlpatterns = [
     path('update_password', views.update_password, name="update_password"),
     path('home2', views.home2, name="home2"),
     path('charts', views.charts, name= "charts"),
-    path('charts2', views.charts2, name= "charts2"),
-    path('', ShipmentChartView.as_view(), name='home'),
+    path('charts2', ShipmentChartView.as_view(), name='charts2'),
+    path('<int:year>/<str:month>/', views.calendar, name= "calendar"),
+
 
   
 
