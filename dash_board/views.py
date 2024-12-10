@@ -129,8 +129,12 @@ def home1(request):
 def home2(request):
 	return render(request, 'home2.html', {})
 
-def calendar(request):
-	return render(request, 'calendar', {})
+def home3(request, year, month):
+	name= "Patrick"
+	return render(request, 
+			   'home3.html', {
+				"name": name
+				})
 	
 def samples(request):
 	return render(request, 'samples.html', {})
