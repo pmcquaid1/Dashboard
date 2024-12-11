@@ -27,7 +27,12 @@ urlpatterns = [
     path('home2', views.home2, name="home2"),
     path('charts', views.charts, name= "charts"),
     path('charts2', ShipmentChartView.as_view(), name='charts2'),
+    path('home3', views.home3, name="home3"),
     path('<int:year>/<str:month>', views.home3, name= "home3"),
+    path('bill_lading', views.bill_lading, name="bill_lading"),
+    path('commercial_invoice', views.commercial_invoice, name="commercial_invoice"),
+    path('packing_list', views.packing_list, name="packing_list"),
+    path('purchase_order', views.purchase_order, name="purchase_order"),
 
 
   
