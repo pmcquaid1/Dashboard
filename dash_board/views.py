@@ -19,39 +19,8 @@ class ShipmentChartView(TemplateView):
 		context["qs"]= Shipment.objects.all()
 		return context
 
-def charts2(request, year, month):
-	month = month.capitalize()
-
-	# Convert month from name to number
-	month_number= list(calendar.month_name).index(month)
-	month_number= int(month_number)
-
-	# Create calendar
-	cal = HTMLCalendar().formatmonth(
-		year,
-		month_number)
-	# Get current year
-	now = datetime.now()
-	current_year = now.year
-
-	# Query the Shipment model for Dates
-	shipment_list = Shipment.objects.filter(
-	actual_delivery__year= year,
-	actual_delivery__month=month_number,	
-	)
-
-	# Get current time
-	time = now.strftime('%H:%M:%S')
-	return render(request, 'charts2.html', {
-		"year": year,
-		"month": month,
-		"month_number": month_number,
-		"cal": cal,
-		"current_year": current_year,
-		"time": time,
-		"shipment_list": shipment_list,
-		})
-
+def charts2(request):
+	return render(request,'charts2.html', {})
 
 def login_user(request):
 	if request.method=="POST":
@@ -129,12 +98,39 @@ def home1(request):
 def home2(request):
 	return render(request, 'home2.html', {})
 
-def home3(request, year, month):
-	name= "Patrick"
-	return render(request, 
-			   'home3.html', {
-				"name": name
-				})
+def home3(request, year= datetime.now().year, month= datetime.now().strftime('%B')):
+	month = month.capitalize()
+
+	# Convert month from name to number
+	month_number= list(calendar.month_name).index(month)
+	month_number= int(month_number)
+
+	# Create calendar
+	cal = HTMLCalendar().formatmonth(
+		year,
+		month_number)
+	# Get current year
+	now = datetime.now()
+	current_year = now.year
+
+	# Query the Shipment model for Dates
+	shipment_list = Shipment.objects.filter(
+	actual_delivery__year= year,
+	actual_delivery__month=month_number,	
+	)
+
+	# Get current time
+	time = now.strftime('%H:%M:%S')
+	return render(request, 'charts2.html', {
+		"year": year,
+		"month": month,
+		"month_number": month_number,
+		"cal": cal,
+		"current_year": current_year,
+		"time": time,
+		"shipment_list": shipment_list,
+		})
+
 	
 def samples(request):
 	return render(request, 'samples.html', {})
@@ -249,7 +245,17 @@ def transportsView(request):
 	chargeable_wt_list=[]
 	first_pick_up_cont_mode_list=['FCL', 'LCL', 'Loose']
 
+def bill_lading(request):
+	return render(request, 'bill_lading.html', {})
 
+def commercial_invoice(request):
+	return render(request, 'commercial_invoice.html', {})
+
+def packing_list(request):
+	return render(request, 'packing_list.html', {})
+
+def purchase_order(request):
+	return render(request, 'purchase_order.html', {})
 
 
 
