@@ -170,53 +170,12 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
+                                        Bar Chart Waiting for Data
                                     </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                    <div class="card-body"><canvas id="myChart" width="100%" height="40"></canvas></div>
                                 </div>
                             </div>
                         </div>
-
- 						<div>
-                        {% if all_shipments %}
-							
-								<table class="table">
-								  <thead>
-								    <tr>
-									<th scope="col">Shipment #</th>
-									<th scope="col">Consignee</th>
-									<th scope="col">Actual Arrival Date</th>
-									<th scope="col">Cargo Available Date</th>
-									<th scope="col">Date Cleared</th>
-									<th scope="col">Actual Delivery Date</th>
-									<th scope="col">Container Type</th>
-									<th scope="col">Twenty Foot</th>
-									<th scope="col">Forty Foot</th>
-									<th scope="col">Unit of Measure</th>
-									<th scope="col">Weight</th>
-								    </tr>
-								  </thead>
-								<tbody>
-
-							{% for records in all_shipments %}
-								    <tr>
-						    			<td>{{ records.shipment_id}}</td>
-										<td>{{ records.consignee}}</td>
-										<td>{{ records.ata}}</td>
-										<td>{{ records.cargo_available}}</td>
-										<td>{{ records.date_cleared}}</td>
-										<td>{{ records.actual_delivery}}</td>
-										<td>{{ records.cont}}</td>
-										<td>{{ records.twenty_ft}}</td>
-										<td>{{ records.forty_ft}}</td>
-										<td>{{ records.uw}}</td>
-										<td>{{ records.weight}}</td>	
-								      
-
-								    </tr>
-						    {% endfor %}
-						{% endif %}
-						</div>
                     </div>
                 </main>
                 <footer class="py-4 bg-light mt-auto">
@@ -240,6 +199,35 @@
         <script src="{% static 'dash_board/assets/demo/chart-bar-demo.js' %}"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="{% static 'dash_board/js/datatables-simple-demo.js' %}"></script>
+        {% block scripts %}
+        <script>
+        $(document).ready(function(){
+            var ctx = document.getElementById('myChart').getContext("2d");
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels:{{months|safe}},
+
+                    datasets: [{
+                        label: "Shipment Count",
+                        backgroundColor: "#000000",
+                        data: {{ data|safe }},
+                        
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+        </script>
+        {% endblock scripts %}
     </body>
 </html>
 {% endblock %}
