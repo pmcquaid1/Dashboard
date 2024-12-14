@@ -226,7 +226,7 @@ def hr_support(request):
 
 @login_required
 @permission_required("dash_board.can_view_page_hr")
-def ops2(request):
+def operations(request):
 	# Step 1 Aggregating shipments within the month
 	results = Shipment.objects.annotate(
 		month=TruncMonth("actual_delivery"),
@@ -251,7 +251,7 @@ def ops2(request):
 		month_counts.append(record["count"])
 		month_labels.append(record["month"].strftime("%B"))
 	
-	return render(request, 'ops2', {
+	return render(request, 'operations', {
 		"months": month_labels,
 		"data": month_counts,
 	})
