@@ -46,6 +46,7 @@ def charts2(request):
 	for record in results:
 		month_counts.append(record["count"])
 		month_labels.append(record["month"].strftime("%B"))
+
 	return render(request, 'charts2.html', {
 		"months": month_labels,
 		"data": month_counts,
@@ -191,6 +192,69 @@ def home3(request, year= datetime.now().year, month= datetime.now().strftime('%B
 def samples(request):
 	return render(request, 'samples.html', {})
 
+@login_required
+@permission_required("dash_board.can_view_page_hr")
+def hr_support(request):
+	# Step 1 Aggregating shipments within the month
+	results = Shipment.objects.annotate(
+		month=TruncMonth("actual_delivery"),
+	).values(
+		"month"
+	).annotate(
+		count=Count("shipment_id"),
+		#total_weight=Sum("weight")
+
+	).order_by("month")
+	print(results)
+
+	# Step 2 Take the results and parse to the format to be fed to the html page(charts2)
+	"""<QuerySet [{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 11, 1), 'count': 1}, 
+	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 10, 1), 'count': 70}, 
+	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 9, 1), 'count': 5}]>
+  	"""
+	month_labels = []
+	month_counts = []
+
+	for record in results:
+		month_counts.append(record["count"])
+		month_labels.append(record["month"].strftime("%B"))
+	
+	return render(request, 'hr_support.html', {
+		"months": month_labels,
+		"data": month_counts,
+	})
+
+@login_required
+@permission_required("dash_board.can_view_page_hr")
+def ops2(request):
+	# Step 1 Aggregating shipments within the month
+	results = Shipment.objects.annotate(
+		month=TruncMonth("actual_delivery"),
+	).values(
+		"month"
+	).annotate(
+		count=Count("shipment_id"),
+		#total_weight=Sum("weight")
+
+	).order_by("month")
+	print(results)
+
+	# Step 2 Take the results and parse to the format to be fed to the html page(charts2)
+	"""<QuerySet [{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 11, 1), 'count': 1}, 
+	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 10, 1), 'count': 70}, 
+	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 9, 1), 'count': 5}]>
+  	"""
+	month_labels = []
+	month_counts = []
+
+	for record in results:
+		month_counts.append(record["count"])
+		month_labels.append(record["month"].strftime("%B"))
+	
+	return render(request, 'ops2', {
+		"months": month_labels,
+		"data": month_counts,
+	})
 @login_required()
 @permission_required("dash_board.can_view_page_ops")
 def ops(request):
@@ -222,7 +286,6 @@ def ops(request):
 		"months": month_labels,
 		"data": month_counts,
 	})
-
 	
 def add_shipment(request):
 	if request.method =='POST':
@@ -274,36 +337,7 @@ def finance(request):
 def qhse(request):
 	return render(request, 'qhse.html', {})
 
-@login_required
-@permission_required("dash_board.can_view_page_hr")
-def hr_support(request):
-	# Step 1 Aggregating shipments within the month
-	results = Shipment.objects.annotate(
-		month=TruncMonth("actual_delivery"),
-	).values(
-		"month"
-	).annotate(
-		count=Count("shipment_id"),
-		#total_weight=Sum("weight")
 
-	).order_by("month")
-	print(results)
-
-	# Step 2 Take the results and parse to the format to be fed to the html page(charts2)
-	"""<QuerySet [{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 11, 1), 'count': 1}, 
-	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 10, 1), 'count': 70}, 
-	{'year': datetime.date(2024, 1, 1), 'month': datetime.date(2024, 9, 1), 'count': 5}]>
-  	"""
-	month_labels = []
-	month_counts = []
-
-	for record in results:
-		month_counts.append(record["count"])
-		month_labels.append(record["month"].strftime("%B"))
-	return render(request, 'hr_support.html', {
-		"months": month_labels,
-		"data": month_counts,
-	})
 
 def upload(request):
 	return render(request, 'upload.html', {})
