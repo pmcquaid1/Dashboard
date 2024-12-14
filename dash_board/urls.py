@@ -9,6 +9,7 @@ urlpatterns = [
     path('home1', views.home1, name="home1"),
     path('samples', views.samples, name= "samples"),
     path('ops', views.ops, name= "ops"),
+    path('ops2', views.ops, name= "ops2"),
     path('finance', views.finance, name= "finance"),
     path('qhse', views.qhse, name= "qhse"),
     path('upload', views.upload, name= "upload"),
