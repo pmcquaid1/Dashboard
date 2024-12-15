@@ -311,7 +311,7 @@ def add_bill(request):
 			return render(request, 'add_bill.html', {})
 		
 	else:
-		return render(request, 'add_shipment.html', {})
+		return render(request, 'add_bill.html', {})
 
 def edit(request, list_id):
 	if request.method =='POST':
