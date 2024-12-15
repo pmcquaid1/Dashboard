@@ -1,6 +1,27 @@
 from django.db import models
 
-
+class Bl(models.Model):
+	bl_number= models.CharField(max_length= 50)	
+	shipper= models.CharField(max_length= 50)	
+	consignee= models.CharField(max_length= 50)
+	notify_party= models.CharField(max_length= 50)	
+	vessel= models.CharField(max_length= 50)	
+	port_of_loading= models.CharField(max_length= 50)	
+	port_of_discharge= models.CharField(max_length= 50)	
+	container_quantity1= models.CharField(max_length= 50)	
+	container_type1= models.CharField(max_length= 50)
+	container_quantity2= models.CharField(max_length= 50)	
+	container_type2= models.CharField(max_length= 50)
+	package_quantity1= models.CharField(max_length= 50)
+	package_type1= models.CharField(max_length= 50)	
+	package_quantity2= models.CharField(max_length= 50)
+	package_type2= models.CharField(max_length= 50)	
+	kg_weight= models.CharField(max_length= 50)	
+	m3= models.CharField(max_length= 50)
+	container_number= models.CharField(max_length= 50)
+	
+	def __str__(self): 
+		return self.bl_number
 
 class Shipment(models.Model):
 	shipment_id = models.CharField(max_length= 50)
