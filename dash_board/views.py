@@ -298,6 +298,20 @@ def add_shipment(request):
 		
 	else:
 		return render(request, 'add_shipment.html', {})
+	
+def add_bill(request):
+	if request.method =='POST':
+		form = BillForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Bill has been added")
+			return redirect('ops.html')
+		else:
+			messages.success(request, "Error")
+			return render(request, 'add_bill.html', {})
+		
+	else:
+		return render(request, 'add_shipment.html', {})
 
 def edit(request, list_id):
 	if request.method =='POST':
@@ -373,19 +387,8 @@ def transportsView(request):
 	chargeable_wt_list=[]
 	first_pick_up_cont_mode_list=['FCL', 'LCL', 'Loose']
 
-def bill(request):
-	if request.method =='POST':
-		form = Bill_Form(request.POST or None)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Shipment has been added")
-			return redirect('bill_lading.html')
-		else:
-			messages.success(request, "Error")
-			return render(request, 'add_bill.html', {})
-		
-	else:
-		return render(request, 'bill_lading.html', {})
+def bills(request):
+	return render(request, 'bills.html', {})
 
 def commercial_invoice(request):
 	return render(request, 'commercial_invoice.html', {})
