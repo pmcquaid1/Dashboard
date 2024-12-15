@@ -15,10 +15,10 @@ class ShipmentForm(forms.ModelForm):
 class BillForm(forms.ModelForm):
 		class Meta:
 			model = Bill
-			fields = ["bl_number", "shipper", "consignee", "notify_party" 
+			fields = ["bl_number", "shipper", "consignee", "notify_party", 
 						"vessel", "port_of_loading", "port_of_discharge", "container_quantity1", "container_type1",
 						"container_quantity1", "container_type1",
-						"package_quantity", "package_type", "kg_weight","m3", "container_number",]
+						"package_quantity1", "package_type1", "package_quantity2", "package_type2","kg_weight","m3", "container_number",]
 
 
 class UpdateUserForm(UserChangeForm):
