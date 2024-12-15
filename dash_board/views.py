@@ -4,7 +4,9 @@ from datetime import datetime
 from django.shortcuts import render, redirect
 from .models import Shipment
 from .models import Transport
+from .models import Bill
 from .forms import ShipmentForm
+from .forms import BillForm
 from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
@@ -371,7 +373,7 @@ def transportsView(request):
 	chargeable_wt_list=[]
 	first_pick_up_cont_mode_list=['FCL', 'LCL', 'Loose']
 
-def add_bill(request):
+def bill(request):
 	if request.method =='POST':
 		form = Bill_Form(request.POST or None)
 		if form.is_valid():
