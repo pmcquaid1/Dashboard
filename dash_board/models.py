@@ -1,6 +1,6 @@
 from django.db import models
 
-class Bl(models.Model):
+class Bill(models.Model):
 	bl_number= models.CharField(max_length= 50)	
 	shipper= models.CharField(max_length= 50)	
 	consignee= models.CharField(max_length= 50)
@@ -21,7 +21,7 @@ class Bl(models.Model):
 	container_number= models.CharField(max_length= 50)
 	
 	def __str__(self): 
-		return self.bl_number
+		return "{}-{}".format(self.bl_number)
 
 class Shipment(models.Model):
 	shipment_id = models.CharField(max_length= 50)
@@ -36,8 +36,6 @@ class Shipment(models.Model):
 	uw = models.CharField(max_length= 50)
 	weight = models.CharField(max_length= 15)
 	
-
-
 	def __str__(self): 
 		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, self.cargo_available, self.date_cleared, self.actual_delivery, self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
 
@@ -65,7 +63,6 @@ class Transport(models.Model):
 	first_pickup_name= models.CharField(max_length= 50)
 	booked_by= models.CharField(max_length= 50)
 
-	
 	def __str__(self): 
 		return self.booking_id
 
