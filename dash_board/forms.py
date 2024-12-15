@@ -1,5 +1,6 @@
 from django import forms
 from .models import Shipment
+from .models import Bill
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
@@ -11,9 +12,9 @@ class ShipmentForm(forms.ModelForm):
 						"cargo_available", "date_cleared", "actual_delivery", 
 						"cont", "twenty_ft", "forty_ft","uw", "weight",]
 
-class BLForm(forms.ModelForm):
+class BillForm(forms.ModelForm):
 		class Meta:
-			model = BL
+			model = Bill
 			fields = ["bl_number", "shipper", "consignee", "notify_party" 
 						"vessel", "port_of_loading", "port_of_discharge", "container_quantity1", "container_type1",
 						"container_quantity1", "container_type1",
