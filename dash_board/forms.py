@@ -7,7 +7,17 @@ from django.contrib.auth.models import User
 class ShipmentForm(forms.ModelForm):
 		class Meta:
 			model = Shipment
-			fields = ["shipment_id", "consignee", "ata", "cargo_available", "date_cleared", "actual_delivery", "cont", "twenty_ft", "forty_ft","uw", "weight",]
+			fields = ["shipment_id", "consignee", "ata", 
+						"cargo_available", "date_cleared", "actual_delivery", 
+						"cont", "twenty_ft", "forty_ft","uw", "weight",]
+
+class BLForm(forms.ModelForm):
+		class Meta:
+			model = BL
+			fields = ["bl_number", "shipper", "consignee", "notify_party" 
+						"vessel", "port_of_loading", "port_of_discharge", "container_quantity1", "container_type1",
+						"container_quantity1", "container_type1",
+						"package_quantity", "package_type", "kg_weight","m3", "container_number",]
 
 
 class UpdateUserForm(UserChangeForm):

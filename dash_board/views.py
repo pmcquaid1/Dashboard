@@ -234,8 +234,6 @@ def operations(request):
 		"month"
 	).annotate(
 		count=Count("shipment_id"),
-		#total_weight=Sum("weight")
-
 	).order_by("month")
 	print(results)
 
@@ -265,8 +263,6 @@ def ops(request):
 		"month"
 	).annotate(
 		count=Count("shipment_id"),
-		#total_weight=Sum("weight")
-
 	).order_by("month")
 	print(results)
 
@@ -337,8 +333,6 @@ def finance(request):
 def qhse(request):
 	return render(request, 'qhse.html', {})
 
-
-
 def upload(request):
 	return render(request, 'upload.html', {})
 
@@ -377,16 +371,16 @@ def transportsView(request):
 	chargeable_wt_list=[]
 	first_pick_up_cont_mode_list=['FCL', 'LCL', 'Loose']
 
-def bill_lading(request):
+def add_bill(request):
 	if request.method =='POST':
-		form = ShipmentForm(request.POST or None)
+		form = Bill_Form(request.POST or None)
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Shipment has been added")
 			return redirect('bill_lading.html')
 		else:
 			messages.success(request, "Error")
-			return render(request, 'add_shipment.html', {})
+			return render(request, 'add_bill.html', {})
 		
 	else:
 		return render(request, 'bill_lading.html', {})
