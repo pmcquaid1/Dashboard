@@ -13,7 +13,7 @@ class Shipment(models.Model):
 	twenty_ft = models.CharField(max_length= 50)
 	forty_ft = models.CharField(max_length= 50)
 	uw = models.CharField(max_length= 50)
-	weight = models.CharField(max_length= 50)
+	weight = models.CharField(max_length= 15)
 	
 
 
