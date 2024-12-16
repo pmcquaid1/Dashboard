@@ -1,43 +1,49 @@
 from django.db import models
 
 class Bill(models.Model):
-	bl_number= models.CharField(max_length= 50)	
-	shipper= models.CharField(max_length= 50)	
-	consignee= models.CharField(max_length= 50)
-	notify_party= models.CharField(max_length= 50)	
-	vessel= models.CharField(max_length= 50)	
-	port_of_loading= models.CharField(max_length= 50)	
-	port_of_discharge= models.CharField(max_length= 50)	
-	container_quantity1= models.CharField(max_length= 50)	
-	container_type1= models.CharField(max_length= 50)
-	container_quantity2= models.CharField(max_length= 50)	
-	container_type2= models.CharField(max_length= 50)
-	package_quantity1= models.CharField(max_length= 50)
-	package_type1= models.CharField(max_length= 50)	
-	package_quantity2= models.CharField(max_length= 50)
-	package_type2= models.CharField(max_length= 50)	
-	kg_weight= models.CharField(max_length= 50)	
-	m3= models.CharField(max_length= 50)
-	container_number= models.CharField(max_length= 50)
+	bl_number= models.CharField(max_length= 20)	
+	shipper= models.CharField(max_length= 30)	
+	consignee= models.CharField(max_length= 30)
+	notify_party= models.CharField(max_length= 30)	
+	vessel= models.CharField(max_length= 30)	
+	port_of_loading= models.CharField(max_length= 30)	
+	port_of_discharge= models.CharField(max_length= 10)	
+	container_quantity1= models.CharField(max_length= 10)	
+	container_type1= models.CharField(max_length= 10)
+	container_quantity2= models.CharField(max_length= 10)	
+	container_type2= models.CharField(max_length= 10)
+	package_quantity1= models.CharField(max_length= 10)
+	package_type1= models.CharField(max_length= 10)	
+	package_quantity2= models.CharField(max_length= 10)
+	package_type2= models.CharField(max_length= 10)	
+	kg_weight= models.CharField(max_length= 10)	
+	m3= models.CharField(max_length= 10)
+	container_number= models.CharField(max_length= 10)
 	
 	def __str__(self): 
-		return "{}-{}".format(self.bl_number)
+		return "{}-{}".format(self.bl_number, self.shipper, self.consignee, 
+						self.notify_party, self.vessel, self.port_of_loading, self.port_of_discharge,
+						self.container_quantity1, self.container_type1, self.container_quantity2, 
+						self.container_type2, self.package_quantity1, self.package_type1, self.package_quantity2,
+						self.package_type2, self.kg_weight, self.m3, self.container_number)
 
 class Shipment(models.Model):
-	shipment_id = models.CharField(max_length= 50)
-	consignee = models.CharField(max_length= 50)
+	shipment_id = models.CharField(max_length= 20)
+	consignee = models.CharField(max_length= 30)
 	ata = models.DateField()
 	cargo_available = models.DateField()
 	date_cleared = models.DateField()
 	actual_delivery = models.DateField()
-	cont = models.CharField(max_length= 50)
-	twenty_ft = models.CharField(max_length= 50)
-	forty_ft = models.CharField(max_length= 50)
-	uw = models.CharField(max_length= 50)
-	weight = models.CharField(max_length= 15)
+	cont = models.CharField(max_length= 20)
+	twenty_ft = models.CharField(max_length= 10)
+	forty_ft = models.CharField(max_length= 10)
+	uw = models.CharField(max_length= 10)
+	weight = models.CharField(max_length= 10)
 	
 	def __str__(self): 
-		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, self.cargo_available, self.date_cleared, self.actual_delivery, self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
+		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, 
+						self.cargo_available, self.date_cleared, self.actual_delivery, 
+						self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
 
 class Transport(models.Model):
 	booking_id= models.CharField(max_length= 50)	

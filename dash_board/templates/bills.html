@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <a href="{% url 'home2' %}">Home2</a><br/>
+<h1>Bill of Lading</h1>
 <div class="container">
 		<div class="row"> 
 
@@ -10,19 +11,25 @@
 				<div class="card" style="width: 18rem;">
 	  				<img src="..." class="card-img-top" alt="...">
 	  					<div class="card-body">
-		    				<h5 class="card-title">{{ records.shipment_id}}</h5>
+		    				<h5 class="card-title">{{ records.bl_number}}</h5>
 		    				<p class="card-text">
-			    				{{ records.shipment_id}}<br/>
+			    				{{ records.bill_number}}<br/>
+								{{ records.shipper}}<br/>
 								{{ records.consignee}}<br/>
-								{{ records.ata}}<br/>
-								{{ records.cargo_available}}<br/>
-								{{ records.date_cleared}}<br/>
-								{{ records.actual_delivery}}<br/>
-								{{ records.cont}}<br/>
-								{{ records.twenty_ft}}<br/>
-								{{ records.forty_ft}}<br/>
-								{{ records.uw}}<br/>
-								{{ records.weight}}<br/>	
+								{{ records.notify_party}}<br/>
+								{{ records.port_of_loading}}<br/>
+								{{ records.port_of_discharge}}<br/>
+								{{ records.container_quantity1}}<br/>
+								{{ records.container_type1}}<br/>
+								{{ records.container_quantity2}}<br/>
+								{{ records.container_type2}}<br/>
+								{{ records.package_quantity1}}<br/>
+								{{ records.package_type1}}<br/>
+								{{ records.package_quantity2}}<br/>	
+								{{ records.package_type2}}<br/>
+								{{ records.kg_weight}}<br/>
+								{{ records.m3}}<br/>
+								{{ records.container_number}}<br/>
 							</p>
 	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
 		  				</div>
