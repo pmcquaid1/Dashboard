@@ -367,8 +367,9 @@ def clearing_table(request):
 	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
 
 def organizations(request):
-	return render(request, 'organizations.html', {}
-	print('Errors'))
+	return render(request, 'organizations.html', print('Errors'),
+	{}
+	)
 
 def shipments(request):
 	return render(request, 'shipments.html', {})
