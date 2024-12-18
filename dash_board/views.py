@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Shipment
 from .models import Transport
 from .models import Bill
-from .models import Organizations
+from .models import Organization
 from .forms import ShipmentForm
 from .forms import BillForm
 from django.contrib import messages
@@ -366,7 +366,7 @@ def clearing_table(request):
 	all_shipments = Shipment.objects.all
 	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
 
-def organizations(request):
+def organization(request):
 	return render(request, 'organizations.html', {})
 def shipments(request):
 	return render(request, 'shipments.html', {})
