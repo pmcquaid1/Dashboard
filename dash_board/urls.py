@@ -6,6 +6,7 @@ app="dash_board"
 
 urlpatterns = [
     path('', views.home2, name="home2"),
+    path('base', views.base, name="base"),
     path('home1', views.home1, name="home1"),
     path('samples', views.samples, name= "samples"),
     path('ops', views.ops, name= "ops"),
@@ -35,6 +36,8 @@ urlpatterns = [
     path('commercial_invoice', views.commercial_invoice, name="commercial_invoice"),
     path('packing_list', views.packing_list, name="packing_list"),
     path('purchase_order', views.purchase_order, name="purchase_order"),
+    path('add_bl2', views.add_bl2, name="add_bl2"),
+    path('organizations', views.organizations, name="organizations"),
 
 
   

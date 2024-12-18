@@ -1,10 +1,18 @@
 from django import forms
+from .models import Organization
 from .models import Shipment
 from .models import Bill
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
 
+class OrganizationForm(forms.ModelForm):
+		class Meta:
+			model = Organization
+			fields = ["type","name", "address", "address2", 
+						"city", "region", "country", 
+						"digital_address",]
+			
 class ShipmentForm(forms.ModelForm):
 		class Meta:
 			model = Shipment
@@ -17,9 +25,17 @@ class BillForm(forms.ModelForm):
 			model = Bill
 			fields = ["bl_number", "shipper", "consignee", "notify_party", 
 						"vessel", "port_of_loading", "port_of_discharge", "container_quantity1", "container_type1",
-						"container_quantity1", "container_type1",
+						"container_quantity2", "container_type2",
 						"package_quantity1", "package_type1", "package_quantity2", "package_type2","kg_weight","m3", "container_number",]
 
+class BillForm2(forms.ModelForm):
+		class Meta:
+			model = Bill
+			fields = ["bl_number", "shipper", "consignee", "notify_party", 
+						"vessel", "port_of_loading", "port_of_discharge", "container_quantity1", "container_type1",
+						"container_quantity2", "container_type2",
+						"package_quantity1", "package_type1", "package_quantity2", "package_type2",
+						"kg_weight","m3", "container_number",]
 
 class UpdateUserForm(UserChangeForm):
 	password = None

@@ -1,5 +1,19 @@
 from django.db import models
 
+class Organization(models.Model):
+	type= models.CharField(max_length= 50)
+	name= models.CharField(max_length= 50)
+	address= models.CharField(max_length= 50)
+	address2= models.CharField(max_length= 50)
+	city= models.CharField(max_length= 50)
+	region= models.CharField(max_length= 50)
+	country= models.CharField(max_length= 50)
+	digital_address= models.CharField(max_length=20)
+
+	def __str__(self): 
+		return "{}-{}".format(self.type, self.name, self.address, 
+						self.address2, self.city, self.region, self.country,
+						self.digital_address,)
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
 	shipper= models.CharField(max_length= 30)	
@@ -8,17 +22,18 @@ class Bill(models.Model):
 	vessel= models.CharField(max_length= 30)	
 	port_of_loading= models.CharField(max_length= 30)	
 	port_of_discharge= models.CharField(max_length= 10)	
-	container_quantity1= models.CharField(max_length= 10)	
+	container_quantity1= models.IntegerField()	
 	container_type1= models.CharField(max_length= 10)
-	container_quantity2= models.CharField(max_length= 10)	
+	container_quantity2= models.IntegerField()	
 	container_type2= models.CharField(max_length= 10)
-	package_quantity1= models.CharField(max_length= 10)
+	package_quantity1= models.IntegerField()
 	package_type1= models.CharField(max_length= 10)	
-	package_quantity2= models.CharField(max_length= 10)
+	package_quantity2= models.IntegerField()
 	package_type2= models.CharField(max_length= 10)	
-	kg_weight= models.CharField(max_length= 10)	
-	m3= models.CharField(max_length= 10)
+	kg_weight= models.DecimalField(decimal_places=2, max_digits=20)	
+	m3= models.DecimalField(decimal_places=2, max_digits=20)
 	container_number= models.CharField(max_length= 10)
+
 	
 	def __str__(self): 
 		return "{}-{}".format(self.bl_number, self.shipper, self.consignee, 
@@ -35,10 +50,10 @@ class Shipment(models.Model):
 	date_cleared = models.DateField()
 	actual_delivery = models.DateField()
 	cont = models.CharField(max_length= 20)
-	twenty_ft = models.CharField(max_length= 10)
-	forty_ft = models.CharField(max_length= 10)
+	twenty_ft = models.IntegerField()
+	forty_ft = models.IntegerField()
 	uw = models.CharField(max_length= 10)
-	weight = models.CharField(max_length= 10)
+	weight = models.DecimalField(decimal_places=2, max_digits=20)
 	
 	def __str__(self): 
 		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, 
@@ -51,20 +66,20 @@ class Transport(models.Model):
 	branch= models.CharField(max_length= 50)
 	client= models.CharField(max_length= 50)	
 	booking_req= models.CharField(max_length= 50)	
-	first_pic_actual= models.CharField(max_length= 50)	
+	first_pic_actual= models.DateField(max_length= 50)	
 	first_pic_city= models.CharField(max_length= 50)	
-	last_del_act= models.CharField(max_length= 50)	
+	last_del_act= models.DateField(max_length= 50)	
 	last_del_city= models.CharField(max_length= 50)
 	status= models.CharField(max_length= 50)
 	hazardous= models.CharField(max_length= 50)
 	goods_description= models.CharField(max_length= 50)	
-	chargeable_wgt= models.CharField(max_length= 50)
+	chargeable_wgt= models.DecimalField(decimal_places=2, max_digits=20)
 	chargeable_wgt_unit= models.CharField(max_length= 50)	
 	transport= models.CharField(max_length= 50)	
 	first_pic_equipment= models.CharField(max_length= 50)
 	first_pick_up_cont_mode= models.CharField(max_length= 50)
 	first_pu_cont_type= models.CharField(max_length= 50)
-	consignee_package_qty= models.CharField(max_length= 50)
+	consignee_package_qty= models.IntegerField()
 	first_pu_pkg_type= models.CharField(max_length= 50)
 	first_pickup_name= models.CharField(max_length= 50)
 	booked_by= models.CharField(max_length= 50)
@@ -76,7 +91,7 @@ class Transport(models.Model):
 class Contact(models.Model):
 	first_name = models.CharField(max_length= 50)
 	last_name = models.CharField(max_length= 50)
-	email = models.CharField(max_length= 50)
+	email = models.EmailField(max_length= 50)
 	department = models.CharField(max_length= 50)
 	
 	class Meta:

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Shipment
 from .models import Transport
 from .models import Bill
+from .models import Organizations
 from .forms import ShipmentForm
 from .forms import BillForm
 from django.contrib import messages
@@ -23,6 +24,9 @@ class ShipmentChartView(TemplateView):
 		context=super(ShipmentChartView, self).get_context_data(**kwargs)
 		context["qs"]= Shipment.objects.all()
 		return context
+
+def base(request):
+	return render(request, 'base.html', {})
 
 def charts2(request):
 		# Step 1 Aggregating shipments within the month
@@ -290,8 +294,9 @@ def add_shipment(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Shipment has been added")
-			return redirect('ops.html')
+			return redirect('ops')
 		else:
+			print(form.errors)
 			messages.success(request, "Error")
 			return render(request, 'add_shipment.html', {})
 		
@@ -304,10 +309,12 @@ def add_bill(request):
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Bill has been added")
-			return redirect('bills.html')
+			return redirect('bills')
 		else:
+			print(form.errors)
 			messages.success(request, "Error")
 			return render(request, 'add_bill.html', {})
+			
 		
 	else:
 		return render(request, 'add_bill.html', {})
@@ -359,6 +366,8 @@ def clearing_table(request):
 	all_shipments = Shipment.objects.all
 	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
 
+def organizations(request):
+	return render(request, 'organizations.html', {})
 def shipments(request):
 	return render(request, 'shipments.html', {})
 
@@ -367,6 +376,22 @@ def transports(request):
 
 def charts(request):
 	return render(request, 'charts.html', {	})
+
+def add_bl2(request):
+	if request.method =='POST':
+		form = BillForm2(request.POST or None)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Bill has been added")
+			return redirect('bills')
+		else:
+			print(form.errors)
+			messages.success(request, "Error")
+			return render(request, 'add_bl2.html', {})
+			
+		
+	else:
+		return render(request, 'add_bl2.html', {})
 
 
 def transportsView(request):
