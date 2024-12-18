@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Shipment
 from .models import Transport
 from .models import Bill
+from .models import Organizations
 from import_export.admin import ImportExportModelAdmin
 
 
