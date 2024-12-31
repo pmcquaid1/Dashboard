@@ -14,7 +14,7 @@ class Organization(models.Model):
 	def __str__(self): 
 		return "{}-{}".format(self.name, self.address, 
 						self.address2, self.city, self.region, self.country,
-						self.digital_address, self.mobile_phone, self.main_phone,)
+						self.digital_address, self.mobile_phone, self.main_phone)
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
 	shipper= models.CharField(max_length= 30)	
