@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone
 
 class Organization(models.Model):
 	name= models.CharField(max_length= 50)
