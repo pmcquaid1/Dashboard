@@ -9,9 +9,9 @@ from django.contrib.auth.models import User
 class OrganizationForm(forms.ModelForm):
 		class Meta:
 			model = Organization
-			fields = ["type","name", "address", "address2", 
+			fields = ["name", "address", "address2", 
 						"city", "region", "country", 
-						"digital_address",]
+						"digital_address","mobile_phone", "main_phone",]
 			
 class ShipmentForm(forms.ModelForm):
 		class Meta:

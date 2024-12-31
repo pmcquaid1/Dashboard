@@ -1,7 +1,6 @@
 from django.db import models
 
 class Organization(models.Model):
-	type= models.CharField(max_length= 50)
 	name= models.CharField(max_length= 50)
 	address= models.CharField(max_length= 50)
 	address2= models.CharField(max_length= 50)
@@ -9,11 +8,13 @@ class Organization(models.Model):
 	region= models.CharField(max_length= 50)
 	country= models.CharField(max_length= 50)
 	digital_address= models.CharField(max_length=20)
+	mobile_phone= models.CharField(max_length=20)
+	main_phone= models.CharField(max_length=20)
 
 	def __str__(self): 
-		return "{}-{}".format(self.type, self.name, self.address, 
+		return "{}-{}".format(self.name, self.address, 
 						self.address2, self.city, self.region, self.country,
-						self.digital_address,)
+						self.digital_address, self.mobile_phone, self.main_phone,)
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
 	shipper= models.CharField(max_length= 30)	
