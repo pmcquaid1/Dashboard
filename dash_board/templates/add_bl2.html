@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 
+    <h1>Add Bill of Lading</h1>
+
+    
+
+	<form method="POST">
+		{% csrf_token %}
 	<form>
         
     <div class="form-row">
@@ -75,7 +81,7 @@
   
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="formGroupContainertypeInput">Choose Container Type</label>
+      <label for="formGroupContainertype1Input">Choose Container Type 1</label>
       <select class="custom-select custom-select-md">
         <option selected>Open this select menu</option>
         <option value="1">20GP</option>
@@ -88,8 +94,8 @@
       </select>
     </div>
     <div class="form-group">
-        <label for="formGroupQuantityInput">Quantity</label>
-        <input type="text" class="form-control" id="formGroupQuantityInput" placeholder="Quantity">
+        <label for="formGroupQuantity1Input">Quantity</label>
+        <input type="text" class="form-control" id="formGroupQuantity1Input" placeholder="Quantity">
     </div>
     
   </div>
@@ -97,7 +103,7 @@
   </div>
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="formGroupContainertypeInput">Choose Container Type</label>
+      <label for="formGroupContainertype2Input">Choose Container Type 2</label>
       <select class="custom-select custom-select-md">
         <option selected>Open this select menu</option>
         <option value="1">20GP</option>
@@ -110,15 +116,15 @@
       </select>
     </div>
     <div class="form-group">
-        <label for="formGroupQuantityInput">Quantity</label>
-        <input type="text" class="form-control" id="formGroupQuantityInput" placeholder="Quantity">
+        <label for="formGroupQuantity2Input">Quantity</label>
+        <input type="text" class="form-control" id="formGroupQuantity2Input" placeholder="Quantity">
     </div>
 
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-4">
-      <label for="formGroupContainertypeInput">Choose Container Type</label>
+      <label for="formGroupContainertype3Input">Choose Container Type 3</label>
       <select class="custom-select custom-select-md">
         <option selected>Open this select menu</option>
         <option value="1">20GP</option>
@@ -131,8 +137,8 @@
       </select>
     </div>
     <div class="form-group">
-        <label for="formGroupQuantityInput">Quantity</label>
-        <input type="text" class="form-control" id="formGroupQuantityInput" placeholder="Quantity">
+        <label for="formGroupQuantity3Input">Quantity</label>
+        <input type="text" class="form-control" id="formGroupQuantity3Input" placeholder="Quantity">
     </div>
 
   </div>
