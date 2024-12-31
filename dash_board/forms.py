@@ -5,13 +5,14 @@ from .models import Bill
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
+from django.utils import timezone
 
 class OrganizationForm(forms.ModelForm):
 		class Meta:
 			model = Organization
 			fields = ["name", "address", "address2", 
 						"city", "region", "country", 
-						"digital_address","mobile_phone", "main_phone",]
+						"digital_address","mobile_phone", "main_phone", "email"]
 			
 class ShipmentForm(forms.ModelForm):
 		class Meta:
