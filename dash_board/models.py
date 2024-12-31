@@ -1,21 +1,22 @@
 from django.db import models
-from django.utils.timezone
+
 
 class Organization(models.Model):
-	name= models.CharField(max_length= 50)
-	address= models.CharField(max_length= 50)
-	address2= models.CharField(max_length= 50)
-	city= models.CharField(max_length= 50)
-	region= models.CharField(max_length= 50)
-	country= models.CharField(max_length= 50)
-	digital_address= models.CharField(max_length=20)
-	mobile_phone= models.CharField(max_length=20)
-	main_phone= models.CharField(max_length=20)
+	name= models.CharField(max_length= 200)
+	address= models.CharField(max_length= 200)
+	address2= models.CharField(max_length= 200)
+	city= models.CharField(max_length= 100)
+	region= models.CharField(max_length= 100)
+	country= models.CharField(max_length= 100)
+	digital_address= models.CharField(max_length=50)
+	mobile_phone= models.CharField(max_length=50)
+	main_phone= models.CharField(max_length=50)
+	email= models.CharField(max_length= 100)
 
 	def __str__(self): 
 		return "{}-{}".format(self.name, self.address, 
 						self.address2, self.city, self.region, self.country,
-						self.digital_address, self.mobile_phone, self.main_phone)
+						self.digital_address, self.mobile_phone, self.main_phone, self.email)
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
 	shipper= models.CharField(max_length= 30)	
