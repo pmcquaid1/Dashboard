@@ -9,7 +9,7 @@ class Organization(models.Model):
 	region= models.CharField(max_length= 100)
 	country= models.CharField(max_length= 100)
 	digital_address= models.CharField(max_length=50)
-	mobile_phone= models.CharField(max_length=50)
+	mobile_phone= models.Field(max_length=50)
 	main_phone= models.CharField(max_length=50)
 	email= models.CharField(max_length= 100)
 
@@ -62,6 +62,23 @@ class Shipment(models.Model):
 		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, 
 						self.cargo_available, self.date_cleared, self.actual_delivery, 
 						self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
+
+class Invoice(models.Model):
+	vendor = models.CharField(max_length=100)
+	invoice_number = models.CharField(max_length= 20)
+	client = models.CharField(max_length=100)
+	client_po_number = models.CharField(max_length= 20)
+	invoice_date = models.DateField(max_length= 30)
+	currency = models.DecimalField(decimal_places=2, max_digits=20)
+	goods_description = models.CharField(max_length=200)
+	gross_weight = models.DecimalField(decimal_places=2, max_digits=20)
+	quantity = models.IntegerField()
+	price_unit = models.DecimalField(decimal_places=2, max_digits=20)
+	total_amount = models.DecimalField(decimal_places=2, max_digits=20)
+	incoterms = models.CharField(max_length= 10)
+	
+	def __str__(self): 
+		return "{}-{}".format(self.vendor,self.invoice_number,self.client)
 
 class Transport(models.Model):
 	booking_id= models.CharField(max_length= 50)	
