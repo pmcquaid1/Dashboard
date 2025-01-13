@@ -79,6 +79,21 @@ class Invoice(models.Model):
 	
 	def __str__(self): 
 		return "{}-{}".format(self.vendor,self.invoice_number,self.client)
+	
+class Packlist(models.Model):
+	vendor = models.CharField(max_length=100)
+	reference_number = models.CharField(max_length= 20)
+	client = models.CharField(max_length=100)
+	client_po_number = models.CharField(max_length= 20)
+	pack_date = models.DateField(max_length= 30)
+	goods_description = models.CharField(max_length=200)
+	net_weight = models.DecimalField(decimal_places=2, max_digits=20)
+	quantity = models.IntegerField()
+	hscode = models.CharField(max_length=50)
+	
+	
+	def __str__(self): 
+		return "{}-{}".format(self.vendor,self.invoice_number,self.client)
 
 class Transport(models.Model):
 	booking_id= models.CharField(max_length= 50)	
