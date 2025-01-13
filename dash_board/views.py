@@ -415,11 +415,11 @@ def transportsView(request):
 def bills(request):
 	return render(request, 'bills.html', {})
 
-def commercial_invoice(request):
-	return render(request, 'commercial_invoice.html', {})
+def invoice(request):
+	return render(request, 'invoice.html', {})
 
-def packing_list(request):
-	return render(request, 'packing_list.html', {})
+def packlist(request):
+	return render(request, 'packlist.html', {})
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})

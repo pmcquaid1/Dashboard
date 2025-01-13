@@ -2,6 +2,8 @@ from django import forms
 from .models import Organization
 from .models import Shipment
 from .models import Bill
+from .models import Invoice
+from .models import Packlist
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
@@ -20,6 +22,18 @@ class ShipmentForm(forms.ModelForm):
 			fields = ["shipment_id", "consignee", "ata", 
 						"cargo_available", "date_cleared", "actual_delivery", 
 						"cont", "twenty_ft", "forty_ft","uw", "weight",]
+
+class InvoiceForm(forms.ModelForm):
+		class Meta:
+			model = Invoice
+			fields = ["vendor", "invoice_number", "client", "client_po_number", "invoice_date", "currency", 
+			 			"goods_description", "gross_weight", "quantity", "price_unit", "total_amount", "incoterms",]
+
+class PacklistForm(forms.ModelForm):
+		class Meta:
+			model = Packlist
+			fields = ["vendor", "reference_number", "client", "client_po_number", "pack_date", 
+			 			"goods_description", "net_weight", "quantity", "hscode",]
 
 class BillForm(forms.ModelForm):
 		class Meta:
