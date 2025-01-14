@@ -27,12 +27,15 @@
         
             </div>
         </form>
+
     <div id='packlist-forms'{% include 'partials/form.html' %}
     </div>
 
     <div class="my-4">
-        <button type="submit" class="btn btn-success me-2">+ Add Item</button> 
-
-    </div>
+        <button type="button" class="btn btn-success me-2"
+            hx-get= "{% url 'create-packlist'}"
+            hx-target= "#packlist-forms"
+            hx-swap="beforeend">+ Add Item</button>
+     </div>
 
 {% endblock %}
