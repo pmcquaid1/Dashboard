@@ -81,15 +81,15 @@ class Invoice(models.Model):
 		return "{}-{}".format(self.vendor,self.invoice_number,self.client)
 	
 class Packlist(models.Model):
-	vendor = models.CharField(max_length=100)
+	vendor = models.CharField(max_length=50)
 	reference_number = models.CharField(max_length= 20)
-	client = models.CharField(max_length=100)
+	client = models.CharField(max_length=50)
 	client_po_number = models.CharField(max_length= 20)
-	pack_date = models.DateField(max_length= 30)
-	goods_description = models.CharField(max_length=200)
+	pack_date = models.DateField(max_length= 20)
+	goods_description = models.CharField(max_length=100)
 	net_weight = models.DecimalField(decimal_places=2, max_digits=20)
 	quantity = models.IntegerField()
-	hscode = models.CharField(max_length=50)
+	hscode = models.CharField(max_length=25)
 	
 	
 	def __str__(self): 

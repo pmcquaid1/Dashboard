@@ -5,35 +5,11 @@
 
 	<form method="POST">
 		{% csrf_token %}
-    <form>
-        
-    <div class="form-row">
-      <div class="form-group col-md-3">
-        <label for="inputvendor">Vendor</label>
-        <input type="text" class="form-control" id="inputvendor" placeholder="Vendor">
-        <label for="inputreferencenumber">Reference Number</label>
-        <input type="text" class="form-control" id="inputreferencenumber" placeholder="Reference Number">
-        <label for="inputclientname">Client Name</label>
-        <input type="text" class="form-control" id="inputclientname" placeholder="Client Name">
-        <label for="inputclientponumber">Client PO Number</label>
-        <input type="text" class="form-control" id="inputclientponumber" placeholder="Client PO Number">
-        <label for="inputpackdate">Packing Date</label>
-        <input type="text" class="form-control" id="inputpackdate" placeholder="Packing Date">
-        <label for="inputgoodsdescription">Goods Description</label>
-        <input type="text" class="form-control" id="inputgoodsdescription" placeholder="Goods Description">
-        <label for="inputnetweight">Net Weight</label>
-        <input type="text" class="form-control" id="inputnetweight" placeholder="Net Weight">
-        <label for="inputQuantity">Quantity</label>
-        <input type="text" class="form-control" id="inputquantity" placeholder="Quanitity">
-        <label for="inputHSCode">HS Code</label>
-        <input type="text" class="form-control" id="inputhscode" placeholder="HS Code">
-      </div>
-
+    
+    <div id="packlist-forms">
+        {% include 'partials/form.html %'}
     </div>
 
-  
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
 
 
 {% endblock %}
