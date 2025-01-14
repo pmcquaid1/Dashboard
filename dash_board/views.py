@@ -9,6 +9,7 @@ from .models import Organization
 from .forms import ShipmentForm
 from .forms import BillForm
 from .forms import InvoiceForm
+from .forms import PacklistForm
 from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
@@ -430,10 +431,22 @@ def invoice(request):
 				return render(request, 'invoice.html', {})
 			
 		else:
-	return render(request, 'invoice.html', {})
+			return render(request, 'invoice.html', {})
 
 def packlist(request):
-	return render(request, 'packlist.html', {})
+		if request.method =='POST':
+			form = PacklistForm(request.POST or None)
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Packing list has been added")
+				return redirect('packlist')
+			else:
+				print(form.errors)
+				messages.success(request, "Error")
+				return render(request, 'packlist.html', {})
+			
+		else:
+			return render(request, 'packlist.html', {})
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})
