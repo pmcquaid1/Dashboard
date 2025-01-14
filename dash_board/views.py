@@ -8,6 +8,7 @@ from .models import Bill
 from .models import Organization
 from .forms import ShipmentForm
 from .forms import BillForm
+from .forms import InvoiceForm
 from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
@@ -302,6 +303,7 @@ def add_shipment(request):
 		
 	else:
 		return render(request, 'add_shipment.html', {})
+
 	
 def add_bill(request):
 	if request.method =='POST':
@@ -416,6 +418,18 @@ def bills(request):
 	return render(request, 'bills.html', {})
 
 def invoice(request):
+		if request.method =='POST':
+			form = InvoiceForm(request.POST or None)
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Invoice has been added")
+				return redirect('invoice')
+			else:
+				print(form.errors)
+				messages.success(request, "Error")
+				return render(request, 'invoice.html', {})
+			
+		else:
 	return render(request, 'invoice.html', {})
 
 def packlist(request):
