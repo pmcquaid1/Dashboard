@@ -35,6 +35,7 @@ urlpatterns = [
     path('add_bill', views.add_bill, name="add_bill"),
     path('invoice', views.invoice, name="invoice"),
     path('packlist', views.packlist, name="packlist"),
+    path('create-form/', views.create_packlist, name="create-packlist"),
     path('purchase_order', views.purchase_order, name="purchase_order"),
     path('add_bl2', views.add_bl2, name="add_bl2"),
     path('organizations', views.organizations, name="organizations"),
