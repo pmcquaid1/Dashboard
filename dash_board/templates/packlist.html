@@ -5,11 +5,34 @@
 
 	<form method="POST">
 		{% csrf_token %}
-    
-    <div id="packlist-forms">
-        {% include 'partials/form.html %'}
+
+        <form>  
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="inputvendor">Vendor</label>
+                    <input type="text" class="form-control" id="inputvendor" placeholder="Vendor">
+                    <label for="inputreferencenumber">Reference Number</label>
+                    <input type="text" class="form-control" id="inputreferencenumber" placeholder="Reference Number">
+                </div>
+                
+                <div class="form-group col-md-3">
+                    <label for="inputclientname">Client Name</label>
+                    <input type="text" class="form-control" id="inputclientname" placeholder="Client Name">
+                </div>
+                
+                <div class="form-group col-md-3">
+                    <label for="inputpackdate">Packing Date</label>
+                    <input type="text" class="form-control" id="inputpackdate" placeholder="Packing Date">
+                </div>
+        
+            </div>
+        </form>
+    <div id='packlist-forms'{% include 'partials/form.html' %}
     </div>
 
+    <div class="my-4">
+        <button type="submit" class="btn btn-success me-2">+ Add Item</button> 
 
+    </div>
 
 {% endblock %}
