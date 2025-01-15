@@ -434,6 +434,10 @@ def invoice(request):
 			return render(request, 'invoice.html', {})
 
 def packlist(request):
+		context= {'form': PacklistForm()}
+		return render(request, 'packlist.html', context)
+		
+		"""
 		if request.method =='POST':
 			form = PacklistForm(request.POST or None)
 			if form.is_valid():
@@ -447,11 +451,12 @@ def packlist(request):
 			
 		else:
 			return render(request, 'packlist.html', {})
+		"""
 
 def create_packlist(request):
 	if request.method=="Post":
 		pass
-	return render (request, 'partials/form.html')
+	return render(request, 'partials/form.html', {})
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})
