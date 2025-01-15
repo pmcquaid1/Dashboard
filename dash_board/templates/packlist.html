@@ -11,6 +11,10 @@
                 <div class="form-group col-md-3">
                     <label for="inputvendor">Vendor</label>
                     <input type="text" class="form-control" id="inputvendor" placeholder="Vendor">
+                    
+                </div>
+                
+                <div class="form-group col-md-3">
                     <label for="inputreferencenumber">Reference Number</label>
                     <input type="text" class="form-control" id="inputreferencenumber" placeholder="Reference Number">
                 </div>
@@ -28,13 +32,14 @@
             </div>
         </form>
 
-    <div id='packlist-forms'{% include 'partials/form.html' %}
+    <div id="packlist-forms">
+        {% include 'partials/form.html' %}
     </div>
 
     <div class="my-4">
         <button type="button" class="btn btn-success me-2"
-            hx-get= "{% url 'create-packlist'}"
-            hx-target= "#packlist-forms"
+            hx-get= "{% url 'create_packlist' %}"
+            hx-target= "#packlist_forms"
             hx-swap="beforeend">+ Add Item</button>
      </div>
 

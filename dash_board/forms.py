@@ -34,6 +34,18 @@ class PacklistForm(forms.ModelForm):
 			model = Packlist
 			fields = ["vendor", "reference_number", "client", "client_po_number", "pack_date", 
 			 			"goods_description", "net_weight", "quantity", "hscode",]
+			
+			widgets= {
+				"vendor": forms.TextInput(attrs={'class': 'form-control'}),
+				"reference_number": forms.TextInput(attrs={'class': 'form-control'}),
+				"client": forms.TextInput(attrs={'class': 'form-control'}),
+				"client_po_number": forms.TextInput(attrs={'class': 'form-control'}),
+				"pack_date": forms.TextInput(attrs={'class': 'form-control'}),
+				"goods_description": forms.TextInput(attrs={'class': 'form-control'}),
+				"net_weight": forms.TextInput(attrs={'class': 'form-control'}),
+				"quantity": forms.TextInput(attrs={'class': 'form-control'}),
+				"hscode": forms.TextInput(attrs={'class': 'form-control'}),
+			 }
 
 class BillForm(forms.ModelForm):
 		class Meta:
