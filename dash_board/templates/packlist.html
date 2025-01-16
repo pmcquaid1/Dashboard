@@ -28,10 +28,58 @@
                     <label for="inputpackdate">Packing Date</label>
                     <input type="text" class="form-control" id="inputpackdate" placeholder="Packing Date">
                 </div>
-        
+      
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
 
+        <form>
+            <div class="row">
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.vendor.id_for_label }}">{{ form.vendor.label }}</label>
+                    {{ form.vendor}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.reference_number.id_for_label }}">{{ form.reference_number.label }}</label>
+                    {{ form.reference_number}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.client.id_for_label }}">{{ form.client.label }}</label>
+                    {{ form.client}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.client_po_number.id_for_label }}">{{ form.client_po_number.label }}</label>
+                    {{ form.client_po_number}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.pack_date.id_for_label }}">{{ form.pack_date.label }}</label>
+                    {{ form.pack_date}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.goods_description.id_for_label }}">{{ form.goods_description.label }}</label>
+                    {{ form.goods_description}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.net_weight.id_for_label }}">{{ form.net_weight.label }}</label>
+                    {{ form.net_weight}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+                    {{ form.quantity}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{ form.hscode.id_for_label }}">{{ form.hscode.label }}</label>
+                    {{ form.hscode }}
+                </div>
+
+                <div class="col-3">
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </div>
+            </div>
+
+        </form>
     <div id="packlist-forms">
         {% include 'partials/form.html' %}
     </div>
