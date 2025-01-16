@@ -434,7 +434,7 @@ def invoice(request):
 			return render(request, 'invoice.html', {})
 
 def packlist(request):
-		context= {'form': PacklistForm()}
+		context= {'form': PacklistForm(), 'plitems': Plitem.objects.all()}
 		return render(request, 'packlist.html', context)
 		
 		"""
@@ -453,10 +453,14 @@ def packlist(request):
 			return render(request, 'packlist.html', {})
 		"""
 
-def create-packlist(request):
+def create_packlist(request):
 	if request.method=="Post":
-		pass
-	return render(request, 'partials/form.html', {})
+		form = PacklistForm(request.POST or None)
+		if form.is_valid():
+			plitem= form.save()
+			context={'plitem': plitem}
+			return render(request, 'partials/plitem.html', context)
+	return render(request, 'partials/form.html', {'form': PacklistForm})
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})
