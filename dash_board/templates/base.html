@@ -24,7 +24,8 @@
     <title>{% block title %} {% endblock title %}</title>
 
   </head>
-  <body>
+  <body hx-headers='{"X-CSRFToken" : "{{ csrf_token }}"}'>
+    
     {% include 'navbar.html'%}
       {% block scripts %}
       {% endblock scripts %}
