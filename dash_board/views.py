@@ -453,7 +453,7 @@ def packlist(request):
 			return render(request, 'packlist.html', {})
 		"""
 
-def create_packlist(request):
+def create-packlist(request):
 	if request.method=="Post":
 		pass
 	return render(request, 'partials/form.html', {})
