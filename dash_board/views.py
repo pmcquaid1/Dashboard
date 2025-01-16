@@ -433,34 +433,21 @@ def invoice(request):
 		else:
 			return render(request, 'invoice.html', {})
 
-def packlist(request):
-		context= {'form': PacklistForm(), 'plitems': Plitem.objects.all()}
-		return render(request, 'packlist.html', context)
-		
-		"""
-		if request.method =='POST':
-			form = PacklistForm(request.POST or None)
-			if form.is_valid():
-				form.save()
-				messages.success(request, "Packing list has been added")
-				return redirect('packlist')
-			else:
-				print(form.errors)
-				messages.success(request, "Error")
-				return render(request, 'packlist.html', {})
-			
-		else:
-			return render(request, 'packlist.html', {})
-		"""
+def lineitems(request):
+		context= {'form': PacklistForm(), 'packlists': Packlist.objects.all()}
+		return render(request, 'lineitems.html', context)
 
 def create_packlist(request):
 	if request.method=="Post":
 		form = PacklistForm(request.POST or None)
 		if form.is_valid():
-			plitem= form.save()
-			context={'plitem': plitem}
+			packlist= form.save()
+			context={'packlist': packlist}
 			return render(request, 'partials/plitem.html', context)
 	return render(request, 'partials/form.html', {'form': PacklistForm})
+
+def plitem(request):
+	return render(request, 'partials/plitem.html', {})
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})
