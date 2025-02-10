@@ -33,12 +33,16 @@ urlpatterns = [
     path('<int:year>/<str:month>', views.home3, name= "home3"),
     path('bills', views.bills, name="bills"),
     path('add_bill', views.add_bill, name="add_bill"),
+    path('pretrip', views.pretrip, name="pretrip"),
+    path('waybill', views.waybill, name="waybill"),
+    path('forms', views.forms, name="forms"),
     path('invoice', views.invoice, name="invoice"),
     path('lineitems', views.lineitems, name="lineitems"),
     path('create_packlist', views.create_packlist, name="create_packlist"),
     path('purchase_order', views.purchase_order, name="purchase_order"),
     path('add_bl2', views.add_bl2, name="add_bl2"),
     path('organizations', views.organizations, name="organizations"),
+    
 
 
   

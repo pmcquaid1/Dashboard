@@ -322,6 +322,38 @@ def add_bill(request):
 	else:
 		return render(request, 'add_bill.html', {})
 
+def pretrip(request):
+	if request.method =='POST':
+		form = PretripForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Pretrip has been added")
+			return redirect('forms')
+		else:
+			print(form.errors)
+			messages.success(request, "Error")
+			return render(request, 'pretrip.html', {})
+			
+		
+	else:
+		return render(request, 'pretrip.html', {})
+	
+def waybill(request):
+	if request.method =='POST':
+		form = WaybillForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Waybill has been added")
+			return redirect('forms')
+		else:
+			print(form.errors)
+			messages.success(request, "Error")
+			return render(request, 'waybill.html', {})
+			
+		
+	else:
+		return render(request, 'waybill.html', {})
+	
 def edit(request, list_id):
 	if request.method =='POST':
 		current_shipment = Shipment.objects.get(pk=list_id)
@@ -437,6 +469,7 @@ def lineitems(request):
 		context= {'form': PacklistForm(), 'packlists': Packlist.objects.all()}
 		return render(request, 'lineitems.html', context)
 
+
 def create_packlist(request):
 	if request.method=="Post":
 		form = PacklistForm(request.POST or None)
@@ -451,6 +484,9 @@ def plitem(request):
 
 def purchase_order(request):
 	return render(request, 'purchase_order.html', {})
+
+def forms(request):
+	return render(request, 'forms.html', {})
 
 
 
