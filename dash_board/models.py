@@ -2,6 +2,7 @@ from django.db import models
 
 
 class Organization(models.Model):
+	org_type= models.CharField(max_length=100)
 	name= models.CharField(max_length= 200)
 	address= models.CharField(max_length= 200)
 	address2= models.CharField(max_length= 200)
@@ -14,7 +15,7 @@ class Organization(models.Model):
 	email= models.CharField(max_length= 100)
 
 	def __str__(self): 
-		return "{}-{}".format(self.name, self.address, 
+		return "{}-{}".format(self.org_type, self.name, self.address, 
 						self.address2, self.city, self.region, self.country,
 						self.digital_address, self.mobile_phone, self.main_phone, self.email)
 class Bill(models.Model):
