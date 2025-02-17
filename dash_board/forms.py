@@ -12,7 +12,7 @@ from django.utils import timezone
 class OrganizationForm(forms.ModelForm):
 		class Meta:
 			model = Organization
-			fields = ["name", "address", "address2", 
+			fields = ["org_type","name", "address", "address2", 
 						"city", "region", "country", 
 						"digital_address","mobile_phone", "main_phone", "email"]
 			
