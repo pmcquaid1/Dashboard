@@ -42,6 +42,7 @@ urlpatterns = [
     path('purchase_order', views.purchase_order, name="purchase_order"),
     path('add_bl2', views.add_bl2, name="add_bl2"),
     path('organization', views.organization, name="organization"),
+    path('vieworganization', views.vieworganization, name="vieworganization"),
     
 
 

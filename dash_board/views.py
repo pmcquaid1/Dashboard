@@ -403,6 +403,8 @@ def clearing_table(request):
 
 def organization(request):
 	return render(request, 'organization.html',{})
+def vieworganization(request):
+	return render(request, 'vieworganization.html',{})
 
 def shipments(request):
 	return render(request, 'shipments.html', {})
