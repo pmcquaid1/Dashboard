@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 	<h1>Add Shipments</h1>
 
@@ -6,47 +7,47 @@
 		{% csrf_token %}
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Shipment #" name="shipment_id">
+			<input type="text" class="form-control" id="exampleInputShipment" placeholder="Shipment #" name="shipment_id">
 		</div>
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Consignee" name="consignee">
+			<input type="text" class="form-control" id="exampleInputConsignee" placeholder="Consignee" name="consignee">
 		</div>
 
 		<div class="form-group">
-			<input type="date" class="form-control" id="date" aria-describedby="emailHelp" placeholder="Actual Arrival" name="ata">
+			<input type="date" class="form-control" id="exampleInputATA" placeholder="Actual Arrival" name="ata">
 		</div>
 
 		<div class="form-group">
-			<input type="date" class="form-control" id="date" aria-describedby="emailHelp" placeholder="Cargo Available" name="cargo_available">
+			<input type="date" class="form-control" id="exampleInputCargoAvailable" placeholder="Cargo Available" name="cargo_available">
 		</div>
 
 		<div class="form-group">
-			<input type="date" class="form-control" id="date" aria-describedby="emailHelp" placeholder="Date Cleared" name="date_cleared">
+			<input type="date" class="form-control" id="exampleInputDateCleared" placeholder="Date Cleared" name="date_cleared">
 		</div>
 
 		<div class="form-group">
-			<input type="date" class="form-control" id="date" aria-describedby="emailHelp" placeholder="Actual Delivery" name="actual_delivery">
+			<input type="date" class="form-control" id="exampleInputActualDelivery" placeholder="Actual Delivery" name="actual_delivery">
 		</div>
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Container Type" name="cont">
+			<input type="text" class="form-control" id="exampleInputContainerType" placeholder="Container Type" name="cont">
 		</div>
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="20ft Container Qty" name="twenty_ft">
+			<input type="text" class="form-control" id="exampleInputContainerSize" placeholder="20ft Container Qty" name="twenty_ft">
 		</div>
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="40ft Container Qty" name="forty_ft">
+			<input type="text" class="form-control" id="exampleInputContainerSize" placeholder="40ft Container Qty" name="forty_ft">
 		</div>
 
 		<div class="form-group">
-			<input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Unit of Measure" name="uw">
+			<input type="text" class="form-control" id="exampleInputUoM" placeholder="Unit of Measure" name="uw">
 		</div>
 
 		<div class="form-group">
-			<input type="numeric" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Weight" name="weight">
+			<input type="numeric" class="form-control" id="exampleInputWeight" placeholder="Weight" name="weight">
 		</div>
 
 	  <button type="submit" class="btn btn-secondary">Add Shipment</button>

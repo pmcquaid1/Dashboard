@@ -1,7 +1,7 @@
 from calendar import HTMLCalendar
 import calendar
 from datetime import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Shipment
 from .models import Transport
 from .models import Bill
@@ -19,6 +19,23 @@ from django.views.generic import TemplateView
 from django.db.models.functions import TruncMonth
 from django.db.models import Count, Sum
 
+
+def my_view(request):
+    all_transports = Transport.objects.all()
+    context = {
+        'all_transports': all_transports,
+    }
+    return render(request, 'transport_table.html', context)
+
+def detail_view(request, id):
+    record = get_object_or_404(Transport, id=id)
+    context = {
+        'record': record,
+    }
+    return render(request, 'transport_job_detail.html', context)
+
+def transport_job_detail(request):
+	return render(request, 'transport_job_detail.html', {})
 
 class ShipmentChartView(TemplateView):
 	template_name='charts2.html'
