@@ -2,7 +2,7 @@ from django.urls import path
 from .import views
 from dash_board.views import ShipmentChartView
 
-app="dash_board"
+app_name = "dash_board"
 
 urlpatterns = [
     path('', views.home2, name="home2"),
@@ -43,11 +43,7 @@ urlpatterns = [
     path('add_bl2', views.add_bl2, name="add_bl2"),
     path('organization', views.organization, name="organization"),
     path('vieworganization', views.vieworganization, name="vieworganization"),
-    
-
-
-  
-
-
-
+    path('detail/<int:id>/', views.detail_view, name='detail_view'),
+    path('transport_job_detail/', views.transport_job_detail, name='transport_job_detail'),
+    path('my_view/', views.my_view, name='my_view'),  # Added this line
 ]
