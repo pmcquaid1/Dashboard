@@ -14,7 +14,7 @@ class OrganizationForm(forms.ModelForm):
 			model = Organization
 			fields = ["org_type","name", "address", "address2", 
 						"city", "region", "country", 
-						"digital_address","mobile_phone", "main_phone", "email"]
+						"digital_address","email"]
 			
 class ShipmentForm(forms.ModelForm):
 		class Meta:
