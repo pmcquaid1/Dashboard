@@ -280,6 +280,8 @@ def operations(request):
 @login_required()
 @permission_required("dash_board.can_view_page_ops")
 def ops(request):
+	print(request.user.is_authenticated)
+	print(request.user.has_perm('dash_board.can_view_page_ops'))
 	# Step 1 Aggregating shipments within the month
 	results = Shipment.objects.annotate(
 		month=TruncMonth("actual_delivery"),

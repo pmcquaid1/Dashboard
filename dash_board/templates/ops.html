@@ -1,4 +1,3 @@
-{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -167,31 +166,32 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 <script src="{% static 'assets/demo/chart-area-demo.js' %}"></script>
 <script src="{% static 'assets/demo/chart-bar-demo.js' %}"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
 <script>
-    $(document).ready(function(){
-        var ctx = document.getElementById('myChart').getContext("2d");
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: {{ months|safe }},
-                datasets: [{
-                    label: "Shipment Count",
-                    backgroundColor: "#000000",
-                    data: {{ data|safe }},
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+$(document).ready(function(){
+    var ctx = document.getElementById('myChart').getContext("2d");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ months|safe }},
+            datasets: [{
+                label: "Shipment Count",
+                backgroundColor: "#000000",
+                data: {{ data|safe }},
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
+        }
     });
-    </script>
+});
+</script>
 {% endblock scripts %}
 </body>
 </html>
+{% endblock %}
