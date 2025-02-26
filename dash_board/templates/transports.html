@@ -1,6 +1,6 @@
 {% load static %}
 {% block content %}
-<a href="{% url 'home2' %}">Home2</a><br/>
+<a href="{% url 'dash_board:home2' %}">Home2</a><br/>
 <div class="container">
 		<div class="row"> 
 
@@ -35,7 +35,7 @@
                                 {{ records.booked_by}}<br/>
 								{{ records.first_pu_pkg_type}}<br/>
 							</p>
-	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
+	    					<a href="{% url 'dash_board:edit' records.id %}" class="btn btn-secondary">Edit</a>
 		  				</div>
 					</div>
 					</br>

@@ -10,7 +10,7 @@
         <meta name="author" content="" />
         <title>Business Frontpage - Start Bootstrap Template</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -32,7 +32,7 @@
 			            <li class="nav-item"><a class="nav-link active" href="#!"></a></li>
 			            <li class="nav-item"><a class="nav-link" href="#!"></a></li>
 			            <li class="nav-item"><a class="nav-link" href="#!"></a></li>
-			            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+			            <li class="nav-item"><a class="nav-link" href="{% url 'dash_board:logout' %}">Logout</a></li>
 			            <li class="nav-item"><a class="nav-link" href="#!">Support</a></li>
                         
                     </ul>
@@ -48,14 +48,14 @@
                             <h1 class="display-5 fw-bolder text-white mb-2">Stellar Logistics Resource Centre</h1>
                             <p class="lead text-white-50 mb-4">Stellar's One Stop Shop for Operations, Finance, QHSE, and HR....Reports, Tables, Charts, & Training Info...At The Click Of A Button!</p>
                             {% if user.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'dash_board:logout' %}">Logout</a></li>
 							{% else %}
 
                             <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'login' %} ">Login</a>
+                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'dash_board:login' %} ">Login</a>
                             {% endif %}
 
-                                <a class="btn btn-outline-light btn-lg px-4" href="{% url 'register' %}">Register to Get Started</a>
+                                <a class="btn btn-outline-light btn-lg px-4" href="{% url 'dash_board:register' %}">Register to Get Started</a>
                             
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-collection"></i></div>
                         <h2 class="h4 fw-bolder">Operations</h2>
                         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                        <a class="text-decoration-none" href="{% url 'login' %}">
+                        <a class="text-decoration-none" href="{% url 'dash_board:login' %}">
                             Login
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -81,7 +81,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
                         <h2 class="h4 fw-bolder">Finance</h2>
                         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                        <a class="text-decoration-none" href="{% url 'login' %}">
+                        <a class="text-decoration-none" href="{% url 'dash_board:login' %}">
                             Login
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -90,7 +90,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-building"></i></div>
                         <h2 class="h4 fw-bolder">QHSE</h2>
                         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                        <a class="text-decoration-none" href="{% url 'login' %}">
+                        <a class="text-decoration-none" href="{% url 'dash_board:login' %}">
                             Login
                             <i class="bi bi-arrow-right"></i>
                         </a>
@@ -99,7 +99,7 @@
                         <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="bi bi-toggles2"></i></div>
                         <h2 class="h4 fw-bolder">HR</h2>
                         <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-                        <a class="text-decoration-none" href="{% url 'login' %}">
+                        <a class="text-decoration-none" href="{% url 'dash_board:login' %}">
                             Login
                             <i class="bi bi-arrow-right"></i>
                         </a>
