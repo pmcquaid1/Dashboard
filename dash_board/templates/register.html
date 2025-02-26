@@ -5,7 +5,7 @@
 <h1>Register</h1>
 <br/>
 
-<form method="POST" action="{% url 'register' %}">
+<form method="POST" action="{% url 'dash_board:register' %}">
     {% csrf_token %}
     {{ form.as_p}}
 

@@ -20,7 +20,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="{% url 'home2' %}">SLL Home</a>
+            <a class="navbar-brand ps-3" href="{% url 'dash_board:home2' %}">SLL Home</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
@@ -56,7 +56,7 @@
 
                             <div class="sb-sidenav-menu-heading">Data</div>
 	                            <div>
-	                            <a class="nav-link" href="{% url 'transport_table' %}">
+	                            <a class="nav-link" href="{% url 'dash_board:transport_table' %}">
 	                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
 	                                Shipment Data 
 	                            </a>
@@ -74,9 +74,9 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{% url 'add_bl2' %}">Bill of Lading</a>
-                                            <a class="nav-link" href="{% url 'pretrip' %}">Pre Trip Inspection</a>
-                                            <a class="nav-link" href="{% url 'waybill' %}">Waybill</a>
+                                            <a class="nav-link" href="{% url 'dash_board:add_bl2' %}">Bill of Lading</a>
+                                            <a class="nav-link" href="{% url 'dash_board:pretrip' %}">Pre Trip Inspection</a>
+                                            <a class="nav-link" href="{% url 'dash_board:waybill' %}">Waybill</a>
                                             <a class="nav-link" href="#/">Asset Equipment Status Report</a>
                                         
                                         </nav>
@@ -87,8 +87,8 @@
                                     </a>
                                     <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a class="nav-link" href="{% url 'ops' %}">Tables</a>
-                                            <a class="nav-link" href="{% url 'charts' %}">Charts</a>
+                                            <a class="nav-link" href="{% url 'dash_board:ops' %}">Tables</a>
+                                            <a class="nav-link" href="{% url 'dash_board:charts' %}">Charts</a>
                                         </nav>
                                     </div>
                                 </nav>
@@ -98,7 +98,7 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Charts
                             </a>
-                            <a class="nav-link" href="tables.html">
+                            <a class="nav-link" href="dash_board:tables.html">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Tables
                             </a>
@@ -122,7 +122,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Bill of Lading</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'add_bl2' %}">Select Form</a>
+                                        <a class="small text-white stretched-link" href="{% url 'dash_board:add_bl2' %}">Select Form</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Pre Trip Inspection</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'pretrip' %}">Select Form</a>
+                                        <a class="small text-white stretched-link" href="{% url 'dash_board:pretrip' %}">Select Form</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>
@@ -140,7 +140,7 @@
                                 <div class="card bg-primary text-white mb-4">
                                     <div class="card-body">Waybill</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" href="{% url 'waybill' %}">Select Form</a>
+                                        <a class="small text-white stretched-link" href="{% url 'dash_board:waybill' %}">Select Form</a>
                                         <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                                     </div>
                                 </div>

@@ -418,7 +418,7 @@ def transport_table(request):
 
 def clearing_table(request):
 	all_shipments = Shipment.objects.all
-	return render(request, 'clearing_table.html', {'all_shipments': all_shipments})
+	return render(request, 'dash_board:clearing_table.html', {'all_shipments': all_shipments})
 
 def organization(request):
 	return render(request, 'organization.html',{})
