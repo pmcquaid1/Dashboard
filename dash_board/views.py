@@ -10,6 +10,9 @@ from .forms import ShipmentForm
 from .forms import BillForm
 from .forms import InvoiceForm
 from .forms import PacklistForm
+from .forms import FuelReqForm
+from .forms import BillForm2
+from .models import Packlist
 from django.contrib import messages
 from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
@@ -374,20 +377,18 @@ def waybill(request):
 		return render(request, 'waybill.html', {})
 	
 def fuelreq(request):
-	if request.method =='POST':
-		form = FuelReqForm(request.POST or None)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Fuel Req has been authorized")
-			return redirect('forms')
-		else:
-			print(form.errors)
-			messages.success(request, "Error")
-			return render(request, 'fuelreq.html', {})
-			
-		
-	else:
-		return render(request, 'fuelreq.html', {})
+    if request.method == 'POST':
+        form = FuelReqForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Fuel Req has been authorized")
+            return redirect('forms')
+        else:
+            print(form.errors)
+            messages.success(request, "Error")
+            return render(request, 'fuelreq.html', {})
+    else:
+        return render(request, 'fuelreq.html', {})
 	
 def edit(request, list_id):
 	if request.method =='POST':
