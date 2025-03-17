@@ -4,6 +4,7 @@ from .models import Shipment
 from .models import Bill
 from .models import Invoice
 from .models import Packlist
+from .models import FuelReq
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
@@ -19,7 +20,7 @@ class OrganizationForm(forms.ModelForm):
 class ShipmentForm(forms.ModelForm):
 		class Meta:
 			model = Shipment
-			fields = ["shipment_id", "consignee", "ata", 
+			fields = ["shipment_id", "transport_mode", "consignee", "ata", 
 						"cargo_available", "date_cleared", "actual_delivery", 
 						"cont", "twenty_ft", "forty_ft","uw", "weight",]
 
@@ -28,6 +29,13 @@ class InvoiceForm(forms.ModelForm):
 			model = Invoice
 			fields = ["vendor", "invoice_number", "client", "client_po_number", "invoice_date", "currency", 
 			 			"goods_description", "gross_weight", "quantity", "price_unit", "total_amount", "incoterms",]
+
+class FuelReqForm(forms.ModelForm):
+		class Meta:
+			model = FuelReq
+			fields = ["date", "vendor", "po_number", "driver_name", "vehicle_number", "place_of_loading", 
+			 "destination", "fuel_quantity", "initial_tank_amount", "top_up_quantity", "authorized_by",]
+
 
 class PacklistForm(forms.ModelForm):
 		class Meta:

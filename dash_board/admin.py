@@ -5,6 +5,7 @@ from .models import Bill
 from .models import Organization
 from .models import Invoice
 from .models import Packlist
+from .models import FuelReq
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -14,6 +15,7 @@ from import_export.admin import ImportExportModelAdmin
 @admin.register(Organization)
 @admin.register(Invoice)
 @admin.register(Packlist)
+@admin.register(FuelReq)
 
 class ViewAdmin(ImportExportModelAdmin):
 	pass
