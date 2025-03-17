@@ -116,7 +116,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Heroku settings
-django_())
+django_heroku.settings(locals())
 
 # Login decorator statement
 LOGIN_URL = 'login'
