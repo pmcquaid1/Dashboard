@@ -46,4 +46,5 @@ urlpatterns = [
     path('detail/<int:id>/', views.detail_view, name='detail_view'),
     path('transport_job_detail/', views.transport_job_detail, name='transport_job_detail'),
     path('my_view/', views.my_view, name='my_view'),  # Added this line
+    path('fuelreq', views.fuelreq, name="fuelreq"),
 ]

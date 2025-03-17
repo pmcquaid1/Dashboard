@@ -373,6 +373,22 @@ def waybill(request):
 	else:
 		return render(request, 'waybill.html', {})
 	
+def fuelreq(request):
+	if request.method =='POST':
+		form = FuelReqForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Fuel Req has been authorized")
+			return redirect('forms')
+		else:
+			print(form.errors)
+			messages.success(request, "Error")
+			return render(request, 'fuelreq.html', {})
+			
+		
+	else:
+		return render(request, 'fuelreq.html', {})
+	
 def edit(request, list_id):
 	if request.method =='POST':
 		current_shipment = Shipment.objects.get(pk=list_id)

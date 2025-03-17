@@ -117,6 +117,7 @@
                                   <thead>
                                     <tr>
                                     <th scope="col">Shipment #</th>
+                                    <th scope="col">Transport Mode</th>
                                     <th scope="col">Consignee</th>
                                     <th scope="col">Actual Arrival Date</th>
                                     <th scope="col">Cargo Available Date</th>
@@ -135,6 +136,7 @@
                                 {% for records in all_shipments %}
                                         <tr>
                                             <td>{{ records.shipment_id}}</td>
+                                            <td>{{ records.transport_mode}}</td>
                                             <td>{{ records.consignee}}</td>
                                             <td>{{ records.ata}}</td>
                                             <td>{{ records.cargo_available}}</td>

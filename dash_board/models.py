@@ -16,6 +16,26 @@ class Organization(models.Model):
 		return "{}-{}".format(self.org_type, self.name, self.address, 
 						self.address2, self.city, self.region, self.country,
 						self.digital_address, self.email)
+
+class FuelReq(models.Model):
+	date= models.DateField(max_length=100)
+	vendor= models.CharField(max_length= 200)
+	po_number= models.CharField(max_length= 200)
+	driver_name= models.CharField(max_length= 200)
+	vehicle_number= models.CharField(max_length= 100)
+	place_of_loading= models.CharField(max_length= 100)
+	destination= models.CharField(max_length= 100)
+	fuel_quantity= models.CharField(max_length=50)
+	initial_tank_amount= models.CharField(max_length= 100)
+	top_up_quantity= models.CharField(max_length= 100)
+	authorized_by= models.CharField(max_length= 100)
+
+	def __str__(self): 
+		return "{}-{}".format(self.date, self.vendor, self.po_number, 
+						self.driver_name, self.vehicle_number, self.place_of_loading, 
+						self.destination, self.fuel_quantity, self.initial_tank_amount, 
+						self.top_up_quantity, self.authorized_by)
+
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
 	shipper= models.CharField(max_length= 30)	
@@ -46,6 +66,7 @@ class Bill(models.Model):
 
 class Shipment(models.Model):
 	shipment_id = models.CharField(max_length= 20)
+	transport_mode = models.CharField(max_length = 20)
 	consignee = models.CharField(max_length= 30)
 	ata = models.DateField()
 	cargo_available = models.DateField()
@@ -56,6 +77,7 @@ class Shipment(models.Model):
 	forty_ft = models.IntegerField()
 	uw = models.CharField(max_length= 10)
 	weight = models.DecimalField(decimal_places=2, max_digits=20)
+
 	
 	def __str__(self): 
 		return "{}-{}".format(self.shipment_id, self.consignee, self.ata, 
