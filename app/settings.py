@@ -1,5 +1,4 @@
 from pathlib import Path
-import os
 import django_heroku
 from decouple import config
 import dj_database_url
@@ -68,15 +67,13 @@ WSGI_APPLICATION = 'app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'your_database_name',  # Replace with your actual database name
-        'USER': 'your_database_user',  # Replace with your actual database user
-        'PASSWORD': 'your_database_password',  # Replace with your actual database password
-        'HOST': 'your_database_host',  # Replace with your actual database host
-        'PORT': 'your_database_port',  # Replace with your actual database port
     }
 }
 
-DATABASES['default'] = dj_database_url.config(default='postgres://your_database_url')
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres://ueg1phmfqnbkd7:pfa3fd663dd09b9e63ebef407f351715800b51d201541fb39b20e375f6d77ce92@c5flugvup2318r.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dpcu9vrleduqa')
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
