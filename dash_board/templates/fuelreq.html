@@ -10,6 +10,31 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div class="form-group col-md-3">
+            <label for="inputDate">Date</label>
+            <input type="text" class="form-control" id="inputDate" placeholder="Today's Date"><label for="inputdate">Vessel</label>
+            <label for="inputvendor">Vendor</label>
+            <input type="text" class="form-control" id="inputvendor" placeholder="Vendor">
+            <label for="inputpo_number">PO Number</label>
+            <input type="text" class="form-control" id="inputpo_number" placeholder="PO Number">
+            <label for="inputdriver_name">Driver Name</label>
+            <input type="text" class="form-control" id="inputdriver_name" placeholder="Driver Name">
+            <label for="inputvehicle_number">Vehicle Number</label>
+            <input type="text" class="form-control" id="inputvehicle_number" placeholder="Vehicle Number">
+            <label for="inputplace_of_loading">Place of Loading</label>
+            <input type="text" class="form-control" id="inputplace_of_loading" placeholder="Place of Loading">
+            <label for="inputdestination">Destination</label>
+            <input type="text" class="form-control" id="inputdestination" placeholder="Destination">
+            <label for="inputfuel_quantity">Fuel Quantity</label>
+            <input type="text" class="form-control" id="inputfuel_quantity" placeholder="Fuel Quantity">
+            <label for="inputinitial_tank_amount">Initial Tank Amount</label>
+            <input type="text" class="form-control" id="inputinitial_tank_amount" placeholder="initial Tank Amount">
+            <label for="inputtop_up_quantity">Top Up Quantity</label>
+            <input type="text" class="form-control" id="inputtop_up_quantity" placeholder="Top Up Quantity">
+        </div>
+          
+          
+        
         <canvas id="signature-pad" width="400" height="200" style="border:1px solid #000;"></canvas>
         <button type="button" id="clear">Clear</button>
         <button type="submit">Submit</button>
