@@ -30,12 +30,17 @@ class InvoiceForm(forms.ModelForm):
 			fields = ["vendor", "invoice_number", "client", "client_po_number", "invoice_date", "currency", 
 			 			"goods_description", "gross_weight", "quantity", "price_unit", "total_amount", "incoterms",]
 
-class FuelReqForm(forms.ModelForm):
-		class Meta:
-			model = FuelReq
-			fields = ["date", "vendor", "po_number", "driver_name", "vehicle_number", "place_of_loading", 
-			 "destination", "fuel_quantity", "initial_tank_amount", "top_up_quantity", "authorized_by",]
 
+class FuelReqForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+    class Meta:
+        model = FuelReq
+        fields = [
+            'date', 'vendor', 'po_number', 'driver_name', 'vehicle_number',
+            'place_of_loading', 'destination', 'fuel_quantity', 'initial_tank_amount',
+            'top_up_quantity', 'authorized_by'
+        ]
 
 class PacklistForm(forms.ModelForm):
 		class Meta:
