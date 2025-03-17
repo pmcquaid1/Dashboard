@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django_htmx',
     'import_export',
     'dash_board',
+    'utils',
 ]
 
 MIDDLEWARE = [
