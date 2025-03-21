@@ -32,12 +32,12 @@ $(document).ready(function(){
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels:{{months|safe}},
+            labels: "{{ months|safe|default:'[]'|escapejs }}",
 
             datasets: [{
                 label: "Shipment Count",
                 backgroundColor: "#000000",
-                data: {{ data|safe }},
+                data: JSON.parse("{{ data|safe|default:'[]'|escapejs }}"),
                 
             }]
         },
