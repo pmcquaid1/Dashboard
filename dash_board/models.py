@@ -162,6 +162,13 @@ class Contact(models.Model):
 	
 	def __str__(self): 
 		return self.first_name
+	
+	class Pretrip(models.Model):
+		# Define your fields here
+		description = models.CharField(max_length=100)
+	
+		def __str__(self):
+			return self.description
 
 
 

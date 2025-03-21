@@ -217,12 +217,12 @@
             var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels:{{months|safe}},
+                    labels: "{{months|safe}}",
 
                     datasets: [{
                         label: "Shipment Count",
                         backgroundColor: "#000000",
-                        data: {{ data|safe }},
+                        data: "{{ data|safe }}",
                         
                     }]
                 },
