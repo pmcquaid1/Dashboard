@@ -5,6 +5,7 @@ from .models import Bill
 from .models import Invoice
 from .models import Packlist
 from .models import FuelReq
+from .models import Pretrip
 from .models import Transport
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
@@ -16,6 +17,13 @@ class OrganizationForm(forms.ModelForm):
 			fields = ["org_type","name", "address", "address2", 
 						"city", "region", "country", 
 						"digital_address","email"]
+class PretripForm(forms.ModelForm):
+		class Meta:
+			model = Pretrip
+			fields = ["driver_name", "vehicle_number", "date", "start_time", 
+						"end_time", "odometer_start", "odometer_end", 
+						"fuel_start", "fuel_end", "fuel_used", "fuel_cost", 
+						"driver_signature", "supervisor_signature", "remarks",]
 			
 class ShipmentForm(forms.ModelForm):
 		class Meta:
