@@ -7,7 +7,6 @@ from .models import Invoice
 from .models import Packlist
 from .models import FuelReq
 from .models import Pretrip
-from .models import Waybill
 from import_export.admin import ImportExportModelAdmin
 
 
