@@ -215,22 +215,21 @@
             <script src="{% static 'dash_board/assets/demo/chart-bar-demo.js' %}"></script>
             <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
             <script src="{% static 'dash_board/js/datatables-simple-demo.js' %}"></script>
+            <script id="months-data" type="application/json">{{ months|safe|default:"[]"|json_script }}</script>
             {% block scripts %}
             <script>
             $(document).ready(function(){
                 var ctx = document.getElementById('myChart').getContext("2d");
                 var myChart = new Chart(ctx, {
                     type: 'bar',
-                    data: {
-                        labels:{{months|safe}},
+                        labels: JSON.parse(document.getElementById('months-data').textContent),
     
                         datasets: [{
                             label: "Shipment Count",
                             backgroundColor: "#000000",
-                            data: {{ data|safe }},
+                            data: JSON.parse('{{ data|safe|escapejs }}'),
                             
-                        }]
-                    },
+                        }],
                     options: {
                         scales: {
                             yAxes: [{

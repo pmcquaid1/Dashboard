@@ -17,8 +17,6 @@ class Organization(models.Model):
 						self.address2, self.city, self.region, self.country,
 						self.digital_address, self.email)
 
-from django.db import models
-
 class FuelReq(models.Model):
     date = models.DateField()
     vendor = models.CharField(max_length=100)
@@ -163,12 +161,27 @@ class Contact(models.Model):
 	def __str__(self): 
 		return self.first_name
 	
-	class Pretrip(models.Model):
-		# Define your fields here
-		description = models.CharField(max_length=100)
-	
-		def __str__(self):
-			return self.description
+class Pretrip(models.Model):
+	# Define your fields here
+	driver_name= models.CharField(max_length=100)
+	vehicle_number= models.CharField(max_length=100)
+	date= models.CharField(max_length=100)
+	start_time= models.CharField(max_length=100)
+	end_time= models.CharField(max_length=100)
+	odometer_start= models.CharField(max_length=100)
+	end_time= models.CharField(max_length=100)
+	odometer_start= models.CharField(max_length=100)
+	odometer_end= models.CharField(max_length=100)
+	fuel_start= models.CharField(max_length=100)
+	fuel_end= models.CharField(max_length=100)
+	fuel_used= models.CharField(max_length=100)
+	fuel_cost= models.CharField(max_length=100)
+	driver_signature= models.CharField(max_length=100)
+	supervisor_signature= models.CharField(max_length=100)
+	remarks= models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.driver_name
 
 
 

@@ -18,6 +18,6 @@ from import_export.admin import ImportExportModelAdmin
 @admin.register(Invoice)
 @admin.register(Packlist)
 @admin.register(FuelReq)
-
+@admin.register(Pretrip)
 class ViewAdmin(ImportExportModelAdmin):
 	pass
