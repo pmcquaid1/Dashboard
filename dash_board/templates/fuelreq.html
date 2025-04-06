@@ -1,19 +1,7 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fuel Request Form</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/signature_pad/2.3.2/signature_pad.min.js"></script>
-</head>
+{% block content %}
 <body>
     <div class="form-container">
         <form method="post">
@@ -28,26 +16,37 @@
             <button type="submit">Submit</button>
         </form>
     </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui/jquery-ui.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/jquery-ui/jquery-ui.min.css' %}">
+    <script src="{% static 'js/signature_pad.umd.min.js' %}"></script>
+
     <script>
         var canvas = document.getElementById('signature_pad');
         var signaturePad = new SignaturePad(canvas);
-
+    
         document.querySelector('form').addEventListener('submit', function (e) {
             var signatureInput = document.getElementById('id_signature');
             signatureInput.value = signaturePad.toDataURL();
+    
+            // Clear the signature pad after form submission
+            signaturePad.clear();
         });
-
+    
         document.getElementById('clear').addEventListener('click', function () {
             signaturePad.clear();
         });
-
+    
         $(document).ready(function() {
             $('#id_date').datepicker({
-                format: 'yyyy-mm-dd',
+                dateFormat: 'yy-mm-dd',
                 autoclose: true,
                 todayHighlight: true
             });
         });
     </script>
+    
 </body>
-</html>
+{% endblock %}
+
+
