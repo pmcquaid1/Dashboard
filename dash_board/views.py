@@ -23,6 +23,7 @@ from django.db.models.functions import TruncMonth
 from django.db.models import Count, Sum
 
 
+
 def my_view(request):
     all_transports = Transport.objects.all()
     context = {
@@ -380,15 +381,19 @@ def fuelreq(request):
     if request.method == 'POST':
         form = FuelReqForm(request.POST or None)
         if form.is_valid():
-            form.save()
+            fuel_req = form.save(commit=False)  # Get the instance without saving
+            fuel_req.signature = request.POST.get('signature')  # Add the signature data
+            fuel_req.save()  # Save the instance with the signature
             messages.success(request, "Fuel Req has been authorized")
             return redirect('forms')
         else:
             print(form.errors)
-            messages.success(request, "Error")
-            return render(request, 'fuelreq.html', {})
+            messages.error(request, "Error")
+            return render(request, 'fuelreq.html', {'form': form})
     else:
-        return render(request, 'fuelreq.html', {})
+        form = FuelReqForm()
+        return render(request, 'fuelreq.html', {'form': form})
+
 	
 def edit(request, list_id):
 	if request.method =='POST':
