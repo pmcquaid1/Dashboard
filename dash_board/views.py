@@ -6,6 +6,7 @@ from .models import Shipment
 from .models import Transport
 from .models import Bill
 from .models import Organization
+from .models import FuelReq
 from .forms import ShipmentForm
 from .forms import BillForm
 from .forms import InvoiceForm
@@ -18,6 +19,7 @@ from .forms import UpdateContact, SignUpForm, UpdateUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
+from django.urls import reverse
 from django.views.generic import TemplateView
 from django.db.models.functions import TruncMonth
 from django.db.models import Count, Sum
@@ -378,21 +380,27 @@ def waybill(request):
 		return render(request, 'waybill.html', {})
 	
 def fuelreq(request):
-    if request.method == 'POST':
-        form = FuelReqForm(request.POST or None)
-        if form.is_valid():
-            fuel_req = form.save(commit=False)  # Get the instance without saving
-            fuel_req.signature = request.POST.get('signature')  # Add the signature data
-            fuel_req.save()  # Save the instance with the signature
-            messages.success(request, "Fuel Req has been authorized")
-            return redirect('forms')
-        else:
-            print(form.errors)
-            messages.error(request, "Error")
-            return render(request, 'fuelreq.html', {'form': form})
-    else:
-        form = FuelReqForm()
-        return render(request, 'fuelreq.html', {'form': form})
+     if request.method == 'POST':
+         form = FuelReqForm(request.POST or None)
+         if form.is_valid():
+             fuel_req = form.save(commit=False)  # Get the instance without saving
+             fuel_req.signature = request.POST.get('signature')  # Add the signature data
+             fuel_req.save()  # Save the instance with the signature
+             messages.success(request, "Fuel Req has been authorized")
+             return redirect(reverse('dash_board:forms'))
+         else:
+             print(form.errors)
+             messages.error(request, "Error")
+             return render(request, 'fuelreq.html', {'form': form})
+     else:
+         form = FuelReqForm()
+         return render(request, 'fuelreq.html', {'form': form})
+
+def view_signature(request, pk):
+	fuel_req = FuelReq.objects.get(pk=pk)
+	decoded_signature = fuel_req.get_decoded_signature()
+	return render(request, 'template.html', {'decoded_signature': decoded_signature})
+
 
 	
 def edit(request, list_id):

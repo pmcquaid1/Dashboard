@@ -1,4 +1,6 @@
 from django.db import models
+import base64
+
 
 
 class Organization(models.Model):
@@ -17,6 +19,7 @@ class Organization(models.Model):
 						self.address2, self.city, self.region, self.country,
 						self.digital_address, self.email)
 
+
 class FuelReq(models.Model):
     date = models.DateField()
     vendor = models.CharField(max_length=100)
@@ -31,8 +34,13 @@ class FuelReq(models.Model):
     authorized_by = models.CharField(max_length=100)
     signature = models.TextField()
 
+    def get_decoded_signature(self):
+        decoded_bytes = base64.b64decode(self.signature)
+        return decoded_bytes.decode('utf-8')
+
     def __str__(self):
         return f"{self.vendor} - {self.po_number}"
+
 
 class Bill(models.Model):
 	bl_number= models.CharField(max_length= 20)	
@@ -141,6 +149,33 @@ class Transport(models.Model):
 	def __str__(self): 
 		return self.booking_id
 
+class Waybill(models.Model):
+	date= models.DateField(max_length= 50)
+	branch= models.CharField(max_length= 50)
+	client= models.CharField(max_length= 50)
+	booking_req= models.DateField(max_length= 50)
+	transport_ref= models.CharField(max_length= 50)
+	transport= models.CharField(max_length= 50)
+	booking_id= models.CharField(max_length= 50)	
+	parent_id= models.CharField(max_length= 50)	
+	first_pick_up_name = models.CharField(max_length= 50)
+	first_pic_equipment= models.CharField(max_length= 50)
+	first_pic_actual= models.DateField(max_length= 50)	
+	first_pic_city= models.CharField(max_length= 50)	
+	last_del_act= models.DateField(max_length= 50)	
+	last_del_city= models.CharField(max_length= 50)
+	hazardous= models.CharField(max_length= 50)
+	goods_description= models.CharField(max_length= 50)	
+	chargeable_wgt= models.DecimalField(decimal_places=2, max_digits=20)
+	chargeable_wgt_unit= models.CharField(max_length= 50)	
+	transport= models.CharField(max_length= 50)	
+	first_pick_up_cont_mode= models.CharField(max_length= 50)
+	first_pu_cont_type= models.CharField(max_length= 50)
+	consignee_package_qty= models.IntegerField()
+	first_pu_pkg_type= models.CharField(max_length= 50)
+
+	def __str__(self): 
+		return self.date
 
 class Contact(models.Model):
 	first_name = models.CharField(max_length= 50)
