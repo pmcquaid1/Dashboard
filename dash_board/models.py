@@ -169,7 +169,7 @@ class Waybill(models.Model):
 	chargeable_wgt= models.DecimalField(decimal_places=2, max_digits=20)
 	chargeable_wgt_unit= models.CharField(max_length= 50)	
 	transport= models.CharField(max_length= 50)	
-	first_pick_up_cont_mode= models.CharField(max_length= 50)
+	first_pic_up_cont_mode= models.CharField(max_length= 50)
 	first_pu_cont_type= models.CharField(max_length= 50)
 	consignee_package_qty= models.IntegerField()
 	first_pu_pkg_type= models.CharField(max_length= 50)
