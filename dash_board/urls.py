@@ -1,6 +1,8 @@
 from django.urls import path
 from .import views
 from dash_board.views import ShipmentChartView
+from .views import view_signature
+
 
 app_name = "dash_board"
 
@@ -47,4 +49,5 @@ urlpatterns = [
     path('transport_job_detail/', views.transport_job_detail, name='transport_job_detail'),
     path('my_view/', views.my_view, name='my_view'),  # Added this line
     path('fuelreq', views.fuelreq, name="fuelreq"),
+    path('signature/<int:pk>/', view_signature, name='view_signature'),
 ]

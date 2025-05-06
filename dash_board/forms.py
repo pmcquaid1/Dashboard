@@ -6,7 +6,7 @@ from .models import Invoice
 from .models import Packlist
 from .models import FuelReq
 from .models import Pretrip
-from .models import Transport
+from .models import Waybill
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
 from django.contrib.auth.models import User 
 from django.utils import timezone
@@ -49,6 +49,19 @@ class FuelReqForm(forms.ModelForm):
             'place_of_loading', 'destination', 'fuel_quantity', 'initial_tank_amount',
             'top_up_quantity', 'authorized_by'
         ]
+
+class WaybillForm(forms.ModelForm):
+	date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
+	class Meta:
+		model = Waybill
+		fields = [
+			'date', 'branch', 'client', 'booking_req', 'transport_ref', 'booking_id', 'parent_id', 'first_pick_up_name', 'first_pic_equipment',
+			'first_pic_actual', 'first_pic_city', 'last_del_act', 'last_del_city', 'hazardous', 'goods_description',
+			'chargeable_wgt', 'chargeable_wgt_unit', 'transport', 'first_pic_up_cont_mode',
+			'first_pu_cont_type', 'consignee_package_qty', 'first_pu_pkg_type'
+			]
+
 
 class PacklistForm(forms.ModelForm):
 		class Meta:
