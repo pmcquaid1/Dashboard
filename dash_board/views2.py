@@ -1,8 +1,3 @@
-
-def aggregate_shipments_by_month(shipments):
-    aggregated_data = shipments.annotate(month=TruncMonth('date')).values('month').annotate(total=Sum('quantity')).order_by('month')
-    return aggregated_data
-
 from calendar import HTMLCalendar
 import calendar
 from datetime import datetime
@@ -37,7 +32,7 @@ def profile(request):
 
 
 def my_view(request):
-    all_transports = Transport.objects.all()()
+    all_transports = Transport.objects.all()
     context = {
         'all_transports': all_transports,
     }
@@ -57,7 +52,7 @@ class ShipmentChartView(TemplateView):
 	template_name='charts2.html'
 	def get_context_data(self, **kwargs):
 		context=super(ShipmentChartView, self).get_context_data(**kwargs)
-		context["qs"]= Shipment.objects.all()()
+		context["qs"]= Shipment.objects.all()
 		return context
 
 def base(request):
@@ -456,11 +451,11 @@ def upload(request):
 	return render(request, 'upload.html', {})
 
 def transport_table(request):
-	all_transports = Transport.objects.all()
+	all_transports = Transport.objects.all
 	return render(request, 'transport_table.html', {'all_transports': all_transports})
 
 def clearing_table(request):
-	all_shipments = Shipment.objects.all()
+	all_shipments = Shipment.objects.all
 	return render(request, 'dash_board:clearing_table.html', {'all_shipments': all_shipments})
 
 def organization(request):
@@ -530,12 +525,12 @@ def invoice(request):
 			return render(request, 'invoice.html', {})
 
 def lineitems(request):
-		context= {'form': PacklistForm(), 'packlists': Packlist.objects.all()()}
+		context= {'form': PacklistForm(), 'packlists': Packlist.objects.all()}
 		return render(request, 'lineitems.html', context)
 
 
 def create_packlist(request):
-	if request.method=="POST":
+	if request.method=="Post":
 		form = PacklistForm(request.POST or None)
 		if form.is_valid():
 			packlist= form.save()

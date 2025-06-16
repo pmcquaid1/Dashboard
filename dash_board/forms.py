@@ -51,16 +51,41 @@ class FuelReqForm(forms.ModelForm):
         ]
 
 class WaybillForm(forms.ModelForm):
-	date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
-	class Meta:
-		model = Waybill
-		fields = [
-			'date', 'branch', 'client', 'booking_req', 'transport_ref', 'booking_id', 'parent_id', 'first_pick_up_name', 'first_pic_equipment',
-			'first_pic_actual', 'first_pic_city', 'last_del_act', 'last_del_city', 'hazardous', 'goods_description',
-			'chargeable_wgt', 'chargeable_wgt_unit', 'transport', 'first_pic_up_cont_mode',
-			'first_pu_cont_type', 'consignee_package_qty', 'first_pu_pkg_type'
-			]
+    class Meta:
+        model = Waybill
+        fields = [
+            'date', 'branch', 'client', 'booking_req', 'transport_ref', 'booking_id', 'parent_id', 'first_pick_up_name', 'first_pic_equipment',
+            'first_pic_actual', 'first_pic_city', 'last_del_act', 'last_del_city', 'hazardous', 'goods_description',
+            'chargeable_wgt', 'chargeable_wgt_unit', 'transport', 'first_pic_up_cont_mode',
+            'first_pu_cont_type', 'consignee_package_qty', 'first_pu_pkg_type'
+        ]
+        labels = {
+            'date': 'Date',
+            'branch': 'Branch',
+            'client': 'Client',
+            'booking_req': 'Request Date',
+            'transport_ref': 'PO #',
+            'booking_id': 'Transport Booking #',
+            'parent_id': 'Shipment #',
+            'first_pick_up_name': 'Driver Name',
+            'first_pic_equipment': 'Truck #',
+            'first_pic_actual': 'Pick up Date',
+            'first_pic_city': 'Origin',
+            'last_del_act': 'Delivery Date',
+            'last_del_city': 'Destination',
+            'hazardous': 'Hazardous',
+            'goods_description': 'Goods Description',
+            'chargeable_wgt': 'Chargeable Weight',
+            'chargeable_wgt_unit': 'Chargeable Weight Unit',
+            'transport': 'Transport',
+            'first_pic_up_cont_mode': 'First Pick-Up Container Mode',
+            'first_pu_cont_type': 'First Pick-Up Container Type',
+            'consignee_package_qty': 'Consignee Package Quantity',
+            'first_pu_pkg_type': 'First Pick-Up Package Type'
+        }
+
 
 
 class PacklistForm(forms.ModelForm):
