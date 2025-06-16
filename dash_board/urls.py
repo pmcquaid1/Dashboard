@@ -15,7 +15,7 @@ urlpatterns = [
     path('<int:year>/<str:month>/', views.home3, name="home3"),
 
     # Dashboard & Modules
-    path('dashboard/', views.dashboard, name="dashboard"),
+   # path('dashboard/', views.dashboard, name="dashboard"),
     path('samples/', views.samples, name="samples"),
     path('ops/', views.ops, name="ops"),
     path('operations/', views.operations, name="operations"),
