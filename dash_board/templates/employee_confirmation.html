@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Employee Confirmation{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-success" role="alert">
+        Employee has been successfully added.
+    </div>
+    <a href="{% url 'employee' %}" class="btn btn-primary">Add Another Employee</a>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Return to Home</a>
+</div>
+{% endblock %}
