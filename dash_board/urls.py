@@ -50,6 +50,8 @@ urlpatterns = [
     path('bills/', views.bills, name="bills"),
     path('add_bill/', views.add_bill, name="add_bill"),
     path('pretrip/', views.pretrip, name="pretrip"),
+  
+
     path('waybill/', views.waybill, name="waybill"),
 
     # Organization
@@ -62,7 +64,9 @@ urlpatterns = [
     path('fuelreq/', views.fuelreq, name="fuelreq"),
 
     # Signature
-    path('signature/<int:pk>/', view_signature, name="view_signature"),
+    path('signature/<int:pk>/', views.signature, name="signature"),
+   
+
 
     # User Management
     path('login/', views.login_user, name="login"),
