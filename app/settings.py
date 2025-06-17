@@ -98,6 +98,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-print("DEBUG:", DEBUG)
-print("ALLOWED_HOSTS:", ALLOWED_HOSTS)
+
 
