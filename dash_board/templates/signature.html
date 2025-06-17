@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Signature</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+<h2>Signature for {{ record.driver_name }}</h2>
+{% if record.signature %}
+    <img src="data:image/png;base64,{{ record.signature }}" alt="Signature" class="img-fluid border" />
+{% else %}
+    <p>No signature available.</p>
+{% endif %}
+
+</body>
+</html>

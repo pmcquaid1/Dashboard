@@ -5,8 +5,33 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from .models import Shipment, Packlist, Employee
-from .forms import PacklistForm, EmployeeForm
+from .forms import PacklistForm, EmployeeForm, PretripForm # ✅ Make sure PretripForm is imported
 from django.contrib import messages
+from .models import FuelReq, Pretrip  #whatever model stores the signature
+
+
+
+# View for displaying a saved signature
+def view_signature(request, pk):
+    fuel_req = get_object_or_404(FuelReq, pk=pk)
+    return render(request, 'view_signature.html', {'fuel_req': fuel_req})
+
+# View for submitting and listing Pretrip records
+@login_required
+def pretrip(request):
+    if request.method == 'POST':
+        form = PretripForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Pretrip record submitted successfully.")
+            return redirect('pretrip')
+    else:
+        form = PretripForm()
+
+    pretrips = Pretrip.objects.all().order_by('-date')
+    return render(request, 'pretrip_form.html', {'form': form, 'pretrips': pretrips})
+
+
 
 # Utility function for aggregating shipments by month
 def get_monthly_shipment_counts():
