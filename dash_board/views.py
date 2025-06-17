@@ -100,15 +100,20 @@ def packlist(request):
 
 # Employee view
 @login_required
-def employee(request):
+def register_user(request):
     if request.method == 'POST':
         form = EmployeeForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            department = form.cleaned_data.get('department')
+            position = form.cleaned_data.get('position')
+            Employee.objects.create(user=user, department=department, position=position)
+            messages.success(request, "Employee registered successfully.")
             return redirect('employee_confirmation')
     else:
         form = EmployeeForm()
     return render(request, 'employee_form.html', {'form': form})
+
 
 
 # Additional views can be added here following the same pattern
