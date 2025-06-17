@@ -6,6 +6,7 @@ from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from .models import Shipment, Packlist, Employee
 from .forms import PacklistForm, EmployeeForm
+from django.contrib import messages
 
 # Utility function for aggregating shipments by month
 def get_monthly_shipment_counts():
@@ -83,6 +84,7 @@ def hr_support(request):
     }
     return render(request, 'hr_support.html', context)
 
+
 # Packlist view
 @login_required
 def packlist(request):
@@ -103,10 +105,10 @@ def employee(request):
         form = EmployeeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('employee')
+            return redirect('employee_confirmation')
     else:
         form = EmployeeForm()
-    context = {'form': form, 'employees': Employee.objects.all()}
-    return render(request, 'employee.html', context)
+    return render(request, 'employee_form.html', {'form': form})
+
 
 # Additional views can be added here following the same pattern
