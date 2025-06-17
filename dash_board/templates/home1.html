@@ -17,11 +17,11 @@
                         Reports, Tables, Charts, & Training Info...At The Click Of A Button!
                     </p>
                     {% if user.is_authenticated %}
-                        <a class="btn btn-outline-light btn-lg px-4" href="{% url 'dash_board:logout' %}">Logout</a>
+                        <a class="btn btn-outline-light btn-lg px-4" href="{% url 'logout' %}">Logout</a>
                     {% else %}
                         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                            <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'dash_board:login' %}">Login</a>
-                            <a class="btn btn-outline-light btn-lg px-4" href="{% url 'dash_board:register' %}">Register</a>
+                            <a class="btn btn-primary btn-lg px-4 me-sm-3" href="{% url 'login' %}">Login</a>
+                            <a class="btn btn-outline-light btn-lg px-4" href="{% url 'register' %}">Register</a>
                         </div>
                     {% endif %}
                 </div>
@@ -40,7 +40,7 @@
                 </div>
                 <h2 class="h4 fw-bolder">{{ section }}</h2>
                 <p>Access tools and resources for {{ section }}.</p>
-                <a class="text-decoration-none" href="{% url 'dash_board:login' %}">
+                <a class="text-decoration-none" href="{% url 'login' %}">
                     Login <i class="bi bi-arrow-right"></i>
                 </a>
             </div>

@@ -7,9 +7,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
+    class="nav-item">
           <a class="nav-link {% if request.resolver_match.url_name == 'home2' %}active{% endif %}" href="{% url 'home2' %}">Home</a>
         </li>
       </ul>
@@ -17,8 +15,9 @@
       <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile              <i class="bi bi-person-circle"></i> {{ user.username }}
-            </a>
+            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
+              <i class="bi bi-person-circle"></i> {{ user.username }}
+           >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">
@@ -36,5 +35,6 @@
     </div>
   </div>
 </nav>
+
 
 
