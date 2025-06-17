@@ -3,12 +3,12 @@ from django.contrib.auth import views as auth_views
 from . import views
 from dash_board.views import ShipmentChartView, view_signature
 
-app_name = "dash_board"
 
 urlpatterns = [
     # Core Pages
     path('', views.home2, name="home2"),
     path('base/', views.base, name="base"),
+    path('home/', views.home, name="home"),
     path('home1/', views.home1, name="home1"),
     path('home2/', views.home2, name="home2"),
     path('home3/', views.home3, name="home3"),

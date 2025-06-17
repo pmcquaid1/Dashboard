@@ -6,7 +6,7 @@
 <h1>Update User</h1>
 <br/>
 
-<form method="POST" action="{% url 'dash_board:update_user' %}">
+<form method="POST" action="{% url 'update_user' %}">
     {% csrf_token %}
 
     {{ user_form.as_p}}
@@ -17,6 +17,6 @@
 </form>
 <br/><br/>
 
-<a href="{% url 'dash_board:update_password' %}"> <button type ="submit" class="btn btn-secondary">Update Password</button>
+<a href="{% url 'update_password' %}"> <button type ="submit" class="btn btn-secondary">Update Password</button>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<a href="{% url 'dash_board:home2' %}">Home2</a><br/>
+<a href="{% url 'home2' %}">Home2</a><br/>
 <h1>Bill of Lading</h1>
 <div class="container">
 		<div class="row"> 
@@ -32,7 +32,7 @@
 								{{ records.m3}}<br/>
 								{{ records.container_number}}<br/>
 							</p>
-	    					<a href="{% url 'dash_board:edit' records.id %}" class="btn btn-secondary">Edit</a>
+	    					<a href="{% url 'edit' records.id %}" class="btn btn-secondary">Edit</a>
 		  				</div>
 					</div>
 					</br>
