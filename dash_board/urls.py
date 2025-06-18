@@ -1,8 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from dash_board.views import view_signature
-from .views import employee
+from .views import register
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -21,7 +20,7 @@ urlpatterns = [
     path('finance/', views.finance, name="finance"),
     path('qhse/', views.qhse, name="qhse"),
     path('hr_support/', views.hr_support, name="hr_support"),
-    path('employee/', views.employee, name='employee'),
+    path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
 
     # Shipments
@@ -65,13 +64,13 @@ urlpatterns = [
 
     # Signature
     path('signature/<int:pk>/', views.signature, name="signature"),
+    
    
 
 
     # User Management
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
-    path('register/', views.register_user, name="register"),
     path('update_user/', views.update_user, name="update_user"),
     path('update_password/', views.update_password, name="update_password"),
     path('profile/', views.profile, name="profile"),
