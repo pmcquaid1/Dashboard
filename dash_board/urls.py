@@ -5,17 +5,16 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # Core Pages
-    path('', views.home2, name="home2"),
+    path('', views.landing, name="landing"),
     path('base/', views.base, name="base"),
-    path('home/', views.home, name="home"),
-    path('home1/', views.home1, name="home1"),
-    path('home3/', views.home3, name="home3"),
-    path('<int:year>/<str:month>/', views.home3, name="home3"),
+    path('dashboard/', views.dashboard, name="dashboard"),
+    #path('home3/', views.home3, name="home3"),
+    #path('<int:year>/<str:month>/', views.home3, name="home3"),
 
     # Dashboard & Modules
-    path('samples/', views.samples, name="samples"),
+    #path('samples/', views.samples, name="samples"),
     path('ops/', views.ops, name="ops"),
-    path('operations/', views.operations, name="operations"),
+    #path('operations/', views.operations, name="operations"),
     path('finance/', views.finance, name="finance"),
     path('qhse/', views.qhse, name="qhse"),
     path('hr_support/', views.hr_support, name="hr_support"),
