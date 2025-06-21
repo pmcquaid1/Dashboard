@@ -245,7 +245,7 @@ def login_user(request):
     if request.method == 'POST':
         # Handle login logic here
         pass
-    return render(request, 'login.html')
+    return render(request, 'dashboard.html')
 
 # For logout_user
 def logout_user(request):

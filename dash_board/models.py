@@ -1,4 +1,3 @@
-
 from django.db import models
 import base64
 from django.contrib.auth.models import User
@@ -184,7 +183,7 @@ class Contact(models.Model):
             ("can_view_page_ops", "View Ops Page"),
             ("can_view_page_finance", "View Finance Page"),
             ("can_view_page_qhse", "View QHSE Page"),
-            ("can_view_page_hr", "View HR Page"),
+            ("can_view_page_hr_support", "View HR Page"),
         ]
 
     def __str__(self):

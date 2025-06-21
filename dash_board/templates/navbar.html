@@ -1,40 +1,48 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<!-- templates/navbar.html -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home2' %}">
-      <i class="bi bi-house-door-fill"></i> SLL Database
-    </a>
+    <a class="navbar-brand" href="{% url 'landing' %}">Home Page</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    class="nav-item">
-          <a class="nav-link {% if request.resolver_match.url_name == 'home2' %}active{% endif %}" href="{% url 'home2' %}">Home</a>
-        </li>
-      </ul>
-
+    <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
+
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'profile' %}active{% endif %}" href="{% url 'profile' %}">
-              <i class="bi bi-person-circle"></i> {{ user.username }}
-           >
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
           </li>
+
+          {% if 'dash_board.can_view_page_ops' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ops' %}">Operations</a>
+            </li>
+          {% endif %}
+
+          {% if 'dash_board.can_view_page_finance' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'finance' %}">Finance</a>
+            </li>
+          {% endif %}
+
+          {% if 'dash_board.can_view_page_hr_support' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'hr_support' %}">HR</a>
+            </li>
+          {% endif %}
+
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">
-              <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'login' %}active{% endif %}" href="{% url 'login' %}">
-              <i class="bi bi-box-arrow-in-right"></i> Login
-            </a>
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
           </li>
         {% endif %}
+
       </ul>
     </div>
   </div>
 </nav>
-
-
-
