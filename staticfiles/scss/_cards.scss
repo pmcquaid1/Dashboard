@@ -1,0 +1,86 @@
+.card {
+  background-color: white;
+  border: 1px solid #dddddd;
+  border-radius: $border-radius;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .card-footer {
+    padding: 10px;
+    background-color: adjust-color(white, $lightness: -5%);
+
+    border-top: 1px solid #dddddd;
+  }
+
+  .card-title {
+    display: flex;
+    align-items: center;
+
+    &::before {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      margin-right: 8px;
+    }
+  }
+}
+
+// Department-themed card variants
+.card-ops {
+  background-color: $color-ops;
+
+  .card-title::before {
+    content: "\f0d1"; // fa-truck
+  }
+}
+
+.card-finance {
+  background-color: $color-finance;
+
+  .card-title::before {
+    content: "\f555"; // fa-coins
+  }
+}
+
+.card-qhse {
+  background-color: $color-qhse;
+
+  .card-title::before {
+    content: "\f0a3"; // fa-gavel
+  }
+}
+
+.card-hr {
+  background-color: $color-hr;
+
+  .card-title::before {
+    content: "\f2c0"; // fa-user-friends
+  }
+}
+
+.card-info {
+  background-color: $color-info;
+
+  .card-title::before {
+    content: "\f129"; // fa-info-circle
+  }
+}
+
+// Shared interaction styles
+.card-ops,
+.card-finance,
+.card-qhse,
+.card-hr,
+.card-info {
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+

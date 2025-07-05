@@ -17,25 +17,62 @@ def base(request):
 def landing(request):
     return render(request, 'landing.html')
 
-# Dashboard view
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
 @login_required
 def dashboard(request):
     user = request.user
     sections = []
+    cards = []
 
+    # Role-based cards
     if user.groups.filter(name='Operations').exists():
         sections.append({"name": "Operations", "url": "ops", "color": "primary"})
+        cards.append({
+            "title": "Operations",
+            "description": "Access delivery schedules, route planning tools, and fleet management reports.",
+            "class": "card-ops",
+            "url": "ops",
+            "link_text": "Ops Staff Login Here"
+        })
 
     if user.groups.filter(name='Finance').exists():
         sections.append({"name": "Finance", "url": "finance", "color": "warning"})
+        cards.append({
+            "title": "Finance",
+            "description": "Budget reports, expense tracking, and invoice management tools for finance staff.",
+            "class": "card-finance",
+            "url": "finance",
+            "link_text": "Finance Staff Login Here"
+        })
 
     if user.groups.filter(name='QHSE').exists():
         sections.append({"name": "QHSE", "url": "qhse", "color": "success"})
+        cards.append({
+            "title": "QHSE",
+            "description": "Safety protocols, audit logs, and compliance documentation for QHSE staff.",
+            "class": "card-qhse",
+            "url": "qhse",
+            "link_text": "QHSE Staff Login Here"
+        })
 
     if user.groups.filter(name='HR').exists():
-        sections.append({"name": "HR Resources", "url": "hr_support", "color": "danger"})
+        sections.append({"name": "Human Resources", "url": "hr_support", "color": "danger"})
+        cards.append({
+            "title": "Human Resources",
+            "description": "Employee records, training modules, and HR policies accessible to all staff.",
+            "class": "card-hr",
+            "url": "hr_support",
+            "link_text": "All Staff Login Here"
+        })
 
-    return render(request, 'dashboard.html', {'sections': sections})
+    return render(request, 'dashboard.html', {
+        'sections': sections,
+        'cards': cards,
+        'user': user
+    })
+
 
 # Operations view
 @login_required
@@ -187,6 +224,10 @@ def upload(request):
 # For Forms
 def forms(request):
     return render(request, 'forms.html')
+
+# For Forms2
+def forms2(request):
+    return render(request, 'forms2.html')
 
 # For Invoice
 def invoice(request):

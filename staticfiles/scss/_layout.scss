@@ -1,0 +1,35 @@
+// layout.scss
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: $primary-color;
+  margin: 0;
+  padding: 0;
+}
+
+// ✅ Dashboard wrapper spacing for content sections
+.dashboard-wrapper {
+  padding-top: 2rem;
+
+  h1,
+  .breadcrumb {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+}
+
+// 🧼 Removed custom row override to prevent clashing with Bootstrap grid
+// Bootstrap's .row already includes flex and negative margins
+// Avoid redefining unless you need a very specific layout tweak
+
+
+
+
+
+
+
+
+
+
+
+
