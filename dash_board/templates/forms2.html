@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+  <div class="container-fluid px-4">
+    <h1 class="mt-4">Forms</h1>
+    <ol class="breadcrumb mb-4">
+      <li class="breadcrumb-item active">Please Select a Form</li>
+    </ol>
+
+    <!-- Search Input -->
+    <div class="input-group mb-4">
+      <input type="text" class="form-control" id="formSearch" placeholder="Search for forms...">
+    </div>
+
+    <!-- Bootstrap Accordion -->
+    <div class="accordion" id="formsAccordion">
+
+      {% comment %} Clearing & Forwarding {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            📦 Clearing & Forwarding Forms
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="{% url 'add_bl2' %}">Bill of Lading</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Transport Forms {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            🚚 Transport Forms
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="{% url 'pretrip' %}">Pre Trip Inspection</a></li>
+              <li class="list-group-item">📄 <a href="{% url 'waybill' %}">Waybill/POD</a></li>
+              <li class="list-group-item">📄 <a href="{% url 'fuelreq' %}">Fuel Purchase Request</a></li>
+              <li class="list-group-item">📄 <a href="#">Vehicle Return Status</a></li>
+              <li class="list-group-item">📄 <a href="#">Journey Management Plan</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} QHSE Forms {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            📋 QHSE Forms
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="#">Incident Flash</a></li>
+              <li class="list-group-item">📄 <a href="#">QHSE Investigation Report</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Workshop Forms {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            🛠️ Workshop Forms
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="#">Workshop Tool Request</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Finance Forms {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFive">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            🧾 Finance Forms
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="#">Petty Cash Request</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} HR Forms {% endcomment %}
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSix">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+            🧍 HR Forms
+          </button>
+        </h2>
+        <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#formsAccordion">
+          <div class="accordion-body">
+            <ul class="list-group">
+              <li class="list-group-item">📄 <a href="#">Leave Application</a></li>
+              <li class="list-group-item">📄 <a href="#">Overtime Request</a></li>
+              <li class="list-group-item">📄 <a href="#">Employee Data</a></li>
+              <li class="list-group-item">📄 <a href="#">National Service/Internship Data</a></li>
+              <li class="list-group-item">📄 <a href="#">Funeral Benefit Request</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+{% endblock %}

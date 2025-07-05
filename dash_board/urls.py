@@ -37,6 +37,7 @@ urlpatterns = [
     # Forms & Documents
     path('upload/', views.upload, name="upload"),
     path('forms/', views.forms, name="forms"),
+    path('forms2/', views.forms2, name="forms2"),
     path('invoice/', views.invoice, name="invoice"),
     path('lineitems/', views.lineitems, name="lineitems"),
     path('create_packlist/', views.create_packlist, name="create_packlist"),
