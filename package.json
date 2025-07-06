@@ -1,0 +1,31 @@
+{
+  "name": "projects",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "sass --load-path=node_modules static/scss/main.scss static/css/main.css && echo CSS build complete 🎉",
+    "watch-css": "sass --watch static/scss/main.scss static/css/main.css",
+    "dev": "concurrently \"npm run watch-css\" \"python manage.py runserver\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.7",
+    "bootstrap-datepicker": "^1.10.0",
+    "bootstrap-icons": "^1.11.3",
+    "chart.js": "^4.4.8",
+    "htmx.org": "^1.9.12",
+    "jquery": "^3.7.1",
+    "jquery-ui": "^1.14.1",
+    "semantic-ui-css": "^2.5.0",
+    "signature_pad": "^5.0.7",
+    "simple-datatables": "^10.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "sass": "^1.83.4"
+  },
+  "description": ""
+}
