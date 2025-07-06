@@ -1,0 +1,43 @@
+
+
+.form-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: $border-radius;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: $border-radius;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 10px;
+  background-color: $secondary-color;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: $border-radius;
+
+  &:hover {
+   background-color: adjust-color($secondary-color, $lightness: -10%);
+  }
+}

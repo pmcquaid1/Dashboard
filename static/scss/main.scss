@@ -1,0 +1,17 @@
+// === Load Bootstrap ===
+// Pulls in all SCSS utilities, layout, and components
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+// === Custom Variables (put variables first so others can use them)
+@import "variables";
+
+// === Your Custom Partials
+@import "navbar";
+@import "cards";
+@import "breadcrumb";
+@import "forms";
+@import "footer";
+@import "layout";
+@import "media";
+
+// === Test to collect static files

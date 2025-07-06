@@ -1,0 +1,51 @@
+.navbar {
+  background-color: $navbar-bg-color;
+  color: $navbar-text-color;
+  padding: 0.75rem 1rem;
+
+  .navbar-brand {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $navbar-text-color;
+    text-decoration: none;
+
+    &:hover {
+      color: lighten($navbar-text-color, 10%);
+    }
+  }
+
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+
+  .nav-item {
+    list-style: none;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: $navbar-text-color;
+    border-radius: $border-radius;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover,
+    &:focus {
+      background-color: adjust-color($navbar-bg-color, $lightness: -10%);
+      text-decoration: none;
+    }
+  }
+
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .navbar-toggler-icon {
+    filter: invert(100%);
+  }
+}
+
