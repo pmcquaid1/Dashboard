@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "heroku-postbuild": "npm run build-css",
     "build-css": "sass --load-path=node_modules static/scss/main.scss static/css/main.css && echo CSS build complete 🎉",
     "watch-css": "sass --watch static/scss/main.scss static/css/main.css",
     "dev": "concurrently \"npm run watch-css\" \"python manage.py runserver\""
@@ -29,3 +30,4 @@
   },
   "description": ""
 }
+
