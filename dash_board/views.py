@@ -236,7 +236,7 @@ def login_user(request):
 # ✅ Fixed logout_user view
 def logout_user(request):
     logout(request)
-    return render(request, 'landing', {'message': 'You have been successfully logged out.'})
+    return render(request, 'logout.html', {'message': 'You have been successfully logged out.'})
 
 def update_user(request):
     if request.method == 'POST':
