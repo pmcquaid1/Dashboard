@@ -7,7 +7,6 @@ from .models import Shipment, Packlist, Employee
 from .forms import PacklistForm, EmployeeForm, PretripForm
 from django.contrib import messages
 from .models import FuelReq, Pretrip
-
 # ✅ Added for login functionality
 from django.contrib.auth import authenticate, login, logout
 
@@ -234,12 +233,10 @@ def login_user(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
-
-
 # ✅ Fixed logout_user view
 def logout_user(request):
     logout(request)
-    return redirect('landing')
+    return render(request, 'landing', {'message': 'You have been successfully logged out.'})
 
 def update_user(request):
     if request.method == 'POST':
