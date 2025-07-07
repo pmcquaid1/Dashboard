@@ -23,14 +23,6 @@
   <!-- Navbar -->
   {% include 'navbar.html' %}
 
-  <!-- Welcome Message / Login -->
-<div class="container-fluid py-2 text-end px-4">
-  {% if user.is_authenticated %}
-    <span class="text-muted">Welcome, {{ user.username }}!</span>
-  {% endif %}
-</div>
-
-
   <!-- Alerts -->
   {% if messages %}
     {% for message in messages %}

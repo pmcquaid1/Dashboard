@@ -71,45 +71,21 @@ def dashboard(request):
         'user': user
     })
 
-@permission_required('app.view_operations', raise_exception=True)
 @login_required
 def ops(request):
-    month_labels, month_counts = get_monthly_shipment_counts()
-    context = {
-        'month_labels': month_labels,
-        'month_counts': month_counts,
-    }
-    return render(request, 'ops.html', context)
+    return render(request, 'ops.html')
 
-@permission_required('app.view_finance', raise_exception=True)
 @login_required
 def finance(request):
-    month_labels, month_counts = get_monthly_shipment_counts()
-    context = {
-        'month_labels': month_labels,
-        'month_counts': month_counts,
-    }
-    return render(request, 'finance.html', context)
+    return render(request, 'finance.html')
 
-@permission_required('app.view_qhse', raise_exception=True)
 @login_required
 def qhse(request):
-    month_labels, month_counts = get_monthly_shipment_counts()
-    context = {
-        'month_labels': month_labels,
-        'month_counts': month_counts,
-    }
-    return render(request, 'qhse.html', context)
+    return render(request, 'qhse.html')
 
-@permission_required('app.view_hr', raise_exception=True)
 @login_required
 def hr_support(request):
-    month_labels, month_counts = get_monthly_shipment_counts()
-    context = {
-        'month_labels': month_labels,
-        'month_counts': month_counts,
-    }
-    return render(request, 'hr_support.html', context)
+    return render(request, 'hr_support.html')
 
 def shipments(request):
     return render(request, 'shipments.html')
