@@ -24,13 +24,12 @@
   {% include 'navbar.html' %}
 
   <!-- Welcome Message / Login -->
-  <div class="container-fluid py-2 text-end px-4">
-    {% if user.is_authenticated %}
-      <span class="text-muted">Welcome, {{ user.username }}!</span>
-    {% else %}
-      <a href="{% url 'login' %}" class="btn btn-sm btn-outline-primary">Login</a>
-    {% endif %}
-  </div>
+<div class="container-fluid py-2 text-end px-4">
+  {% if user.is_authenticated %}
+    <span class="text-muted">Welcome, {{ user.username }}!</span>
+  {% endif %}
+</div>
+
 
   <!-- Alerts -->
   {% if messages %}

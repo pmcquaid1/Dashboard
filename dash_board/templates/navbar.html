@@ -32,11 +32,13 @@
           {% endif %}
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            <span class="navbar-text text-white mx-3">
+              Welcome, {{ user.first_name|default:user.username }}
+            </span>
           </li>
-        {% else %}
+
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
         {% endif %}
 
@@ -44,3 +46,4 @@
     </div>
   </div>
 </nav>
+
