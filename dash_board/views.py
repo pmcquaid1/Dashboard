@@ -32,7 +32,7 @@ def dashboard(request):
             "description": "Access delivery schedules, route planning tools, and fleet management reports.",
             "class": "card-ops",
             "url": "ops",
-            "link_text": "Ops Staff Login Here"
+            "link_text": "Ops Staff Access Here"
         })
 
     if user.groups.filter(name='Finance').exists():
@@ -42,7 +42,7 @@ def dashboard(request):
             "description": "Budget reports, expense tracking, and invoice management tools for finance staff.",
             "class": "card-finance",
             "url": "finance",
-            "link_text": "Finance Staff Login Here"
+            "link_text": "Finance Staff Access Here"
         })
 
     if user.groups.filter(name='QHSE').exists():
@@ -52,7 +52,7 @@ def dashboard(request):
             "description": "Safety protocols, audit logs, and compliance documentation for QHSE staff.",
             "class": "card-qhse",
             "url": "qhse",
-            "link_text": "QHSE Staff Login Here"
+            "link_text": "QHSE Staff Access Here"
         })
 
     if user.groups.filter(name='HR').exists():
@@ -62,7 +62,7 @@ def dashboard(request):
             "description": "Employee records, training modules, and HR policies accessible to all staff.",
             "class": "card-hr",
             "url": "hr_support",
-            "link_text": "All Staff Login Here"
+            "link_text": "All Staff Access Here"
         })
 
     return render(request, 'dashboard.html', {
