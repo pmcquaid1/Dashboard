@@ -42,7 +42,13 @@ class InvoiceForm(forms.ModelForm):
 
 
 class FuelReqForm(forms.ModelForm):
-    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={
+            'type': 'date',
+            'class': 'form-control',
+            'id': 'id_date'
+        })
+    )
 
     class Meta:
         model = FuelReq
@@ -51,7 +57,19 @@ class FuelReqForm(forms.ModelForm):
             'place_of_loading', 'destination', 'fuel_quantity', 'initial_tank_amount',
             'top_up_quantity', 'authorized_by'
         ]
-
+        widgets = {
+            'vendor': forms.TextInput(attrs={'class': 'form-control'}),
+            'po_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'driver_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'vehicle_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'place_of_loading': forms.TextInput(attrs={'class': 'form-control'}),
+            'destination': forms.TextInput(attrs={'class': 'form-control'}),
+            'fuel_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'initial_tank_amount': forms.NumberInput(attrs={'class': 'form-control'}),
+            'top_up_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
+            'authorized_by': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+		
 class WaybillForm(forms.ModelForm):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
 
