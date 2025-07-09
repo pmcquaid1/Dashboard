@@ -41,12 +41,14 @@ class InvoiceForm(forms.ModelForm):
 			 			"goods_description", "gross_weight", "quantity", "price_unit", "total_amount", "incoterms",]
 
 
+from django import forms
+from .models import FuelReq
+
 class FuelReqForm(forms.ModelForm):
     date = forms.DateField(
         widget=forms.DateInput(attrs={
             'type': 'date',
             'class': 'form-control',
-            'id': 'id_date'
         })
     )
 
@@ -54,8 +56,8 @@ class FuelReqForm(forms.ModelForm):
         model = FuelReq
         fields = [
             'date', 'vendor', 'po_number', 'driver_name', 'vehicle_number',
-            'place_of_loading', 'destination', 'fuel_quantity', 'initial_tank_amount',
-            'top_up_quantity', 'authorized_by'
+            'place_of_loading', 'destination', 'fuel_quantity',
+            'initial_tank_amount', 'top_up_quantity', 'authorized_by'
         ]
         widgets = {
             'vendor': forms.TextInput(attrs={'class': 'form-control'}),
@@ -69,6 +71,7 @@ class FuelReqForm(forms.ModelForm):
             'top_up_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'authorized_by': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
 		
 class WaybillForm(forms.ModelForm):
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))

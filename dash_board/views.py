@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.db.models import Count
 from django.db.models.functions import TruncMonth
 from .models import Shipment, Packlist, Employee
-from .forms import PacklistForm, EmployeeForm, PretripForm
+from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 from django.contrib import messages
 from .models import FuelReq, Pretrip
 # ✅ Added for login functionality
@@ -217,8 +217,18 @@ def detail_view(request, id):
 def transport_job_detail(request):
     return render(request, 'transport_job_detail.html')
 
+@login_required
 def fuelreq(request):
-    return render(request, 'fuelreq.html')
+    if request.method == 'POST':
+        form = FuelReqForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Fuel request submitted successfully.")
+            return redirect('fuelreq')  # or wherever you want to redirect
+    else:
+        form = FuelReqForm()
+
+    return render(request, 'fuelreq.html', {'form': form})
 
 # ✅ Fixed login_user view
 def login_user(request):
