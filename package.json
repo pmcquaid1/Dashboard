@@ -1,13 +1,16 @@
 {
   "name": "projects",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
-  "scripts": {
-    "heroku-postbuild": "npm run build-css",
-    "build-css": "sass --load-path=node_modules static/scss/main.scss static/css/main.css && echo CSS build complete 🎉",
-    "watch-css": "sass --watch static/scss/main.scss static/css/main.css",
-    "dev": "concurrently \"npm run watch-css\" \"python manage.py runserver\""
-  },
+"scripts": {
+  "heroku-postbuild": "npm run build-css",
+  "build-css": "sass --no-source-map --style=compressed --load-path=node_modules static/scss/main.scss static/css/main.css && echo CSS build complete 🎉",
+  "watch-css": "sass --watch --load-path=node_modules static/scss/main.scss:static/css/main.css",
+  "dev": "concurrently \"npm run watch-css\" \"python manage.py runserver\"",
+  "build:prod": "npm run build-css"
+}
+
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -27,7 +30,7 @@
   "devDependencies": {
     "concurrently": "^9.1.2",
     "sass": "^1.83.4"
-  },
-  "description": ""
+  }
 }
+
 
