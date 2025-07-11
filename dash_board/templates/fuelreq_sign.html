@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2 class="text-center mb-4">Fuel Request Signature</h2>
+
+  <p><strong>Date:</strong> {{ request_obj.date }}</p>
+  <p><strong>Driver Name:</strong> {{ request_obj.driver_name }}</p>
+  <p><strong>Vehicle:</strong> {{ request_obj.vehicle_number }}</p>
+  <p><strong>Fuel Quantity:</strong> {{ request_obj.fuel_quantity }}</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <label class="form-label">Sign below:</label>
+    <canvas id="signature_pad"></canvas>
+    <input type="hidden" name="signature" id="id_signature">
+    <button type="submit" class="btn btn-success mt-3">Submit Signature</button>
+  </form>
+</div>
+
+<script src="{% static 'js/signature_pad.umd.min.js' %}"></script>
+<script>
+  const canvas = document.getElementById('signature_pad');
+  const signaturePad = new SignaturePad(canvas);
+
+  document.querySelector('form').addEventListener('submit', function () {
+    document.getElementById('id_signature').value = signaturePad.toDataURL();
+    signaturePad.clear();
+  });
+</script>
+{% endblock %}

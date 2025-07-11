@@ -230,6 +230,21 @@ def fuelreq(request):
 
     return render(request, 'fuelreq.html', {'form': form})
 
+@login_required
+def signature(request, pk):
+    req = get_object_or_404(FuelReq, pk=pk)
+
+    if request.method == 'POST':
+        req.signed_by_driver = True
+        req.driver_verified_at = now()
+        req.signature_data_url = request.POST.get('signature')
+        req.save()
+        messages.success(request, "Fuel request signed successfully.")
+        return redirect('dashboard')  # or another confirmation page
+
+    return render(request, 'fuelreq_sign.html', {'request_obj': req})
+
+
 # ✅ Fixed login_user view
 def login_user(request):
     if request.method == 'POST':
