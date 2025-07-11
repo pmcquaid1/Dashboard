@@ -1,6 +1,7 @@
 from django.db import models
 import base64
 from django.contrib.auth.models import User
+from django.utils.timezone import now
 
 class Organization(models.Model):
     org_type = models.CharField(max_length=100)
@@ -18,26 +19,34 @@ class Organization(models.Model):
                               self.address2, self.city, self.region, self.country,
                               self.digital_address, self.email)
 
+
+
+
 class FuelReq(models.Model):
     date = models.DateField()
     vendor = models.CharField(max_length=100)
-    po_number = models.CharField(max_length=100)
+    po_number = models.CharField(max_length=50)
     driver_name = models.CharField(max_length=100)
-    vehicle_number = models.CharField(max_length=100)
+    driver_phone = models.CharField(max_length=20)  # ✅ for SMS notifications
+    vehicle_number = models.CharField(max_length=50)
     place_of_loading = models.CharField(max_length=100)
     destination = models.CharField(max_length=100)
     fuel_quantity = models.DecimalField(max_digits=10, decimal_places=2)
     initial_tank_amount = models.DecimalField(max_digits=10, decimal_places=2)
     top_up_quantity = models.DecimalField(max_digits=10, decimal_places=2)
     authorized_by = models.CharField(max_length=100)
-    signature = models.TextField()
 
-    def get_decoded_signature(self):
-        decoded_bytes = base64.b64decode(self.signature)
-        return decoded_bytes.decode('utf-8')
+    # ✅ New fields for driver signature workflow
+    signed_by_driver = models.BooleanField(default=False)
+    driver_verified_at = models.DateTimeField(null=True, blank=True)
+    signature_data_url = models.TextField(null=True, blank=True)  # base64 signature image
+
+    created_at = models.DateTimeField(auto_now_add=True)  # Optional for dashboard filtering
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.vendor} - {self.po_number}"
+        return f"{self.po_number} - {self.driver_name}"
+
 
 class Bill(models.Model):
     bl_number = models.CharField(max_length=20)
