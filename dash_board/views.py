@@ -9,6 +9,8 @@ from django.contrib import messages
 from .models import FuelReq, Pretrip
 # ✅ Added for login functionality
 from django.contrib.auth import authenticate, login, logout
+from django.utils.timezone import now
+
 
 # View for displaying a base template
 def base(request):
@@ -244,6 +246,18 @@ def signature(request, pk):
 
     return render(request, 'fuelreq_sign.html', {'request_obj': req})
 
+def fuelreq_sign(request, pk):
+    fuelreq = get_object_or_404(FuelReq, pk=pk)
+
+    if request.method == 'POST':
+        fuelreq.signed_by_driver = True
+        fuelreq.driver_verified_at = now()
+        fuelreq.signature_data_url = request.POST.get('signature')
+        fuelreq.save()
+        messages.success(request, "Fuel request signed successfully.")
+        return redirect('signature_confirmation')  # or any thank-you page
+
+    return render(request, 'fuelreq_sign.html', {'fuelreq': fuelreq})
 
 # ✅ Fixed login_user view
 def login_user(request):

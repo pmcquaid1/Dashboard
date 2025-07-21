@@ -60,6 +60,8 @@ urlpatterns = [
     # Transport
     path('transport_job_detail/', views.transport_job_detail, name="transport_job_detail"),
     path('fuelreq/', views.fuelreq, name="fuelreq"),
+    path('fuelreq_sign/<int:pk>/', views.fuelreq_sign, name='fuelreq_sign'),
+
 
     # Signature
     path('signature/<int:pk>/', views.signature, name="signature"),

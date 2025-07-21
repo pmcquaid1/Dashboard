@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Employee  # Make sure this is your updated Employee model with OneToOneField to User
 
+
 class OrganizationForm(forms.ModelForm):
 		class Meta:
 			model = Organization
@@ -41,8 +42,7 @@ class InvoiceForm(forms.ModelForm):
 			 			"goods_description", "gross_weight", "quantity", "price_unit", "total_amount", "incoterms",]
 
 
-from django import forms
-from .models import FuelReq
+
 
 class FuelReqForm(forms.ModelForm):
     date = forms.DateField(
@@ -51,11 +51,20 @@ class FuelReqForm(forms.ModelForm):
             'class': 'form-control',
         })
     )
+    
+    driver_phone = forms.CharField(
+        max_length=20,
+        label='Driver Phone (WhatsApp)',
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'e.g. +15551234567'
+        })
+    )
 
     class Meta:
         model = FuelReq
         fields = [
-            'date', 'vendor', 'po_number', 'driver_name', 'vehicle_number',
+            'date', 'vendor', 'po_number', 'driver_name', 'driver_phone', 'vehicle_number',
             'place_of_loading', 'destination', 'fuel_quantity',
             'initial_tank_amount', 'top_up_quantity', 'authorized_by'
         ]
@@ -71,6 +80,7 @@ class FuelReqForm(forms.ModelForm):
             'top_up_quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'authorized_by': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
 
 		
 class WaybillForm(forms.ModelForm):
@@ -191,6 +201,29 @@ class EmployeeForm(UserCreationForm):
         required=True
     )
 
+    position = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Location'}),
+        required=True
+    )
+
+    position = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Company'}),
+        required=True
+    )
+	
+    position = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+        required=True
+    )
+	
+    position = forms.CharField(
+        label="",
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone'}),
+        required=True
+    )
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')

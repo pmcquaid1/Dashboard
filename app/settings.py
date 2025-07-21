@@ -3,6 +3,17 @@ from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TWILIO_SID = config('TWILIO_SID')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+TWILIO_WHATSAPP_NUMBER = config('TWILIO_WHATSAPP_NUMBER')
+
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
