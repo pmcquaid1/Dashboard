@@ -19,9 +19,6 @@ class Organization(models.Model):
                               self.address2, self.city, self.region, self.country,
                               self.digital_address, self.email)
 
-
-
-
 class FuelReq(models.Model):
     date = models.DateField()
     vendor = models.CharField(max_length=100)
@@ -75,6 +72,12 @@ class Bill(models.Model):
                               self.container_type2, self.package_quantity1, self.package_type1, self.package_quantity2,
                               self.package_type2, self.kg_weight, self.m3, self.container_number)
 
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
 class Shipment(models.Model):
     shipment_id = models.CharField(max_length=20)
     transport_mode = models.CharField(max_length=20)
@@ -88,11 +91,13 @@ class Shipment(models.Model):
     forty_ft = models.IntegerField()
     uw = models.CharField(max_length=10)
     weight = models.DecimalField(decimal_places=2, max_digits=20)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # ✅ Add this
 
     def __str__(self):
         return "{}-{}".format(self.shipment_id, self.consignee, self.ata,
                               self.cargo_available, self.date_cleared, self.actual_delivery,
                               self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
+
 
 class Invoice(models.Model):
     vendor = models.CharField(max_length=100)
@@ -221,6 +226,9 @@ class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     department = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    company = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
     date_joined = models.DateField(auto_now_add=True)
 
     def __str__(self):

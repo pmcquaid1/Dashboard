@@ -41,6 +41,11 @@
       </div>
 
       <div class="col-12 col-md-6 mb-3 form-group">
+        <label for="{{ form.driver_phone.id_for_label }}">Driver Phone (WhatsApp)</label>
+        {{ form.driver_phone }}
+      </div>
+
+      <div class="col-12 col-md-6 mb-3 form-group">
         <label for="{{ form.vehicle_number.id_for_label }}">Vehicle Number</label>
         {{ form.vehicle_number }}
       </div>
@@ -75,18 +80,6 @@
         {{ form.authorized_by }}
       </div>
     </div>
-
-<div class="form-group mb-4 signature-wrapper">
-  <label for="signature_pad" class="form-label">Signature:</label>
-  <div class="signature-label">Sign here:</div>
-  <canvas id="signature_pad"></canvas>
-  <input type="hidden" name="signature" id="id_signature">
-  <div class="mt-2">
-    <button type="button" id="clear" class="btn btn-warning">Clear</button>
-  </div>
-</div>
-
-
 
     <div class="text-center">
       <button type="submit" class="btn btn-primary">Submit</button>
