@@ -1,33 +1,38 @@
+import random
+import string
 from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-
 from dash_board.models import Employee
+
+def generate_random_password(length=10):
+    chars = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(random.choices(chars, k=length))
 
 class EmployeeResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
-        # ✅ Basic required field check
-        required_fields = ['email']
-        missing_fields = [field for field in required_fields if not row.get(field, '').strip()]
-        if missing_fields:
-            raise ValidationError(f"Missing required field(s): {', '.join(missing_fields)}")
-
-        # ✅ Sanitize email and validate format
+        # Required field check
         email = row.get('email', '').strip()
+        if not email:
+            raise ValidationError("Missing required field: email")
+
+        # Basic email format validation
         if '@' not in email or '.' not in email.split('@')[-1]:
             raise ValidationError(f"Invalid email format: {email}")
 
-        # ✅ Check if email already exists
+        # Check for duplicate users
         if User.objects.filter(email=email).exists():
-            raise ValidationError(f"A user with email {email} already exists.")
+            raise ValidationError(f"A user with this email already exists: {email}")
 
-        # ✅ Create User and link to row
-        password = User.objects.make_random_password()
+        # Generate random password and create user
+        password = generate_random_password()
         user = User.objects.create_user(
             username=email.split('@')[0],
             email=email,
             password=password
         )
+
+        # Assign user to the row for linking
         row['user'] = user.pk
 
     class Meta:
