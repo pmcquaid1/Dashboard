@@ -15,26 +15,38 @@ def generate_random_password(length=10):
 
 class EmployeeResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
-        # ✅ Sanitize and validate email
+        # ✅ Handle missing email
         email = row.get('email', '').strip()
         if not email:
-            raise ValidationError("Missing required field: email")
+            # Generate a placeholder email
+            fname = row.get('first_name', 'unknown').strip().lower()
+            lname = row.get('last_name', 'unknown').strip().lower()
+            email = f"{fname}.{lname}.{random.randint(1000,9999)}@placeholder.local"
+            row['email'] = email
 
+        # ✅ Validate email format
         if '@' not in email or '.' not in email.split('@')[-1]:
-            raise ValidationError(f"Invalid email format: {email}")
+            raise ValidationError(f"Row rejected: invalid email format — {email}")
 
         if User.objects.filter(email=email).exists():
-            raise ValidationError(f"A user with this email already exists: {email}")
+            raise ValidationError(f"Row rejected: user with this email already exists — {email}")
 
-        # ✅ Create user with generated password
+        # ✅ Normalize Ghanaian phone numbers
+        phone = row.get('phone', '').strip()
+        if phone.startswith('0') and len(phone) == 10:
+            phone = '+233' + phone[1:]
+        if phone and not phone.startswith('+233'):
+            raise ValidationError(f"Row rejected: invalid Ghana phone format — {phone}")
+        row['phone'] = phone
+
+        # ✅ Create linked user account
         password = generate_random_password()
         user = User.objects.create_user(
             username=email.split('@')[0],
             email=email,
             password=password
         )
-
-        row['user'] = user.pk  # ✅ Link user to Employee record
+        row['user'] = user.pk
 
     class Meta:
         model = Employee
@@ -43,7 +55,7 @@ class EmployeeResource(resources.ModelResource):
             'department', 'position', 'location',
             'company', 'phone'
         )
-        import_id_fields = []            # ✅ Forces create-only mode
+        import_id_fields = []  # ✅ Forces create-only mode
         skip_unchanged = True
         report_skipped = True
 
