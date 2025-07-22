@@ -42,7 +42,6 @@ class Meta:
         'department', 'position', 'location',
         'company', 'phone'
     )
-    import_id_fields = ['email']        # Tracks duplicates based on email
     skip_unchanged = True               # Skips rows that wouldn't change anything
     report_skipped = True               # Lets you see which rows were skipped
 
