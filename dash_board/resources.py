@@ -1,6 +1,6 @@
 from import_export import resources
 from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User, BaseUserManager
+from django.contrib.auth.models import User
 
 from dash_board.models import Employee
 
@@ -17,11 +17,16 @@ class EmployeeResource(resources.ModelResource):
         if '@' not in email or '.' not in email.split('@')[-1]:
             raise ValidationError(f"Invalid email format: {email}")
 
+        # ✅ Check if email already exists
+        if User.objects.filter(email=email).exists():
+            raise ValidationError(f"A user with email {email} already exists.")
+
         # ✅ Create User and link to row
+        password = User.objects.make_random_password()
         user = User.objects.create_user(
             username=email.split('@')[0],
             email=email,
-            password=BaseUserManager.make_random_password()
+            password=password
         )
         row['user'] = user.pk
 
@@ -32,6 +37,7 @@ class EmployeeResource(resources.ModelResource):
             'department', 'position', 'location',
             'company', 'phone'
         )
+
 
 
 
