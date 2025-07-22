@@ -9,7 +9,7 @@
   "watch-css": "sass --watch --load-path=node_modules static/scss/main.scss:static/css/main.css",
   "dev": "concurrently \"npm run watch-css\" \"python manage.py runserver\"",
   "build:prod": "npm run build-css"
-}
+},
 
   "keywords": [],
   "author": "",
