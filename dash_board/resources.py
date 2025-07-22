@@ -35,13 +35,17 @@ class EmployeeResource(resources.ModelResource):
         # Assign user to the row for linking
         row['user'] = user.pk
 
-    class Meta:
-        model = Employee
-        fields = (
-            'user', 'first_name', 'last_name', 'email',
-            'department', 'position', 'location',
-            'company', 'phone'
-        )
+class Meta:
+    model = Employee
+    fields = (
+        'user', 'first_name', 'last_name', 'email',
+        'department', 'position', 'location',
+        'company', 'phone'
+    )
+    import_id_fields = ['email']        # Tracks duplicates based on email
+    skip_unchanged = True               # Skips rows that wouldn't change anything
+    report_skipped = True               # Lets you see which rows were skipped
+
 
 
 
