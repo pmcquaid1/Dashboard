@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 from dash_board.models import Employee
 
-# ✅ Random password generator
+
 def generate_random_password(length=10):
     chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choices(chars, k=length))
@@ -15,28 +15,32 @@ def generate_random_password(length=10):
 
 class EmployeeResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
-        # ✅ Handle missing email
+        # ✅ Email handling (generate placeholder if missing)
         email = row.get('email', '').strip()
         if not email:
-            # Generate a placeholder email
             fname = row.get('first_name', 'unknown').strip().lower()
             lname = row.get('last_name', 'unknown').strip().lower()
             email = f"{fname}.{lname}.{random.randint(1000,9999)}@placeholder.local"
             row['email'] = email
 
-        # ✅ Validate email format
+        # ✅ Email validation
         if '@' not in email or '.' not in email.split('@')[-1]:
             raise ValidationError(f"Row rejected: invalid email format — {email}")
 
         if User.objects.filter(email=email).exists():
             raise ValidationError(f"Row rejected: user with this email already exists — {email}")
 
-        # ✅ Normalize Ghanaian phone numbers
+        # ✅ Ghana phone number normalization
         phone = row.get('phone', '').strip()
-        if phone.startswith('0') and len(phone) == 10:
+        if len(phone) == 10 and phone.startswith('0'):
             phone = '+233' + phone[1:]
-        if phone and not phone.startswith('+233'):
+        elif len(phone) == 9 and phone.isdigit():
+            phone = '+233' + phone
+        elif phone.startswith('+233') and len(phone.replace('+', '')) == 12:
+            pass  # Already in correct format
+        else:
             raise ValidationError(f"Row rejected: invalid Ghana phone format — {phone}")
+
         row['phone'] = phone
 
         # ✅ Create linked user account
@@ -55,7 +59,7 @@ class EmployeeResource(resources.ModelResource):
             'department', 'position', 'location',
             'company', 'phone'
         )
-        import_id_fields = []  # ✅ Forces create-only mode
+        import_id_fields = []  # 🔐 Force fresh creation only
         skip_unchanged = True
         report_skipped = True
 
