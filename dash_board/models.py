@@ -224,8 +224,8 @@ class Pretrip(models.Model):
 
 class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+    first_name = models.CharField(max_length=150, blank=True, null=True)
+    last_name = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True, default='placeholder@example.com')
     department = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
