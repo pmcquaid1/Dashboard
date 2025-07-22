@@ -226,7 +226,7 @@ class Employee(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    email = models.EmailField(unique=True)  # already added
+    email = models.EmailField(unique=True, default='placeholder@example.com')
     department = models.CharField(max_length=100)
     position = models.CharField(max_length=100)
     location = models.CharField(max_length=100, blank=True, null=True)
