@@ -44,7 +44,6 @@ class EmployeeResource(resources.ModelResource):
         email = row.get("email", "").strip()
 
         try:
-            # ℹ️ Normalize or generate email
             if not email:
                 email = generate_placeholder_email(row)
                 row["email"] = email
@@ -68,7 +67,6 @@ class EmployeeResource(resources.ModelResource):
 
             row["phone"] = phone
 
-            # 🔐 Create user
             password = generate_random_password()
             user = User.objects.create_user(
                 username=email.split("@")[0],
@@ -77,11 +75,13 @@ class EmployeeResource(resources.ModelResource):
             )
             row["user"] = user.pk
 
-            # 🧾 Store credentials
-            with open("generated_credentials.txt", "a", encoding="utf-8") as cred_file:
-                cred_file.write(f"{email},{password}\n")
+            try:
+                with open("generated_credentials.txt", "a", encoding="utf-8") as cred_file:
+                    cred_file.write(f"{email},{password}\n")
+            except Exception as cred_err:
+                logger.info(f"⚠️ Row {row_number}: Could not store credentials for {email} — {str(cred_err)}")
 
-            logger.info(f"✅ Row {row_number}: User created for {email}")
+            logger.info(f"✅ Row {row_number}: Created user for {email}")
             self.row_success += 1
 
         except ValidationError:
@@ -113,7 +113,7 @@ class ShipmentResource(resources.ModelResource):
         model = Shipment
         fields = "__all__"
         skip_unchanged = True
-
+        report_skipped = True
 
 
 
