@@ -1,16 +1,17 @@
 import random
 import string
 import logging
+import sys
 from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
-import sys
 
-# 🔧 Logging Configuration
+# 🔧 Heroku-friendly Logging Configuration
 logger = logging.getLogger("employee_import")
 logger.setLevel(logging.INFO)
-handler = logging.StreamHandler(sys.stdout)  # ✅ Correct usage
+
+handler = logging.StreamHandler(sys.stdout)  # ✅ Stream logs to console
 handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logger.addHandler(handler)
 
@@ -42,6 +43,8 @@ class EmployeeResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
         email = row.get("email", "").strip()
+
+        logger.info(f"⚙️ Processing row {row_number}")
 
         try:
             if not email:
@@ -76,10 +79,10 @@ class EmployeeResource(resources.ModelResource):
             row["user"] = user.pk
 
             try:
-                with open("generated_credentials.txt", "a", encoding="utf-8") as cred_file:
+                with open("/tmp/generated_credentials.txt", "a", encoding="utf-8") as cred_file:
                     cred_file.write(f"{email},{password}\n")
             except Exception as cred_err:
-                logger.info(f"⚠️ Row {row_number}: Could not store credentials for {email} — {str(cred_err)}")
+                logger.info(f"⚠️ Row {row_number}: Failed to store credentials — {str(cred_err)}")
 
             logger.info(f"✅ Row {row_number}: Created user for {email}")
             self.row_success += 1
@@ -88,7 +91,7 @@ class EmployeeResource(resources.ModelResource):
             raise
 
         except Exception as e:
-            logger.info(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}")
+            logger.error(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}", exc_info=True)
             self.row_failed += 1
             raise ValidationError(f"Critical error: {str(e)}")
 
@@ -114,6 +117,7 @@ class ShipmentResource(resources.ModelResource):
         fields = "__all__"
         skip_unchanged = True
         report_skipped = True
+
 
 
 
