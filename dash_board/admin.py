@@ -11,6 +11,10 @@ from .resources import EmployeeResource
 class EmployeeAdmin(ImportExportModelAdmin):
     resource_class = EmployeeResource
 
+    def import_action(self, request, *args, **kwargs):
+        return super().import_action(request, *args, **kwargs)
+
+
 # 🚚 Register other models using decorators
 @admin.register(Shipment)
 class ShipmentAdmin(admin.ModelAdmin):
