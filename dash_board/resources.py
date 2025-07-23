@@ -10,7 +10,7 @@ from dash_board.models import Employee, Shipment
 logger = logging.getLogger("employee_import")
 logger.setLevel(logging.INFO)
 
-handler = logging.FileHandler("employee_import.log")
+handler = logging.StreamHandler("employee_import.log")
 handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logger.addHandler(handler)
 
