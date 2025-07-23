@@ -1,80 +1,118 @@
 import random
 import string
-
+import logging
 from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from dash_board.models import Employee, Shipment
 
-from dash_board.models import Employee,Shipment
+# 🔧 Logging Configuration
+logger = logging.getLogger("employee_import")
+logger.setLevel(logging.INFO)
 
-class ShipmentResource(resources.ModelResource):
-    class Meta:
-        model = Shipment
-        fields = '__all__'
-        skip_unchanged = True
-        report_skipped = True
+handler = logging.FileHandler("employee_import.log")
+handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
+logger.addHandler(handler)
 
+# 🧠 Helper Functions
 def generate_random_password(length=10):
     chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choices(chars, k=length))
 
+def validate_email_format(email):
+    return "@" in email and "." in email
+
+def format_ghana_number(raw):
+    return raw.strip()
+
+def validate_phone_format(phone):
+    return phone.startswith("+233") and len(phone) >= 12
+
+def generate_placeholder_email(row):
+    name = row.get("first_name", "user").replace(" ", "").lower()
+    return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
 class EmployeeResource(resources.ModelResource):
+    def __init__(self):
+        super().__init__()
+        self.row_success = 0
+        self.row_skipped = 0
+        self.row_failed = 0
+
     def before_import_row(self, row, **kwargs):
+        row_number = kwargs.get("row_number", "unknown")
+        email = row.get("email", "").strip()
+
         try:
-            # ✅ Handle missing or malformed email
-            email = row.get('email', '').strip()
+            # ℹ️ Normalize or generate email
             if not email:
-                fname = row.get('first_name', 'unknown').strip().lower()
-                lname = row.get('last_name', 'unknown').strip().lower()
-                email = f"{fname}.{lname}.{random.randint(1000,9999)}@placeholder.local"
-                row['email'] = email
+                email = generate_placeholder_email(row)
+                row["email"] = email
+                logger.info(f"ℹ️ Row {row_number}: Generated placeholder email — {email}")
 
-            if '@' not in email or '.' not in email.split('@')[-1]:
-                raise ValidationError(f"Row rejected: invalid email format — {email}")
+            if not validate_email_format(email):
+                logger.info(f"❌ Row {row_number}: Invalid email format — {email}")
+                self.row_skipped += 1
+                raise ValidationError("Invalid email format")
 
-            if User.objects.filter(email=email).exists():
-                raise ValidationError(f"Row rejected: user with this email already exists — {email}")
+            if User.objects.filter(email=email).only("id").exists():
+                logger.info(f"❌ Row {row_number}: Email already exists — {email}")
+                self.row_skipped += 1
+                raise ValidationError("User already exists")
 
-            # ✅ Normalize Ghana phone numbers
-            phone = row.get('phone', '').strip()
-            if len(phone) == 10 and phone.startswith('0'):
-                phone = '+233' + phone[1:]
-            elif len(phone) == 9 and phone.isdigit():
-                phone = '+233' + phone
-            elif phone.startswith('+233') and len(phone.replace('+', '')) == 12:
-                pass  # already valid
-            else:
-                raise ValidationError(f"Row rejected: invalid Ghana phone format — {phone}")
+            phone = format_ghana_number(row.get("phone", ""))
+            if not validate_phone_format(phone):
+                logger.info(f"❌ Row {row_number}: Invalid phone format — {phone}")
+                self.row_skipped += 1
+                raise ValidationError("Invalid phone number")
 
-            row['phone'] = phone
+            row["phone"] = phone
 
-            # ✅ Create linked User account
+            # 🔐 Create user
             password = generate_random_password()
-            print(f"Creating user: {email}")
-
             user = User.objects.create_user(
-                
-                username=email.split('@')[0],
+                username=email.split("@")[0],
                 email=email,
                 password=password
             )
-            row['user'] = user.pk
+            row["user"] = user.pk
+
+            # 🧾 Store credentials
+            with open("generated_credentials.txt", "a", encoding="utf-8") as cred_file:
+                cred_file.write(f"{email},{password}\n")
+
+            logger.info(f"✅ Row {row_number}: User created for {email}")
+            self.row_success += 1
+
+        except ValidationError:
+            raise
 
         except Exception as e:
-            raise ValidationError(f"Row import failed: {str(e)}")
-        print("Processing row:", row)
+            logger.info(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}")
+            self.row_failed += 1
+            raise ValidationError(f"Critical error: {str(e)}")
+
+    def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
+        logger.info("📦 Import Summary")
+        logger.info(f"✅ Success: {self.row_success} rows")
+        logger.info(f"❌ Skipped: {self.row_skipped} rows")
+        logger.info(f"🔥 Failed: {self.row_failed} rows")
 
     class Meta:
         model = Employee
         fields = (
-            'user', 'first_name', 'last_name', 'email',
-            'department', 'position', 'location',
-            'company', 'phone'
+            "user", "first_name", "last_name", "email", "department",
+            "position", "location", "company", "phone"
         )
-        import_id_fields = ['email']  # ✅ New entry only
+        import_id_fields = ["email"]
         skip_unchanged = True
         report_skipped = True
+
+class ShipmentResource(resources.ModelResource):
+    class Meta:
+        model = Shipment
+        fields = "__all__"
+        skip_unchanged = True
 
 
 
