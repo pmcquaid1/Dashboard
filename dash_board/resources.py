@@ -51,7 +51,10 @@ class EmployeeResource(resources.ModelResource):
 
             # ✅ Create linked User account
             password = generate_random_password()
+            print(f"Creating user: {email}")
+
             user = User.objects.create_user(
+                
                 username=email.split('@')[0],
                 email=email,
                 password=password
@@ -60,6 +63,7 @@ class EmployeeResource(resources.ModelResource):
 
         except Exception as e:
             raise ValidationError(f"Row import failed: {str(e)}")
+        print("Processing row:", row)
 
     class Meta:
         model = Employee
