@@ -5,12 +5,12 @@ from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
+import sys
 
 # 🔧 Logging Configuration
 logger = logging.getLogger("employee_import")
 logger.setLevel(logging.INFO)
-
-handler = logging.StreamHandler("employee_import.log")
+handler = logging.StreamHandler(sys.stdout)  # ✅ Correct usage
 handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logger.addHandler(handler)
 
