@@ -5,8 +5,14 @@ from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
-from dash_board.models import Employee
+from dash_board.models import Employee,Shipment
 
+class ShipmentResource(resources.ModelResource):
+    class Meta:
+        model = Shipment
+        fields = '__all__'
+        skip_unchanged = True
+        report_skipped = True
 
 def generate_random_password(length=10):
     chars = string.ascii_letters + string.digits + string.punctuation
