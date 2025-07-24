@@ -94,7 +94,19 @@ class EmployeeResource(resources.ModelResource):
             logger.error(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}", exc_info=True)
             self.row_failed += 1
             raise ValidationError(f"Critical error: {str(e)}")
+    # ⬇️ Add this one first
+    def before_save_instance(self, instance, using_transactions, dry_run):
+        if dry_run:
+            logger.info(f"🧪 Dry run — skipping save for {instance.email}")
+        else:
+            logger.info(f"💾 Saving Employee for {instance.email}")
 
+    # ⬇️ Then this
+    def save_instance(self, instance, using_transactions=True, dry_run=False):
+        if not dry_run:
+            instance.save()
+        return instance
+    
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
