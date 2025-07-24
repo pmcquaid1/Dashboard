@@ -34,8 +34,8 @@ def generate_placeholder_email(row):
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
 class EmployeeResource(resources.ModelResource):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.row_success = 0
         self.row_skipped = 0
         self.row_failed = 0
