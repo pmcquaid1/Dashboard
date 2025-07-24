@@ -11,7 +11,9 @@ from .resources import EmployeeResource
 class EmployeeAdmin(ImportExportModelAdmin):
     resource_class = EmployeeResource
 
+
     def import_action(self, request, *args, **kwargs):
+        print("Using overridden import_action in EmployeeAdmin")
         return super().import_action(request, *args, **kwargs)
 
 
