@@ -96,7 +96,10 @@ class EmployeeResource(resources.ModelResource):
         file_name = kwargs.get("file_name", None)
         if file_name:
             logger.info(f"💾 Saving Employee instance from file: {file_name}")
-        return super().save_instance(instance, dry_run=dry_run, **kwargs)
+        
+        # Pass only instance and **kwargs to avoid duplicate arguments
+        return super().save_instance(instance, **kwargs)
+
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
