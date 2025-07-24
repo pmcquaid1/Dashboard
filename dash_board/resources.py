@@ -10,8 +10,7 @@ from dash_board.models import Employee, Shipment
 # 🔧 Heroku-friendly Logging Configuration
 logger = logging.getLogger("employee_import")
 logger.setLevel(logging.INFO)
-
-handler = logging.StreamHandler(sys.stdout)  # ✅ Stream logs to console
+handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logger.addHandler(handler)
 
@@ -33,6 +32,7 @@ def generate_placeholder_email(row):
     name = row.get("first_name", "user").replace(" ", "").lower()
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
+# 👤 Employee Resource
 class EmployeeResource(resources.ModelResource):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,7 +43,6 @@ class EmployeeResource(resources.ModelResource):
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
         email = row.get("email", "").strip()
-
         logger.info(f"⚙️ Processing row {row_number}")
 
         try:
@@ -67,7 +66,6 @@ class EmployeeResource(resources.ModelResource):
                 logger.info(f"❌ Row {row_number}: Invalid phone format — {phone}")
                 self.row_skipped += 1
                 raise ValidationError("Invalid phone number")
-
             row["phone"] = phone
 
             password = generate_random_password()
@@ -89,24 +87,17 @@ class EmployeeResource(resources.ModelResource):
 
         except ValidationError:
             raise
-
         except Exception as e:
             logger.error(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}", exc_info=True)
             self.row_failed += 1
             raise ValidationError(f"Critical error: {str(e)}")
-    # ⬇️ Add this one first
-    def before_save_instance(self, instance, using_transactions, dry_run):
-        if dry_run:
-            logger.info(f"🧪 Dry run — skipping save for {instance.email}")
-        else:
-            logger.info(f"💾 Saving Employee for {instance.email}")
 
-    # ⬇️ Then this
-    def save_instance(self, instance, using_transactions=True, dry_run=False):
-        if not dry_run:
-            instance.save()
-        return instance
-    
+    def save_instance(self, instance, dry_run=False, **kwargs):
+        file_name = kwargs.get("file_name", None)
+        if file_name:
+            logger.info(f"💾 Saving Employee instance from file: {file_name}")
+        return super().save_instance(instance, dry_run=dry_run, **kwargs)
+
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
@@ -116,20 +107,26 @@ class EmployeeResource(resources.ModelResource):
     class Meta:
         model = Employee
         fields = (
-            "user", "first_name", "last_name", "email", "department",
-            "position", "location", "company", "phone"
+            "user", "first_name", "last_name", "email",
+            "department", "position", "location", "company", "phone"
         )
         import_id_fields = ["email"]
         skip_unchanged = True
         report_skipped = True
 
+# 🚚 Shipment Resource
 class ShipmentResource(resources.ModelResource):
+    def save_instance(self, instance, dry_run=False, **kwargs):
+        file_name = kwargs.get("file_name", None)
+        if file_name:
+            logger.info(f"📦 Saving Shipment instance from file: {file_name}")
+        return super().save_instance(instance, dry_run=dry_run, **kwargs)
+
     class Meta:
         model = Shipment
         fields = "__all__"
         skip_unchanged = True
         report_skipped = True
-
 
 
 
