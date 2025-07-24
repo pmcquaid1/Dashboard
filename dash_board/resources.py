@@ -122,8 +122,10 @@ class ShipmentResource(resources.ModelResource):
     def save_instance(self, instance, dry_run=False, **kwargs):
         file_name = kwargs.get("file_name", None)
         if file_name:
-            logger.info(f"📦 Saving Shipment instance from file: {file_name}")
-        return super().save_instance(instance, dry_run=dry_run, **kwargs)
+            logger.info(f"💾 Saving Employee instance from file: {file_name}")
+        
+        # Pass only instance and **kwargs to avoid duplicate arguments
+        return super().save_instance(instance, **kwargs)
 
     class Meta:
         model = Shipment
