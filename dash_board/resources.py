@@ -92,13 +92,12 @@ class EmployeeResource(resources.ModelResource):
             self.row_failed += 1
             raise ValidationError(f"Critical error: {str(e)}")
 
-    def save_instance(self, instance, using_transactions=True, dry_run=False, **kwargs):
-        file_name = kwargs.get("file_name", None)
+    def save_instance(self, instance, dry_run, row, **kwargs):
+        file_name = kwargs.get("file_name")
         if file_name:
             logger.info(f"💾 Saving instance from file: {file_name}")
 
-        return super().save_instance(instance, using_transactions=using_transactions, dry_run=dry_run, **kwargs)
-
+        return super().save_instance(instance, dry_run, row, **kwargs)
 
 
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
@@ -119,12 +118,13 @@ class EmployeeResource(resources.ModelResource):
 
 # 🚚 Shipment Resource
 class ShipmentResource(resources.ModelResource):
-    def save_instance(self, instance, using_transactions=True, dry_run=False, **kwargs):
-        file_name = kwargs.get("file_name", None)
+    def save_instance(self, instance, dry_run, row, **kwargs):
+        file_name = kwargs.get("file_name")
         if file_name:
             logger.info(f"💾 Saving instance from file: {file_name}")
 
-        return super().save_instance(instance, using_transactions=using_transactions, dry_run=dry_run, **kwargs)
+        return super().save_instance(instance, dry_run, row, **kwargs)
+
 
 
     class Meta:
