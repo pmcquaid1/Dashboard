@@ -129,8 +129,12 @@ class EmployeeResource(resources.ModelResource):
 
 
     class Meta:
-        model = Shipment
-        fields = "__all__"
+        model = Employee
+        fields = (
+            "user", "first_name", "last_name", "email",
+            "department", "position", "location", "company", "phone"
+        )
+        import_id_fields = ["email"]  # ✅ Use email instead of id
         skip_unchanged = True
         report_skipped = True
 
