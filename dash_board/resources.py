@@ -44,21 +44,30 @@ class EmployeeResource(resources.ModelResource):
 
 
     def detect_invalid_phone_format(value):
-        raw = str(value).strip()
-        
-        # Is it scientific notation?
-        if re.match(r'^\d+\.\d+E\+\d+$', raw):
+        raw = str(value).strip().replace(" ", "")
+
+        # Strip leading zeros or international prefixes
+        raw = re.sub(r'^(00|0)+', '', raw)
+
+        # Detect scientific notation
+        if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
             return "scientific_notation"
-        
-        # Too short to be valid Ghana number
-        if len(raw) < 10:
-            return "too_short"
-        
-        # Doesn't start with expected prefix
-        if not (raw.startswith("233") or raw.startswith("+233")):
+
+        # Check for non-digit characters
+        if not re.match(r'^\+?[\d]+$', raw):
+            return "invalid_characters"
+
+        # Validate prefix
+        if not (raw.startswith("+233") or raw.startswith("233")):
             return "invalid_prefix"
-        
+
+        # Check minimum length
+        digits_only = re.sub(r'\D', '', raw)
+        if len(digits_only) < 9:
+            return "too_short"
+
         return None
+
 
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
