@@ -137,6 +137,9 @@ class EmployeeResource(resources.ModelResource):
         import_id_fields = ["email"]  # ✅ Use email instead of id
         skip_unchanged = True
         report_skipped = True
+        use_bulk = True
+        use_transactions = True
+
 
 
 
