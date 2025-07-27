@@ -93,11 +93,16 @@ class EmployeeResource(resources.ModelResource):
             raise ValidationError(f"Critical error: {str(e)}")
 
     def save_instance(self, instance, is_create, row, **kwargs):
-        file_name = kwargs.get("file_name", None)
-        if file_name:
-            logger.info(f"💾 Saving instance from file: {file_name}")
-        
-        return super().save_instance(instance, is_create, row, **kwargs)
+        file_name = kwargs.get("file_name")
+        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
+        try:
+            saved = super().save_instance(instance, is_create, row, **kwargs)
+            logger.info(f"✅ Saved Employee: {saved}")
+            return saved
+        except Exception as e:
+            logger.error(f"❌ Save failed: {e}", exc_info=True)
+            raise
+
 
 
 
@@ -117,13 +122,17 @@ class EmployeeResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = True
 
-# 🚚 Shipment Resource
     def save_instance(self, instance, is_create, row, **kwargs):
-        file_name = kwargs.get("file_name", None)
-        if file_name:
-            logger.info(f"💾 Saving instance from file: {file_name}")
-        
-        return super().save_instance(instance, is_create, row, **kwargs)
+        file_name = kwargs.get("file_name")
+        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
+        try:
+            saved = super().save_instance(instance, is_create, row, **kwargs)
+            logger.info(f"✅ Saved Employee: {saved}")
+            return saved
+        except Exception as e:
+            logger.error(f"❌ Save failed: {e}", exc_info=True)
+            raise
+
 
 
 
@@ -138,7 +147,7 @@ class EmployeeResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = True
         use_bulk = True
-        use_transactions = True
+        use_transactions = False
 
 
 
