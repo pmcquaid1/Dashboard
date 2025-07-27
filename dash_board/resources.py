@@ -75,7 +75,7 @@ class EmployeeResource(resources.ModelResource):
         logger.info(f"⚙️ Processing row {row_number}")
 
         phone_raw = row.get("phone", "")
-        issue = detect_invalid_phone_format(phone_raw)
+        issue = self.detect_invalid_phone_format(phone_raw)
         
 
         if issue:
