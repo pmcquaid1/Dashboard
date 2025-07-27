@@ -6,6 +6,7 @@ from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
+import re
 
 # 🔧 Heroku-friendly Logging Configuration
 logger = logging.getLogger("employee_import")
@@ -40,10 +41,37 @@ class EmployeeResource(resources.ModelResource):
         self.row_skipped = 0
         self.row_failed = 0
 
+
+
+    def detect_invalid_phone_format(value):
+        raw = str(value).strip()
+        
+        # Is it scientific notation?
+        if re.match(r'^\d+\.\d+E\+\d+$', raw):
+            return "scientific_notation"
+        
+        # Too short to be valid Ghana number
+        if len(raw) < 10:
+            return "too_short"
+        
+        # Doesn't start with expected prefix
+        if not (raw.startswith("233") or raw.startswith("+233")):
+            return "invalid_prefix"
+        
+        return None
+
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
         email = row.get("email", "").strip()
         logger.info(f"⚙️ Processing row {row_number}")
+
+        phone_raw = row.get("phone", "")
+        issue = detect_invalid_phone_format(phone_raw)
+
+        if issue:
+            logger.info(f"🚫 Row {row_number} : Phone format issue ({issue}) — {phone_raw}")
+            self.row_skipped += 1
+            raise ValidationError(f"Phone format error: {issue}")
 
         try:
             if not email:
