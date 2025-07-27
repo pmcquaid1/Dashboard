@@ -43,7 +43,7 @@ class EmployeeResource(resources.ModelResource):
 
 
 
-    def detect_invalid_phone_format(value):
+    def detect_invalid_phone_format(self,value):
         raw = str(value).strip().replace(" ", "")
 
         # Strip leading zeros or international prefixes
@@ -76,6 +76,7 @@ class EmployeeResource(resources.ModelResource):
 
         phone_raw = row.get("phone", "")
         issue = detect_invalid_phone_format(phone_raw)
+        
 
         if issue:
             logger.info(f"🚫 Row {row_number} : Phone format issue ({issue}) — {phone_raw}")
