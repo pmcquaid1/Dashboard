@@ -118,15 +118,17 @@ class EmployeeResource(resources.ModelResource):
 
     def save_instance(self, instance, is_create, row, **kwargs):
         file_name = kwargs.get("file_name")
-        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
         try:
-            saved = super().save_instance(instance, is_create, row, **kwargs)
-            logger.info(f"✅ Saved Employee: {instance.pk} - {instance.first_name} {instance.last_name}")
-            return saved
+            super().save_instance(instance, is_create, row, **kwargs)
+            persisted = Employee.objects.filter(email=instance.email).first()
+            if persisted:
+                logger.info(f"✅ Confirmed DB Save: {persisted.pk} — {persisted.first_name} {persisted.last_name}")
+            else:
+                logger.warning(f"🚨 Save ran but no DB record found for {instance.email}")
         except Exception as e:
             logger.error(f"❌ Save failed: {e}", exc_info=True)
             raise
-       
+  
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
