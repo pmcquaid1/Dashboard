@@ -2,11 +2,11 @@ import random
 import string
 import logging
 import sys
+import re
 from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
-import re
 
 # 🔧 Heroku-friendly Logging Configuration
 logger = logging.getLogger("employee_import")
@@ -41,33 +41,21 @@ class EmployeeResource(resources.ModelResource):
         self.row_skipped = 0
         self.row_failed = 0
 
-
-
-    def detect_invalid_phone_format(self,value):
+    def detect_invalid_phone_format(self, value):
         raw = str(value).strip().replace(" ", "")
-
-        # Strip leading zeros or international prefixes
         raw = re.sub(r'^(00|0)+', '', raw)
 
-        # Detect scientific notation
         if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
             return "scientific_notation"
-
-        # Check for non-digit characters
         if not re.match(r'^\+?[\d]+$', raw):
             return "invalid_characters"
-
-        # Validate prefix
         if not (raw.startswith("+233") or raw.startswith("233")):
             return "invalid_prefix"
 
-        # Check minimum length
         digits_only = re.sub(r'\D', '', raw)
         if len(digits_only) < 9:
             return "too_short"
-
         return None
-
 
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
@@ -76,10 +64,8 @@ class EmployeeResource(resources.ModelResource):
 
         phone_raw = row.get("phone", "")
         issue = self.detect_invalid_phone_format(phone_raw)
-        
-
         if issue:
-            logger.info(f"🚫 Row {row_number} : Phone format issue ({issue}) — {phone_raw}")
+            logger.info(f"🚫 Row {row_number}: Phone format issue ({issue}) — {phone_raw}")
             self.row_skipped += 1
             raise ValidationError(f"Phone format error: {issue}")
 
@@ -141,9 +127,6 @@ class EmployeeResource(resources.ModelResource):
             logger.error(f"❌ Save failed: {e}", exc_info=True)
             raise
 
-
-
-
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
@@ -159,33 +142,15 @@ class EmployeeResource(resources.ModelResource):
         import_id_fields = ["email"]
         skip_unchanged = True
         report_skipped = True
-
-    def save_instance(self, instance, is_create, row, **kwargs):
-        file_name = kwargs.get("file_name")
-        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
-        try:
-            saved = super().save_instance(instance, is_create, row, **kwargs)
-            logger.info(f"✅ Saved Employee: {saved}")
-            return saved
-        except Exception as e:
-            logger.error(f"❌ Save failed: {e}", exc_info=True)
-            raise
-
-
-
-
-
-    class Meta:
-        model = Employee
-        fields = (
-            "user", "first_name", "last_name", "email",
-            "department", "position", "location", "company", "phone"
-        )
-        import_id_fields = ["email"]  # ✅ Use email instead of id
-        skip_unchanged = True
-        report_skipped = True
         use_bulk = True
-        use_transactions = False
+        use_transactions = False  # ✅ Disable transactions to avoid rollback issues
+
+# 🧾 Suggested __str__ method for Employee model (in models.py)
+# Add this inside the Employee model class:
+#
+# def __str__(self):
+#     return f"{self.user.get_full_name()} - {self.department}"
+
 
 
 
