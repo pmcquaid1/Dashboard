@@ -8,14 +8,14 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
 
-# 🔧 Heroku-friendly Logging Configuration
-logger = logging.getLogger("employee_import")
+# 🔧 Logging Configuration
+logger = logging.getLogger("import_logger")
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
 logger.addHandler(handler)
 
-# 🧠 Helper Functions
+# 🔢 Helper Functions
 def generate_random_password(length=10):
     chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(random.choices(chars, k=length))
@@ -33,6 +33,21 @@ def generate_placeholder_email(row):
     name = row.get("first_name", "user").replace(" ", "").lower()
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
+# 📞 Phone Format Detector
+def detect_invalid_phone_format(value):
+    raw = str(value).strip().replace(" ", "")
+    raw = re.sub(r'^(00|0)+', '', raw)
+    if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
+        return "scientific_notation"
+    if not re.match(r'^\+?[\d]+$', raw):
+        return "invalid_characters"
+    if not (raw.startswith("+233") or raw.startswith("233")):
+        return "invalid_prefix"
+    digits_only = re.sub(r'\D', '', raw)
+    if len(digits_only) < 9:
+        return "too_short"
+    return None
+
 # 👤 Employee Resource
 class EmployeeResource(resources.ModelResource):
     def __init__(self, *args, **kwargs):
@@ -41,29 +56,13 @@ class EmployeeResource(resources.ModelResource):
         self.row_skipped = 0
         self.row_failed = 0
 
-    def detect_invalid_phone_format(self, value):
-        raw = str(value).strip().replace(" ", "")
-        raw = re.sub(r'^(00|0)+', '', raw)
-
-        if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
-            return "scientific_notation"
-        if not re.match(r'^\+?[\d]+$', raw):
-            return "invalid_characters"
-        if not (raw.startswith("+233") or raw.startswith("233")):
-            return "invalid_prefix"
-
-        digits_only = re.sub(r'\D', '', raw)
-        if len(digits_only) < 9:
-            return "too_short"
-        return None
-
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
         email = row.get("email", "").strip()
         logger.info(f"⚙️ Processing row {row_number}")
 
         phone_raw = row.get("phone", "")
-        issue = self.detect_invalid_phone_format(phone_raw)
+        issue = detect_invalid_phone_format(phone_raw)
         if issue:
             logger.info(f"🚫 Row {row_number}: Phone format issue ({issue}) — {phone_raw}")
             self.row_skipped += 1
@@ -73,21 +72,21 @@ class EmployeeResource(resources.ModelResource):
             if not email:
                 email = generate_placeholder_email(row)
                 row["email"] = email
-                logger.info(f"ℹ️ Row {row_number}: Generated placeholder email — {email}")
+                logger.info(f"ℹ️ Generated placeholder email — {email}")
 
             if not validate_email_format(email):
-                logger.info(f"❌ Row {row_number}: Invalid email format — {email}")
+                logger.info(f"❌ Invalid email format — {email}")
                 self.row_skipped += 1
                 raise ValidationError("Invalid email format")
 
             if User.objects.filter(email=email).only("id").exists():
-                logger.info(f"❌ Row {row_number}: Email already exists — {email}")
+                logger.info(f"❌ Email already exists — {email}")
                 self.row_skipped += 1
                 raise ValidationError("User already exists")
 
             phone = format_ghana_number(row.get("phone", ""))
             if not validate_phone_format(phone):
-                logger.info(f"❌ Row {row_number}: Invalid phone format — {phone}")
+                logger.info(f"❌ Invalid phone format — {phone}")
                 self.row_skipped += 1
                 raise ValidationError("Invalid phone number")
             row["phone"] = phone
@@ -104,31 +103,31 @@ class EmployeeResource(resources.ModelResource):
                 with open("/tmp/generated_credentials.txt", "a", encoding="utf-8") as cred_file:
                     cred_file.write(f"{email},{password}\n")
             except Exception as cred_err:
-                logger.info(f"⚠️ Row {row_number}: Failed to store credentials — {str(cred_err)}")
+                logger.info(f"⚠️ Failed to store credentials — {cred_err}")
 
-            logger.info(f"✅ Row {row_number}: Created user for {email}")
+            logger.info(f"✅ Created user for {email}")
             self.row_success += 1
 
         except ValidationError:
             raise
         except Exception as e:
-            logger.error(f"🔥 Row {row_number}: Unexpected error for {email} — {str(e)}", exc_info=True)
+            logger.error(f"🔥 Unexpected error for {email} — {str(e)}", exc_info=True)
             self.row_failed += 1
             raise ValidationError(f"Critical error: {str(e)}")
 
     def save_instance(self, instance, is_create, row, **kwargs):
-        file_name = kwargs.get("file_name")
+        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
         try:
             super().save_instance(instance, is_create, row, **kwargs)
             persisted = Employee.objects.filter(email=instance.email).first()
             if persisted:
-                logger.info(f"✅ Confirmed DB Save: {persisted.pk} — {persisted.first_name} {persisted.last_name}")
+                logger.info(f"✅ DB Save confirmed: {persisted.pk} — {persisted.email}")
             else:
-                logger.warning(f"🚨 Save ran but no DB record found for {instance.email}")
+                logger.warning(f"⚠️ Save skipped — no record found for {instance.email}")
         except Exception as e:
             logger.error(f"❌ Save failed: {e}", exc_info=True)
             raise
-  
+
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
@@ -145,18 +144,35 @@ class EmployeeResource(resources.ModelResource):
         skip_unchanged = True
         report_skipped = True
         use_bulk = True
-        use_transactions = False  # ✅ Disable transactions to avoid rollback issues
+        use_transactions = False
 
-# 🧾 Suggested __str__ method for Employee model (in models.py)
-# Add this inside the Employee model class:
-#
-# def __str__(self):
-#     return f"{self.user.get_full_name()} - {self.department}"
+# 🚚 Shipment Resource
+class ShipmentResource(resources.ModelResource):
+    def before_import_row(self, row, **kwargs):
+        row_number = kwargs.get("row_number", "unknown")
+        fk_email = row.get("employee_email")
+        if not Employee.objects.filter(email=fk_email).exists():
+            logger.warning(f"🚫 Row {row_number}: No Employee found for email: {fk_email}")
+            raise ValidationError(f"Missing Employee with email: {fk_email}")
 
+    def save_instance(self, instance, is_create, row, **kwargs):
+        logger.info(f"📦 Attempting to save Shipment: {instance.__dict__}")
+        try:
+            super().save_instance(instance, is_create, row, **kwargs)
+            persisted = Shipment.objects.filter(id=instance.id).first()
+            if persisted:
+                logger.info(f"✅ Shipment saved: {persisted}")
+            else:
+                logger.warning(f"⚠️ Shipment record not found after save")
+        except Exception as e:
+            logger.error(f"❌ Shipment save failed: {e}", exc_info=True)
+            raise
 
-
-
-
-
-
+    class Meta:
+        model = Shipment
+        fields = "__all__"
+        skip_unchanged = True
+        report_skipped = True
+        use_bulk = True
+        use_transactions = False
 
