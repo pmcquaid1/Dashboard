@@ -121,12 +121,12 @@ class EmployeeResource(resources.ModelResource):
         logger.info(f"➡️ Attempting to save: {instance.__dict__}")
         try:
             saved = super().save_instance(instance, is_create, row, **kwargs)
-            logger.info(f"✅ Saved Employee: {saved}")
+            logger.info(f"✅ Saved Employee: {instance.pk} - {instance.first_name} {instance.last_name}")
             return saved
         except Exception as e:
             logger.error(f"❌ Save failed: {e}", exc_info=True)
             raise
-
+       
     def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
         logger.info("📦 Import Summary")
         logger.info(f"✅ Success: {self.row_success} rows")
