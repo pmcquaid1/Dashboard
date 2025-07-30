@@ -235,4 +235,5 @@ class Employee(models.Model):
     date_joined = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - {self.department}"
+        return f"{self.first_name} {self.last_name} ({self.department})"
+

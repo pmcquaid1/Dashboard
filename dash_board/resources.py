@@ -34,19 +34,26 @@ def generate_placeholder_email(row):
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
 # 📞 Phone Format Detector
-def detect_invalid_phone_format(value):
+def detect_invalid_phone_format(self, value):
+    # 🌟 Fix scientific notation by casting float to full string
+    if isinstance(value, float):
+        value = "{:.0f}".format(value)
     raw = str(value).strip().replace(" ", "")
     raw = re.sub(r'^(00|0)+', '', raw)
+
     if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
         return "scientific_notation"
     if not re.match(r'^\+?[\d]+$', raw):
         return "invalid_characters"
     if not (raw.startswith("+233") or raw.startswith("233")):
         return "invalid_prefix"
+    
     digits_only = re.sub(r'\D', '', raw)
     if len(digits_only) < 9:
         return "too_short"
+
     return None
+
 
 # 👤 Employee Resource
 class EmployeeResource(resources.ModelResource):

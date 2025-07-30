@@ -113,6 +113,11 @@ LOGGING = {
     },
 }
 
+# settings.py
+CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 
 
