@@ -20,7 +20,7 @@ urlpatterns = [
     path('hr_support/', views.hr_support, name="hr_support"),
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
-
+    
     # Shipments
     path('shipments/', views.shipments, name="shipments"),
     path('add_shipment/', views.add_shipment, name="add_shipment"),
@@ -75,8 +75,10 @@ urlpatterns = [
     path('update_user/', views.update_user, name="update_user"),
     path('update_password/', views.update_password, name="update_password"),
     path('profile/', views.profile, name="profile"),
-
+    path("import_employees/", views.import_employees, name="import_employees"),
+    path("import_csv/", views.import_csv, name="import_employees"),
     # Misc
     path('my_view/', views.my_view, name="my_view"),
 ]
+
 

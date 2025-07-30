@@ -1,23 +1,89 @@
-
 {% extends 'base.html' %}
 {% load static %}
-
-{% block title %}Add Employee{% endblock %}
-
 {% block content %}
-  <h2>Add Employee</h2>
-  
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-success" role="alert">
-        {{ message }}
+  <div class="container mt-5">
+    <h2>Import Employees from CSV</h2>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'import_employees' %}" id="csvForm">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="csv_file" class="form-label">Choose CSV File</label>
+        <input type="file" name="csv_file" id="csv_file" accept=".csv" class="form-control" required>
       </div>
-    {% endfor %}
-  {% endif %}
-  
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Employee</button>
-  </form>
+
+      <!-- 🔄 Task Progress Bar -->
+      <div class="mb-3" id="progressContainer" style="display:none;">
+        <label for="progressBar" class="form-label">Import Progress</label>
+        <progress id="progressBar" value="0" max="100" class="form-control w-100"></progress>
+        <small id="progressText">Starting import...</small>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Import CSV</button>
+    </form>
+
+    <!-- 👀 Preview Table -->
+    <div class="mt-4" id="previewSection" style="display:none;">
+      <h4>CSV Preview</h4>
+      <table class="table table-bordered" id="previewTable">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const csvInput = document.getElementById("csv_file");
+    const previewSection = document.getElementById("previewSection");
+    const previewTable = document.getElementById("previewTable");
+    const progressContainer = document.getElementById("progressContainer");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+
+    csvInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const lines = e.target.result.split("\n").filter(line => line.trim() !== "");
+        const headers = lines[0].split(",");
+        const rows = lines.slice(1);
+
+        // Build table
+        previewTable.querySelector("thead").innerHTML = "<tr>" + headers.map(h => `<th>${h.trim()}</th>`).join("") + "</tr>";
+        previewTable.querySelector("tbody").innerHTML = rows.map(row => {
+          const cells = row.split(",");
+          return "<tr>" + cells.map(c => `<td>${c.trim()}</td>`).join("") + "</tr>";
+        }).join("");
+
+        previewSection.style.display = "block";
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById("csvForm").addEventListener("submit", function () {
+      progressContainer.style.display = "block";
+      progressBar.value = 10;
+      progressText.textContent = "Import started...";
+
+      let progress = 10;
+      const interval = setInterval(() => {
+        progress += 10;
+        progressBar.value = progress;
+        progressText.textContent = `Importing... ${progress}%`;
+        if (progress >= 100) {
+          clearInterval(interval);
+          progressText.textContent = "Import complete!";
+        }
+      }, 500);
+    });
+  </script>
 {% endblock %}
