@@ -13,22 +13,23 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
-
 import re
+from decimal import Decimal
+
 
 def clean_phone_number(raw):
     if not raw:
         return ""
     raw = raw.strip()
-    # Convert scientific notation to string if needed
+
+    # ✅ Safer conversion using Decimal to avoid losing digits
     try:
         if re.match(r"^\d+(\.\d+)?[eE][+-]?\d+$", raw):
-            raw = "{:.0f}".format(float(raw))
-    except ValueError:
+            raw = str(Decimal(raw))
+    except Exception:
         pass
+
     return raw
-
-
 
 def base(request):
     return render(request, 'base.html')
