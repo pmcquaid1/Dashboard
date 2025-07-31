@@ -296,17 +296,22 @@ def fuelreq_sign(request, pk):
         return redirect('signature_confirmation')
     return render(request, 'fuelreq_sign.html', {'fuelreq': fuelreq})
 
-@login_required
+
 def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')  # ✅ Prevent redirect loop
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # or your preferred landing view
+            return redirect('dashboard')
         else:
             messages.error(request, 'Invalid username or password.')
+
     return render(request, 'login.html')
 
 def logout_user(request):
