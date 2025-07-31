@@ -98,26 +98,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # ✅ Login redirect
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-}
 
-# settings.py
-CELERY_BROKER_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 
 
 
