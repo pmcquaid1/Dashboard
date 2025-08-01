@@ -110,36 +110,36 @@ class EmployeeResource(resources.ModelResource):
             raise ValidationError(f"Critical error: {str(e)}")
 
 
-        def save_instance(self, instance, is_create, row, **kwargs):
-            logger.info(f"➡️ Attempting to save: {instance.__dict__}")
-            try:
-                super().save_instance(instance, is_create, row, **kwargs)
-                persisted = Employee.objects.filter(email=instance.email).first()
-                if persisted:
-                    logger.info(f"✅ DB Save confirmed: {persisted.pk} — {persisted.email}")
-                else:
-                    logger.warning(f"⚠️ Save skipped — no record found for {instance.email}")
-            except Exception as e:
-                logger.error(f"❌ Save failed: {e}", exc_info=True)
-                raise
+    def save_instance(self, instance, is_create, row, **kwargs):
+        logger.info(f"➡️ Attempting to save: {instance.__dict__}")
+        try:
+            super().save_instance(instance, is_create, row, **kwargs)
+            persisted = Employee.objects.filter(email=instance.email).first()
+            if persisted:
+                logger.info(f"✅ DB Save confirmed: {persisted.pk} — {persisted.email}")
+            else:
+                logger.warning(f"⚠️ Save skipped — no record found for {instance.email}")
+        except Exception as e:
+            logger.error(f"❌ Save failed: {e}", exc_info=True)
+            raise
 
-        def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
-            logger.info("📦 Import Summary")
-            logger.info(f"✅ Success: {self.row_success} rows")
-            logger.info(f"❌ Skipped: {self.row_skipped} rows")
-            logger.info(f"🔥 Failed: {self.row_failed} rows")
+    def after_import(self, dataset, result, using_transactions, dry_run, **kwargs):
+        logger.info("📦 Import Summary")
+        logger.info(f"✅ Success: {self.row_success} rows")
+        logger.info(f"❌ Skipped: {self.row_skipped} rows")
+        logger.info(f"🔥 Failed: {self.row_failed} rows")
 
-        class Meta:
-            model = Employee
-            fields = (
-                "first_name", "last_name", "email",
-                "department", "position", "location", "company", "phone", "date_joined"
-            )
-            import_id_fields = ["email"]
-            skip_unchanged = True
-            report_skipped = True
-            use_bulk = True
-            use_transactions = False
+    class Meta:
+        model = Employee
+        fields = (
+            "first_name", "last_name", "email",
+            "department", "position", "location", "company", "phone", "date_joined"
+        )
+        import_id_fields = ["email"]
+        skip_unchanged = True
+        report_skipped = True
+        use_bulk = True
+        use_transactions = False
 
 # 🚚 Shipment Resource
 class ShipmentResource(resources.ModelResource):
