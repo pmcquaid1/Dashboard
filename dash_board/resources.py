@@ -7,6 +7,8 @@ from import_export import resources
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from dash_board.models import Employee, Shipment
+import os
+from django.conf import settings  # <-- for fallback path
 
 # 🔧 Logging Configuration
 logger = logging.getLogger("import_logger")
@@ -33,26 +35,7 @@ def generate_placeholder_email(row):
     name = row.get("first_name", "user").replace(" ", "").lower()
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
-# 📞 Phone Format Detector
-def detect_invalid_phone_format(self, value):
-    # 🌟 Fix scientific notation by casting float to full string
-    if isinstance(value, float):
-        value = "{:.0f}".format(value)
-    raw = str(value).strip().replace(" ", "")
-    raw = re.sub(r'^(00|0)+', '', raw)
 
-    if re.match(r'^\d+\.\d+E\+\d+$', raw, re.IGNORECASE):
-        return "scientific_notation"
-    if not re.match(r'^\+?[\d]+$', raw):
-        return "invalid_characters"
-    if not (raw.startswith("+233") or raw.startswith("233")):
-        return "invalid_prefix"
-    
-    digits_only = re.sub(r'\D', '', raw)
-    if len(digits_only) < 9:
-        return "too_short"
-
-    return None
 
 
 # 👤 Employee Resource
@@ -63,64 +46,69 @@ class EmployeeResource(resources.ModelResource):
         self.row_skipped = 0
         self.row_failed = 0
 
-    def before_import_row(self, row, **kwargs):
-        row_number = kwargs.get("row_number", "unknown")
-        email = row.get("email", "").strip()
-        logger.info(f"⚙️ Processing row {row_number}")
 
-        phone_raw = row.get("phone", "")
-        issue = detect_invalid_phone_format(phone_raw)
-        if issue:
-            logger.info(f"🚫 Row {row_number}: Phone format issue ({issue}) — {phone_raw}")
+def before_import_row(self, row, **kwargs):
+    row_number = kwargs.get("row_number", "unknown")
+    email = row.get("email", "").strip()
+    logger.info(f"⚙️ Processing row {row_number}")
+    try:
+        if not email:
+            email = generate_placeholder_email(row)
+            row["email"] = email
+            logger.info(f"ℹ️ Generated placeholder email — {email}")
+
+        if not validate_email_format(email):
+            logger.info(f"❌ Invalid email format — {email}")
             self.row_skipped += 1
-            raise ValidationError(f"Phone format error: {issue}")
+            raise ValidationError("Invalid email format")
+
+        if User.objects.filter(email=email).only("id").exists():
+            logger.info(f"❌ Email already exists — {email}")
+            self.row_skipped += 1
+            raise ValidationError("User already exists")
+
+        phone = format_ghana_number(row.get("phone", ""))
+        if not validate_phone_format(phone):
+            logger.info(f"❌ Invalid phone format — {phone}")
+            self.row_skipped += 1
+            raise ValidationError("Invalid phone number")
+
+        row["phone"] = phone
+        password = generate_random_password()
+
+        user = User.objects.create_user(
+            username=email.split("@")[0],
+            email=email,
+            password=password
+        )
+        row["user"] = user.pk
+
+        # 🔒 Safe credential path setup
+        fallback_path = os.path.join(settings.BASE_DIR, "logs", "generated_credentials.txt")
+        default_path = "/tmp/generated_credentials.txt"
+
+        creds_path = default_path
+        if not os.access(os.path.dirname(default_path), os.W_OK):
+            creds_path = fallback_path
+
+        os.makedirs(os.path.dirname(creds_path), exist_ok=True)
 
         try:
-            if not email:
-                email = generate_placeholder_email(row)
-                row["email"] = email
-                logger.info(f"ℹ️ Generated placeholder email — {email}")
+            with open(creds_path, "a", encoding="utf-8") as cred_file:
+                cred_file.write(f"{email},{password}\n")
+        except Exception as cred_err:
+            logger.info(f"⚠️ Failed to store credentials — {cred_err}")
 
-            if not validate_email_format(email):
-                logger.info(f"❌ Invalid email format — {email}")
-                self.row_skipped += 1
-                raise ValidationError("Invalid email format")
+        logger.info(f"✅ Created user for {email}")
+        self.row_success += 1
 
-            if User.objects.filter(email=email).only("id").exists():
-                logger.info(f"❌ Email already exists — {email}")
-                self.row_skipped += 1
-                raise ValidationError("User already exists")
+    except ValidationError:
+        raise
+    except Exception as e:
+        logger.error(f"🔥 Unexpected error for {email} — {str(e)}", exc_info=True)
+        self.row_failed += 1
+        raise ValidationError(f"Critical error: {str(e)}")
 
-            phone = format_ghana_number(row.get("phone", ""))
-            if not validate_phone_format(phone):
-                logger.info(f"❌ Invalid phone format — {phone}")
-                self.row_skipped += 1
-                raise ValidationError("Invalid phone number")
-            row["phone"] = phone
-
-            password = generate_random_password()
-            user = User.objects.create_user(
-                username=email.split("@")[0],
-                email=email,
-                password=password
-            )
-            row["user"] = user.pk
-
-            try:
-                with open("/tmp/generated_credentials.txt", "a", encoding="utf-8") as cred_file:
-                    cred_file.write(f"{email},{password}\n")
-            except Exception as cred_err:
-                logger.info(f"⚠️ Failed to store credentials — {cred_err}")
-
-            logger.info(f"✅ Created user for {email}")
-            self.row_success += 1
-
-        except ValidationError:
-            raise
-        except Exception as e:
-            logger.error(f"🔥 Unexpected error for {email} — {str(e)}", exc_info=True)
-            self.row_failed += 1
-            raise ValidationError(f"Critical error: {str(e)}")
 
     def save_instance(self, instance, is_create, row, **kwargs):
         logger.info(f"➡️ Attempting to save: {instance.__dict__}")
