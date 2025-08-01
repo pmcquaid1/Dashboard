@@ -132,7 +132,7 @@ class EmployeeResource(resources.ModelResource):
         class Meta:
             model = Employee
             fields = (
-                "user", "first_name", "last_name", "email",
+                "first_name", "last_name", "email",
                 "department", "position", "location", "company", "phone", "date_joined"
             )
             import_id_fields = ["email"]
