@@ -6,17 +6,21 @@ from .models import (
 )
 from .resources import EmployeeResource
 
-# 👔 Employee admin with import-export support
 @admin.register(Employee)
 class EmployeeAdmin(ImportExportModelAdmin):
     resource_class = EmployeeResource
-
+    list_display = ("first_name", "last_name", "email", "department", "position", "phone", "location")
+    search_fields = ("first_name", "last_name", "email", "department")
 
     def import_action(self, request, *args, **kwargs):
-        print("Using overridden import_action in EmployeeAdmin")
+        print("🔄 Custom import_action triggered in EmployeeAdmin")
         return super().import_action(request, *args, **kwargs)
 
+    def export_action(self, request, *args, **kwargs):
+        print("📤 Custom export_action triggered in EmployeeAdmin")
+        return super().export_action(request, *args, **kwargs)
 
+    
 # 🚚 Register other models using decorators
 @admin.register(Shipment)
 class ShipmentAdmin(admin.ModelAdmin):

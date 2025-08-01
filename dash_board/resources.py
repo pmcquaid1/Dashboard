@@ -133,7 +133,7 @@ def before_import_row(self, row, **kwargs):
         model = Employee
         fields = (
             "user", "first_name", "last_name", "email",
-            "department", "position", "location", "company", "phone"
+            "department", "position", "location", "company", "phone", "date_joined"
         )
         import_id_fields = ["email"]
         skip_unchanged = True
