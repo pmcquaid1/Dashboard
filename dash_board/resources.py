@@ -1,3 +1,4 @@
+# imports
 import random, string, logging, sys, re, os
 from import_export import resources
 from import_export.formats.base_formats import CSV
@@ -6,8 +7,11 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.mail import send_mail
 from dash_board.models import Employee, Shipment
+import logging
+logger = logging.getLogger(__name__)
 
 # 🔧 Logging Configuration
+logger.info("🧪 Running local resources.py")
 logger = logging.getLogger("import_logger")
 logger.setLevel(logging.INFO)
 handler = logging.StreamHandler(sys.stdout)
@@ -23,37 +27,65 @@ def validate_email_format(email):
     return "@" in email and "." in email
 
 def format_ghana_number(raw):
-    return raw.strip()
+    try:
+        if raw is None or str(raw).strip() == "":
+            return ""
+
+        phone_str = str(raw).strip()
+
+        # Convert scientific notation manually
+        sci_match = re.match(r"^(\d+)(?:\.(\d+))?[eE]\+?(\d+)$", phone_str)
+        if sci_match:
+            int_part, frac_part, exponent = sci_match.groups()
+            frac_part = frac_part or ""
+            total_digits = int_part + frac_part
+            phone_str = total_digits.ljust(int(exponent) + 1, "0")
+
+
+        # Remove non-digit characters
+        digits_only = re.sub(r"\D", "", phone_str)
+
+        # Format Ghana number
+        if len(digits_only) >= 12 and digits_only.startswith("233"):
+            return "+233" + digits_only[3:12]
+        elif len(digits_only) == 10 and digits_only.startswith("0"):
+            return "+233" + digits_only[1:]
+        elif len(digits_only) == 9:
+            return "+233" + digits_only
+        else:
+            return ""
+    except Exception as e:
+        logger.warning(f"⚠️ Failed to format phone number: {raw} — {e}")
+        return ""
 
 def validate_phone_format(phone):
-    return phone.startswith("+233") and len(phone) >= 12
+    return phone.startswith("+233") and len(phone) == 13 and phone[1:].isdigit()
 
 def generate_placeholder_email(row):
     name = row.get("first_name", "user").replace(" ", "").lower()
     return f"{name}{random.randint(1000, 9999)}@placeholder.local"
 
-EMAIL_DISPATCH_ENABLED = False  # Toggle to True when ready to send emails
+
+EMAIL_DISPATCH_ENABLED = getattr(settings, "EMAIL_DISPATCH_ENABLED", False)
+
 
 def send_login_email(email, password):
     logger.info(f"📧 Dispatch triggered for: {email} | Password: {password}")
-
     if not EMAIL_DISPATCH_ENABLED:
         logger.info(f"📧 [Simulated] Would send login email to: {email} with password: {password}")
         return
-
     subject = "Your SLLHub Login Credentials"
-    message = f"""
-Hello,
+    message = f"""Hello,
 
 Your login credentials have been generated:
+
 Email: {email}
 Password: {password}
 
 Please log in to SLLHub and change your password immediately for security.
 
 Best,
-SLLHub Team
-"""
+SLLHub Team"""
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], fail_silently=True)
 
 # 👤 Employee Resource
@@ -63,6 +95,9 @@ class EmployeeResource(resources.ModelResource):
         self.row_success = 0
         self.row_skipped = 0
         self.row_failed = 0
+        self.creds_path = os.path.join(settings.BASE_DIR, "logs", "generated_credentials.txt")
+        os.makedirs(os.path.dirname(self.creds_path), exist_ok=True)
+        logger.info(f"📝 Credential log path initialized: {self.creds_path}")
 
     def before_import_row(self, row, **kwargs):
         row_number = kwargs.get("row_number", "unknown")
@@ -81,6 +116,8 @@ class EmployeeResource(resources.ModelResource):
                 raise ValidationError("Invalid email format")
 
             phone = format_ghana_number(row.get("phone", ""))
+            logger.info(f"📞 Raw phone: {row.get('phone')} → Formatted: {phone}")
+
             if not validate_phone_format(phone):
                 logger.warning(f"❌ Row {row_number} skipped: invalid phone format ({phone})")
                 self.row_skipped += 1
@@ -94,28 +131,32 @@ class EmployeeResource(resources.ModelResource):
                 logger.info(f"🔄 Email exists — updating password for {email}")
                 existing_user.set_password(password)
                 existing_user.save()
-                row["user"] = existing_user.pk
+                row["user"] = existing_user
+
             else:
                 user = User.objects.create_user(
                     username=email.split("@")[0],
                     email=email,
                     password=password
                 )
-                row["user"] = user.pk
+                row["user"] = user
+
 
             self.row_success += 1
 
             # ✉️ Credential Logging + Email Dispatch
-            creds_path = os.path.join(settings.BASE_DIR, "generated_credentials.txt")
-            os.makedirs(os.path.dirname(creds_path), exist_ok=True)
-            logger.info(f"📝 Attempting credential write for: {email} | Password: {password}")
+            logger.info(f"📋 Attempting credential write for: {email} | Password: {password}")
+            try:
+                with open(self.creds_path, "a", encoding="utf-8") as cred_file:
+                    cred_file.write(f"{email},{password}\n")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to write credentials for {email}: {e}")
 
-            with open(creds_path, "a", encoding="utf-8") as cred_file:
-                cred_file.write(f"{email},{password}\n")
-
-            send_login_email(email, password)
-            print("BASE_DIR:", settings.BASE_DIR)
-            print("Resolved path:", os.path.join(settings.BASE_DIR, "logs", "generated_credentials.txt"))
+            try:
+                send_login_email(email, password)
+                logger.info(f"📧 Sent login email to {email}")
+            except Exception as e:
+                logger.warning(f"⚠️ Failed to send email to {email}: {e}")
 
         except ValidationError:
             raise
@@ -127,6 +168,7 @@ class EmployeeResource(resources.ModelResource):
     def save_instance(self, instance, is_create, row, **kwargs):
         logger.info(f"➡️ Attempting to save: {instance.__dict__}")
         try:
+            instance.user = row.get("user")  # 👈 Add this line
             super().save_instance(instance, is_create, row, **kwargs)
             persisted = Employee.objects.filter(email=instance.email).first()
             if persisted:
@@ -142,7 +184,6 @@ class EmployeeResource(resources.ModelResource):
         logger.info(f"✅ Success: {self.row_success} rows")
         logger.info(f"❌ Skipped: {self.row_skipped} rows")
         logger.info(f"🔥 Failed: {self.row_failed} rows")
-
         print("\n📊 Debug Summary")
         print(f"✅ Successful rows: {self.row_success}")
         print(f"❌ Skipped rows: {self.row_skipped}")
@@ -157,7 +198,7 @@ class EmployeeResource(resources.ModelResource):
         import_id_fields = ["email"]
         skip_unchanged = True
         report_skipped = True
-        use_bulk = True
+        use_bulk = False
         use_transactions = False
 
 # 🚚 Shipment Resource (unchanged)
@@ -187,7 +228,6 @@ class ShipmentResource(resources.ModelResource):
         fields = "__all__"
         skip_unchanged = True
         report_skipped = True
-        use_bulk = True
+        use_bulk = False
         use_transactions = False
-
 

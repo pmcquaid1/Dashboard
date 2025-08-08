@@ -15,7 +15,9 @@ from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 import re
 from decimal import Decimal
-
+from import_export.formats.base_formats import CSV
+from tablib import Dataset
+from .resources import EmployeeResource
 
 def clean_phone_number(raw):
     if not raw:
@@ -162,39 +164,20 @@ def import_csv(request):
     if request.method == "POST" and request.FILES.get("csv_file"):
         file = request.FILES["csv_file"]
         data = file.read().decode("utf-8-sig")
-        reader = csv.DictReader(StringIO(data))
+        dataset = Dataset().load(data, format="csv")
 
-        created_count = 0
-        for row in reader:
-            if not any(row.values()):
-                continue
+        resource = EmployeeResource()
+        result = resource.import_data(dataset, dry_run=False, raise_errors=False)
 
-            email = row.get("email", "").strip()
-            if not email:
-                email = f"placeholder_{uuid4().hex[:8]}@example.com"
+        created_count = resource.row_success
+        skipped_count = resource.row_skipped
+        failed_count = resource.row_failed
 
-            try:
-                username = email.split("@")[0]
-                user, _ = User.objects.get_or_create(username=username, email=email)
-                print(f"Creating employee with email: {email}")
-
-                Employee.objects.create(
-                    user=user,
-                    first_name=row.get("first_name", "").strip(),
-                    last_name=row.get("last_name", "").strip(),
-                    department=row.get("department", "").strip(),
-                    position=row.get("position", "").strip(),
-                    location=row.get("location", "").strip(),
-                    company=row.get("company", "").strip(),
-                    phone = clean_phone_number(row.get("phone", "")),
-                    email=email  # ✅ Add this line
-
-                )
-                created_count += 1
-            except Exception as e:
-                print(f"Failed to import row: {row}\nError: {e}")
 
         messages.success(request, f"Successfully imported {created_count} employees from '{file.name}'.")
+        return render(request, "employee_form.html", {"form": EmployeeForm()})
+
+    # ✅ Add this fallback for GET requests
     return render(request, "employee_form.html", {"form": EmployeeForm()})
 
 @login_required
