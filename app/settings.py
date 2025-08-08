@@ -107,6 +107,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your_email@gmail.com'
 EMAIL_HOST_PASSWORD = 'your_app_password'  # Use an app-specific password
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_DISPATCH_ENABLED = os.getenv("EMAIL_DISPATCH_ENABLED", "False") == "True"
+
 
 
 

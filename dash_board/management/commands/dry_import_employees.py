@@ -23,18 +23,27 @@ class Command(BaseCommand):
 
         dataset = tablib.Dataset().load(raw_data, format='csv')
 
-        result = resource.import_data(dataset, dry_run=True, raise_errors=False)
+        # ✅ Collect row-level results to avoid AttributeError
+        result = resource.import_data(
+            dataset,
+            dry_run=True,
+            raise_errors=False,
+            collect_failed_rows=True
+        )
 
         # ✅ Report results row-by-row
-        for i, row_result in enumerate(result.row_results):
-            self.stdout.write(f"\n🔢 Row {i+1}")
-            if row_result.errors:
-                self.stdout.write(self.style.WARNING(f"⚠️ Errors: {row_result.errors}"))
-            if row_result.import_type:
-                self.stdout.write(self.style.SUCCESS(f"✅ Import type: {row_result.import_type}"))
-            if row_result.validation_error:
-                self.stdout.write(self.style.ERROR(f"❌ Validation Error: {row_result.validation_error}"))
+        if hasattr(result, "row_results"):
+            for i, row_result in enumerate(result.row_results):
+                self.stdout.write(f"\n🔢 Row {i+1}")
+                if row_result.errors:
+                    self.stdout.write(self.style.WARNING(f"⚠️ Errors: {row_result.errors}"))
+                if row_result.import_type:
+                    self.stdout.write(self.style.SUCCESS(f"✅ Import type: {row_result.import_type}"))
+                if row_result.validation_error:
+                    self.stdout.write(self.style.ERROR(f"❌ Validation Error: {row_result.validation_error}"))
 
-        self.stdout.write(self.style.SUCCESS(
-            f"\n📊 Dry import complete — {len(result.row_results)} rows processed."
-        ))
+            self.stdout.write(self.style.SUCCESS(
+                f"\n📊 Dry import complete — {len(result.row_results)} rows processed."
+            ))
+        else:
+            self.stdout.write(self.style.WARNING("⚠️ No row-level results available."))
