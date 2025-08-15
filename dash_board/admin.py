@@ -5,6 +5,8 @@ from .models import (
     Invoice, Packlist, FuelReq, Pretrip, Employee
 )
 from .resources import EmployeeResource
+from django.contrib.auth.models import Group
+from django.contrib.auth.admin import GroupAdmin
 
 @admin.register(Employee)
 class EmployeeAdmin(ImportExportModelAdmin):
@@ -58,3 +60,13 @@ class FuelReqAdmin(admin.ModelAdmin):
 class PretripAdmin(admin.ModelAdmin):
     pass
 
+class CustomGroupAdmin(GroupAdmin):
+    def users_in_group(self, obj):
+        return ", ".join(user.username for user in obj.user_set.all())
+    users_in_group.short_description = "Users"
+
+    list_display = ("name", "users_in_group")
+
+# Unregister default Group admin and register custom one
+admin.site.unregister(Group)
+admin.site.register(Group, CustomGroupAdmin)

@@ -11921,10 +11921,10 @@ textarea.form-control-lg {
   margin-right: 8px;
 }
 
-.card-ops {
+.card-transport {
   background-color: #3B5998;
 }
-.card-ops .card-title::before {
+.card-transport .card-title::before {
   content: "\f0d1";
 }
 
@@ -11956,19 +11956,55 @@ textarea.form-control-lg {
   content: "\f129";
 }
 
-.card-ops,
+.card-warehouse {
+  background-color: #795548;
+}
+.card-warehouse .card-title::before {
+  content: "\f468";
+}
+
+.card-cf {
+  background-color: #009688;
+}
+.card-cf .card-title::before {
+  content: "\f21a";
+}
+
+.card-revops {
+  background-color: #ff9800;
+}
+.card-revops .card-title::before {
+  content: "\f201";
+}
+
+.card-docs {
+  background-color: #607d8b;
+}
+.card-docs .card-title::before {
+  content: "\f15c";
+}
+
+.card-transport,
 .card-finance,
 .card-qhse,
 .card-hr,
-.card-info {
+.card-info,
+.card-warehouse,
+.card-cf,
+.card-revops,
+.card-docs {
   color: white;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.card-ops:hover,
+.card-transport:hover,
 .card-finance:hover,
 .card-qhse:hover,
 .card-hr:hover,
-.card-info:hover {
+.card-info:hover,
+.card-warehouse:hover,
+.card-cf:hover,
+.card-revops:hover,
+.card-docs:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
