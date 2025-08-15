@@ -29,8 +29,8 @@
 }
 
 // Department-themed card variants
-.card-ops {
-  background-color: $color-ops;
+.card-transport {
+  background-color: $color-transport;
 
   .card-title::before {
     content: "\f0d1"; // fa-truck
@@ -69,12 +69,45 @@
   }
 }
 
+.card-warehouse {
+  background-color: $color-warehouse;
+  .card-title::before {
+    content: "\f468"; // fa-boxes-stacked
+  }
+}
+
+.card-cf {
+  background-color: $color-cf;
+  .card-title::before {
+    content: "\f21a"; // fa-ship
+  }
+}
+
+.card-revops {
+  background-color: $color-revops;
+  .card-title::before {
+    content: "\f201"; // fa-chart-line
+  }
+}
+
+.card-docs {
+  background-color: $color-docs;
+  .card-title::before {
+    content: "\f15c"; // fa-file-alt
+  }
+}
+
 // Shared interaction styles
-.card-ops,
+.card-transport,
 .card-finance,
 .card-qhse,
 .card-hr,
-.card-info {
+.card-info, 
+.card-warehouse,
+.card-cf,
+.card-revops,
+.card-docs {
+
   color: white;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 

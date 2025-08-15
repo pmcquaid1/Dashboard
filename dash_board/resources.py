@@ -69,24 +69,33 @@ def generate_placeholder_email(row):
 EMAIL_DISPATCH_ENABLED = getattr(settings, "EMAIL_DISPATCH_ENABLED", False)
 
 
-def send_login_email(email, password):
+def send_login_email(email, password, first_name):
     logger.info(f"📧 Dispatch triggered for: {email} | Password: {password}")
     if not EMAIL_DISPATCH_ENABLED:
         logger.info(f"📧 [Simulated] Would send login email to: {email} with password: {password}")
         return
-    subject = "Your SLLHub Login Credentials"
-    message = f"""Hello,
 
-Your login credentials have been generated:
+    subject = "Welcome to SLLHub – Your Login Details"
+    message = f"""Hi {first_name},
 
-Email: {email}
-Password: {password}
+Welcome to SLLHub! This resource centre will give you access to information to assist you
+with your daily work as well as provide HR Support.
 
-Please log in to SLLHub and change your password immediately for security.
+Your login credentials have been created:
 
-Best,
-SLLHub Team"""
+🔐 Email: {email}
+🔐 Temporary Password: {password}
+
+👉 Please log in at https://sllhub.com and change your password immediately to keep your account secure.
+
+If you have any questions, feel free to reach out.
+
+Best regards,  
+SLLHub Team
+"""
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], fail_silently=True)
+
+
 
 # 👤 Employee Resource
 class EmployeeResource(resources.ModelResource):

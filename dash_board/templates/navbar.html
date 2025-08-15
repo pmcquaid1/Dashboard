@@ -13,9 +13,27 @@
             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
           </li>
 
-          {% if 'dash_board.can_view_page_ops' in user_permissions %}
+          {% if 'dash_board.can_view_page_transport' in user_permissions %}
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'ops' %}">Operations</a>
+              <a class="nav-link" href="{% url 'transport' %}">Transport</a>
+            </li>
+          {% endif %}
+
+          {% if 'dash_board.can_view_page_c_f' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'c_f' %}">C&F</a>
+            </li>
+          {% endif %}
+
+          {% if 'dash_board.can_view_page_documentation' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'documentation' %}">Documentation</a>
+            </li>
+          {% endif %}
+
+          {% if 'dash_board.can_view_page_warehouse' in user_permissions %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'warehouse' %}">Warehouse</a>
             </li>
           {% endif %}
 

@@ -94,7 +94,11 @@ STATICFILES_DIRS = [
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
+# ✅ Authentication backends
+AUTHENTICATION_BACKENDS = [
+    'dash_board.auth_backends.EmailAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
 # ✅ Login redirect
 LOGIN_URL = '/login/'

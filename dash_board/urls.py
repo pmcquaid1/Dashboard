@@ -13,11 +13,14 @@ urlpatterns = [
 
     # Dashboard & Modules
     #path('samples/', views.samples, name="samples"),
-    path('ops/', views.ops, name="ops"),
-    #path('operations/', views.operations, name="operations"),
+    path('transport/', views.transport, name="transport"),
+    path('c_f/', views.c_f, name="c_f"),
+    path('warehouse/', views.warehouse, name="warehouse"),
+    path('documentation/', views.documentation, name="documentation"),
     path('finance/', views.finance, name="finance"),
     path('qhse/', views.qhse, name="qhse"),
     path('hr_support/', views.hr_support, name="hr_support"),
+    path('revops/', views.revops, name="revops"),
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
     
@@ -66,9 +69,6 @@ urlpatterns = [
     # Signature
     path('signature/<int:pk>/', views.signature, name="signature"),
     
-   
-
-
     # User Management
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
