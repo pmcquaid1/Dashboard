@@ -1,0 +1,56 @@
+CREATE TABLE Shipments (
+    id SERIAL PRIMARY KEY,
+    ShipmentReference VARCHAR(255),
+    WayBillNumber VARCHAR(255),
+    HouseWayBillNumber VARCHAR(255),
+    TransportMode VARCHAR(255),
+    ContainerMode VARCHAR(255),
+    ContainerCount INTEGER,
+    ContainerType VARCHAR(255),
+    PortOfLoading VARCHAR(255),
+    PortOfDischarge VARCHAR(255),
+    PlaceOfReceipt VARCHAR(255),
+    PlaceOfDelivery VARCHAR(255),
+    PortOfOrigin VARCHAR(255),
+    PortOfDestination VARCHAR(255),
+    Carrier VARCHAR(255),
+    PaymentMethod VARCHAR(255),
+    ReleaseType VARCHAR(255),
+    IncoTerm VARCHAR(255),
+    TotalWeight FLOAT,
+    TotalVolume FLOAT,
+    ManifestedWeight FLOAT,
+    ManifestedVolume FLOAT,
+    ManifestedChargeable FLOAT,
+    OuterPacks INTEGER,
+    GoodsDescription TEXT,
+    HarmonisedCode VARCHAR(255),
+    Consignor VARCHAR(255),
+    Consignee VARCHAR(255),
+    SendingForwarder VARCHAR(255),
+    ReceivingForwarder VARCHAR(255),
+    ShippedOnBoardDate DATE,
+    EstimatedArrivalDate DATE,
+    ActualDepartureDate DATE,
+    BookingConfirmedDate DATE,
+    ReceivedDate DATE,
+    BillIssuedDate DATE,
+    EventType VARCHAR(255),
+    TriggerDate DATE,
+    GrossWeightContainer1 FLOAT,
+    GrossWeightContainer2 FLOAT,
+    GoodsWeightPerContainer FLOAT,
+    TareWeight FLOAT
+);
+
+CREATE TABLE Documents (
+    id SERIAL PRIMARY KEY,
+    FileName VARCHAR(255),
+    ImageData TEXT,
+    DataSourceKey VARCHAR(255),
+    shipment_id INTEGER,
+    CONSTRAINT fk_shipment
+        FOREIGN KEY (shipment_id)
+        REFERENCES Shipments(id)
+        ON DELETE SET NULL
+);
