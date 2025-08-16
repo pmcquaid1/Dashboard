@@ -78,25 +78,68 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+from django.db import models
+
 class Shipment(models.Model):
-    shipment_id = models.CharField(max_length=20)
-    transport_mode = models.CharField(max_length=20)
-    consignee = models.CharField(max_length=30)
-    ata = models.DateField()
-    cargo_available = models.DateField()
-    date_cleared = models.DateField()
-    actual_delivery = models.DateField()
-    cont = models.CharField(max_length=20)
-    twenty_ft = models.IntegerField()
-    forty_ft = models.IntegerField()
-    uw = models.CharField(max_length=10)
-    weight = models.DecimalField(decimal_places=2, max_digits=20)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)  # ✅ Add this
+    shipment_reference = models.CharField(max_length=255)
+    waybill_number = models.CharField(max_length=255)
+    house_waybill_number = models.CharField(max_length=255)
+    transport_mode = models.CharField(max_length=255)
+    container_mode = models.CharField(max_length=255)
+    container_count = models.IntegerField()
+    container_type = models.CharField(max_length=255)
+    port_of_loading = models.CharField(max_length=255)
+    port_of_discharge = models.CharField(max_length=255)
+    place_of_receipt = models.CharField(max_length=255)
+    place_of_delivery = models.CharField(max_length=255)
+    port_of_origin = models.CharField(max_length=255)
+    port_of_destination = models.CharField(max_length=255)
+    carrier = models.CharField(max_length=255)
+    payment_method = models.CharField(max_length=255)
+    release_type = models.CharField(max_length=255)
+    inco_term = models.CharField(max_length=255)
+    total_weight = models.FloatField()
+    total_volume = models.FloatField()
+    manifested_weight = models.FloatField()
+    manifested_volume = models.FloatField()
+    manifested_chargeable = models.FloatField()
+    outer_packs = models.IntegerField()
+    goods_description = models.TextField()
+    harmonised_code = models.CharField(max_length=255)
+    consignor = models.CharField(max_length=255)
+    consignee = models.CharField(max_length=255)
+    sending_forwarder = models.CharField(max_length=255)
+    receiving_forwarder = models.CharField(max_length=255)
+    shipped_on_board_date = models.DateField(null=True, blank=True)
+    estimated_arrival_date = models.DateField(null=True, blank=True)
+    actual_departure_date = models.DateField(null=True, blank=True)
+    booking_confirmed_date = models.DateField(null=True, blank=True)
+    received_date = models.DateField(null=True, blank=True)
+    bill_issued_date = models.DateField(null=True, blank=True)
+    event_type = models.CharField(max_length=255)
+    trigger_date = models.DateField(null=True, blank=True)
+    gross_weight_container1 = models.FloatField()
+    gross_weight_container2 = models.FloatField()
+    goods_weight_per_container = models.FloatField()
+    tare_weight = models.FloatField()
 
     def __str__(self):
-        return "{}-{}".format(self.shipment_id, self.consignee, self.ata,
-                              self.cargo_available, self.date_cleared, self.actual_delivery,
-                              self.cont, self.twenty_ft, self.forty_ft, self.uw, self.weight)
+        return f"{self.shipment_reference} ({self.waybill_number})"
+
+class Document(models.Model):
+    file = models.FileField(upload_to='shipment_docs/')
+    data_source_key = models.CharField(max_length=255)
+    shipment = models.ForeignKey(
+        Shipment,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="documents"
+    )
+
+    def __str__(self):
+        return self.file_name
+
 
 
 class Invoice(models.Model):

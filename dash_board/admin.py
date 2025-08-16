@@ -1,7 +1,7 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
 from .models import (
-    Shipment, Transport, Waybill, Bill, Organization,
+    Shipment, Document, Transport, Waybill, Bill, Organization,
     Invoice, Packlist, FuelReq, Pretrip, Employee
 )
 from .resources import EmployeeResource
@@ -26,7 +26,20 @@ class EmployeeAdmin(ImportExportModelAdmin):
 # 🚚 Register other models using decorators
 @admin.register(Shipment)
 class ShipmentAdmin(admin.ModelAdmin):
-    pass
+    list_display = (
+        'shipment_reference', 'waybill_number', 'event_type',
+        'estimated_arrival_date', 'actual_departure_date'
+    )
+    list_filter = ('event_type', 'transport_mode', 'carrier')
+    search_fields = ('shipment_reference', 'waybill_number', 'consignee', 'consignor')
+    date_hierarchy = 'estimated_arrival_date'
+    ordering = ['-estimated_arrival_date']
+
+@admin.register(Document)
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ('file_name', 'data_source_key', 'shipment')
+    search_fields = ('file_name', 'data_source_key')
+    autocomplete_fields = ['shipment']
 
 @admin.register(Transport)
 class TransportAdmin(admin.ModelAdmin):
