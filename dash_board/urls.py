@@ -25,7 +25,8 @@ urlpatterns = [
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
     
     # Shipments
-    path('shipments/', views.shipments, name="shipments"),
+    path('shipment_test/', views.shipment_test, name="shipment_test"),
+    path('document_test/', views.document_test, name="document_test"),
     path('add_shipment/', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>/', views.edit, name="edit"),
     path('delete/<list_id>/', views.delete, name="delete"),
