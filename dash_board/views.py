@@ -311,8 +311,11 @@ def documentation(request):
 def base(request):
     return render(request, 'base.html')
 
-def shipments(request):
-    return render(request, 'shipments.html')
+def shipment_test(request):
+    return render(request, 'shipment_test.html')
+
+def document_test(request):
+    return render(request, 'document_test.html')
 
 def add_shipment(request):
     return render(request, 'add_shipment.html')

@@ -28,12 +28,6 @@ class PretripForm(forms.ModelForm):
 						"fuel_start", "fuel_end", "fuel_used", "fuel_cost", 
 						"driver_signature", "supervisor_signature", "remarks",]
 			
-class ShipmentForm(forms.ModelForm):
-		class Meta:
-			model = Shipment
-			fields = ["shipment_id", "transport_mode", "consignee", "ata", 
-						"cargo_available", "date_cleared", "actual_delivery", 
-						"cont", "twenty_ft", "forty_ft","uw", "weight",]
 
 class InvoiceForm(forms.ModelForm):
 		class Meta:

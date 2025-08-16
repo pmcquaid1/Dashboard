@@ -37,8 +37,8 @@ class ShipmentAdmin(admin.ModelAdmin):
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ('file_name', 'data_source_key', 'shipment')
-    search_fields = ('file_name', 'data_source_key')
+    list_display = ('file', 'data_source_key', 'shipment')
+    search_fields = ('file', 'data_source_key')
     autocomplete_fields = ['shipment']
 
 @admin.register(Transport)
