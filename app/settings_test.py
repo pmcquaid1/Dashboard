@@ -4,7 +4,8 @@ from .settings import *
 DEBUG = True
 
 # ✅ Allow all hosts for Heroku test environment
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=["*"])
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*").split(",")
+
 
 
 # ✅ Use console email backend to avoid sending real emails
