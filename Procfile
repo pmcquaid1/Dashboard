@@ -1,1 +1,1 @@
-web: gunicorn app.wsgi --timeout 90
+web: gunicorn app.wsgi:application --chdir app --timeout 90

@@ -6,10 +6,33 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ✅ Twilio credentials via .env
-TWILIO_SID = config('TWILIO_SID')
-TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
-TWILIO_WHATSAPP_NUMBER = config('TWILIO_WHATSAPP_NUMBER')
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+}
+LOGGING['handlers']['console']['level'] = 'DEBUG'
+
+
+# ✅ Twilio credentials via .env (wrapped for test safety)
+TWILIO_SID = config('TWILIO_SID', default=None)
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=None)
+TWILIO_WHATSAPP_NUMBER = config('TWILIO_WHATSAPP_NUMBER', default=None)
+
+if TWILIO_SID and TWILIO_AUTH_TOKEN:
+    from twilio.rest import Client
+    TWILIO_CLIENT = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+else:
+    TWILIO_CLIENT = None
+
 
 # ✅ Project base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
