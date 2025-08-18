@@ -36,6 +36,8 @@ DRY_RUN_MODE = True
 # ✅ Static file handling for Heroku
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
