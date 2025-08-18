@@ -86,7 +86,7 @@ class Shipment(models.Model):
     house_waybill_number = models.CharField(max_length=255, null=True, blank=True)
     transport_mode = models.CharField(max_length=255, null=True, blank=True)
     container_mode = models.CharField(max_length=255, null=True, blank=True)
-    container_count = models.IntegerField(max_length=255, null=True, blank=True)
+    container_count = models.IntegerField(null=True, blank=True)
     container_type = models.CharField(max_length=255, null=True, blank=True)
     port_of_loading = models.CharField(max_length=255, null=True, blank=True)
     port_of_discharge = models.CharField(max_length=255, null=True, blank=True)
@@ -118,10 +118,10 @@ class Shipment(models.Model):
     bill_issued_date = models.DateField(null=True, blank=True)
     event_type = models.CharField(max_length=255)
     trigger_date = models.DateField(null=True, blank=True)
-    gross_weight_container1 = models.FloatField()
-    gross_weight_container2 = models.FloatField()
-    goods_weight_per_container = models.FloatField()
-    tare_weight = models.FloatField()
+    gross_weight_container1 = models.FloatField(null=True, blank=True)
+    gross_weight_container2 = models.FloatField(null=True, blank=True)
+    goods_weight_per_container = models.FloatField(null=True, blank=True)
+    tare_weight = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.shipment_reference} ({self.waybill_number})"
