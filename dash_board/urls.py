@@ -2,6 +2,12 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from django.views.generic import TemplateView
+# urls.py
+from .views import test_home
+
+urlpatterns = [
+    path("", test_home, name="test_home"),
+]
 
 urlpatterns = [
     # Core Pages

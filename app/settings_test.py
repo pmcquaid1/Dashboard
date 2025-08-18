@@ -1,10 +1,10 @@
 from .settings import *
 
-
-LOGGING['handlers']['console']['level'] = 'DEBUG'
-
 # ✅ Debug mode for test visibility
 DEBUG = True
+
+# ✅ Allow all hosts for Heroku test environment
+ALLOWED_HOSTS = ['*']  # You can replace with ['sllhub-test.herokuapp.com'] if preferred
 
 # ✅ Use console email backend to avoid sending real emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -31,5 +31,10 @@ else:
 # ✅ Optional dry-run flag for safe testing
 DRY_RUN_MODE = True
 
+# ✅ Static file handling for Heroku
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
+
