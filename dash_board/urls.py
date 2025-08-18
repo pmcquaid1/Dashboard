@@ -8,6 +8,7 @@ from .views import test_home
 
 urlpatterns = [
     path("", test_home, name="test_home"),
+
     # Core Pages
     path('', views.landing, name="landing"),
     path('base/', views.base, name="base"),
@@ -28,7 +29,8 @@ urlpatterns = [
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
     path('ping/', views.ping),
-    path('healthcheck/', lambda r: HttpResponse("OK"), name='healthcheck')
+    path('healthcheck/', lambda r: HttpResponse("OK"), name='healthcheck'),
+
     # Shipments
     path('shipment_test/', views.shipment_test, name="shipment_test"),
     path('document_test/', views.document_test, name="document_test"),
