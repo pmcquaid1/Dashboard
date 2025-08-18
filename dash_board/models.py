@@ -116,7 +116,7 @@ class Shipment(models.Model):
     booking_confirmed_date = models.DateField(null=True, blank=True)
     received_date = models.DateField(null=True, blank=True)
     bill_issued_date = models.DateField(null=True, blank=True)
-    event_type = models.CharField(max_length=255)
+    event_type = models.CharField(max_length=255,null=True, blank=True)
     trigger_date = models.DateField(null=True, blank=True)
     gross_weight_container1 = models.FloatField(null=True, blank=True)
     gross_weight_container2 = models.FloatField(null=True, blank=True)
