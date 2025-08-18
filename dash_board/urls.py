@@ -5,11 +5,9 @@ from django.views.generic import TemplateView
 # urls.py
 from .views import test_home
 
-urlpatterns = [
-    path("", test_home, name="test_home"),
-]
 
 urlpatterns = [
+    path("", test_home, name="test_home"),
     # Core Pages
     path('', views.landing, name="landing"),
     path('base/', views.base, name="base"),
@@ -29,7 +27,7 @@ urlpatterns = [
     path('revops/', views.revops, name="revops"),
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
-    
+    path('ping/', views.ping),
     # Shipments
     path('shipment_test/', views.shipment_test, name="shipment_test"),
     path('document_test/', views.document_test, name="document_test"),

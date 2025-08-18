@@ -25,6 +25,21 @@ from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .resources import EmployeeResource
 
+logger = logging.getLogger(__name__)
+
+def test_home(request):
+    logger.info("Test home accessed from %s", request.META.get("REMOTE_ADDR"))
+
+    banner = ""
+    if getattr(settings, "DRY_RUN_MODE", False):
+        banner = "<div style='background:#ffc;padding:10px;text-align:center;'>⚠️ Test Environment – Data may be reset</div>"
+
+    return HttpResponse(f"""
+        {banner}
+        <h1>Welcome to SLLHub Test Environment</h1>
+        <p>This is a safe space for dry-run testing and vendor validation.</p>
+    """)
+
 # 🔐 Rate limiting config
 RATE_LIMIT_KEY = "login_attempts:{ip}"
 RATE_LIMIT_MAX = 5
@@ -508,3 +523,6 @@ def detail_view(request, id):
 # 🚚 Transport job detail
 def transport_job_detail(request):
     return render(request, 'transport_job_detail.html')
+
+def ping(request):
+    return HttpResponse("✅ Django is running and routing is working.")
