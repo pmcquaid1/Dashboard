@@ -6,8 +6,6 @@ DEBUG = True
 # ✅ Allow all hosts for Heroku test environment
 ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="*").split(",")
 
-
-
 # ✅ Use console email backend to avoid sending real emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -38,7 +36,10 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+# ✅ Template discovery for app-specific views
+TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
+
 
