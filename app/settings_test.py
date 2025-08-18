@@ -36,6 +36,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+ROOT_URLCONF = 'app.urls'
+WSGI_APPLICATION = 'app.wsgi.application'
+
 # ✅ Template discovery for app-specific views
 TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 
