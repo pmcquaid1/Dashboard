@@ -4,7 +4,8 @@ from .settings import *
 DEBUG = True
 
 # ✅ Allow all hosts for Heroku test environment
-ALLOWED_HOSTS = ['*']  # You can replace with ['sllhub-test.herokuapp.com'] if preferred
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default=["*"])
+
 
 # ✅ Use console email backend to avoid sending real emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
