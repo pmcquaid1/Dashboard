@@ -330,7 +330,8 @@ def shipment_test(request):
     return render(request, 'shipment_test.html')
 
 def document_test(request):
-    return HttpResponse("✅ View executed successfully")
+    logger.warning("📍 document_test view executed")
+    return HttpResponse("✅ Raw response from document_test")
 
 def add_shipment(request):
     return render(request, 'add_shipment.html')
