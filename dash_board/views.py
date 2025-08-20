@@ -25,6 +25,8 @@ from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .resources import EmployeeResource
 
+print("✅ views.py loaded")
+
 logger = logging.getLogger(__name__)
 
 def test_home(request):
@@ -329,9 +331,14 @@ def base(request):
 def shipment_test(request):
     return render(request, 'shipment_test.html')
 
+from django.http import HttpResponse
+
 def document_test(request):
-    logger.warning("📍 document_test view executed")
-    return HttpResponse("✅ Raw response from document_test")
+    return HttpResponse("✅ document_test view executed")
+
+
+
+
 
 def add_shipment(request):
     return render(request, 'add_shipment.html')
