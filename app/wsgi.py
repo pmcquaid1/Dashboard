@@ -11,6 +11,8 @@ print("🚀 WSGI loaded successfully")
 import os
 
 from django.core.wsgi import get_wsgi_application
+print("📦 DJANGO_SETTINGS_MODULE =", os.environ.get('DJANGO_SETTINGS_MODULE'))
+
 
 settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'app.settings_test')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings_test')
