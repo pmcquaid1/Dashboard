@@ -203,6 +203,7 @@ def import_employees(request):
 
     return JsonResponse({"error": "No file uploaded"}, status=400)
 # 🔐 Login view (corrected)
+@csrf_exempt
 def login_user(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -212,8 +213,8 @@ def login_user(request):
         password = request.POST.get('password')
         ip = get_client_ip(request)
         key = RATE_LIMIT_KEY.format(ip=ip)
-
         attempts = cache.get(key) or 0
+
         if attempts >= RATE_LIMIT_MAX:
             messages.error(request, 'Too many login attempts. Please wait a few minutes.')
             logger.warning(f"[RATE LIMIT] IP={ip} blocked after {attempts} attempts")
@@ -221,23 +222,31 @@ def login_user(request):
 
         user = None
         reason = ""
+        user_obj = None
 
         try:
             matches = User.objects.filter(email__iexact=identifier) if '@' in identifier else User.objects.filter(username=identifier)
+
             if matches.count() > 1:
                 logger.warning(f"⚠️ Duplicate identifier detected: {identifier} ({matches.count()} users)")
+
             user_obj = matches.first()
 
-            logger.debug(f"[AUTH DEBUG] identifier={identifier}, resolved_username={user_obj.username}, resolved_email={user_obj.email}")
+            if user_obj:
+                logger.debug(f"[AUTH DEBUG] identifier={identifier}, resolved_username={user_obj.username}, resolved_email={user_obj.email}")
 
-            if not user_obj.is_active:
-                reason = "User is inactive"
+                if not user_obj.is_active:
+                    reason = "User is inactive"
+                else:
+                    user = authenticate(request, username=user_obj.username, password=password)
+                    if user is None:
+                        reason = "Incorrect password"
             else:
-                user = authenticate(request, username=user_obj.username, password=password)
-                if user is None:
-                    reason = "Incorrect password"
-        except User.DoesNotExist:
-            reason = "User not found"
+                reason = "User not found"
+
+        except Exception as e:
+            reason = f"Unexpected error during login: {str(e)}"
+            logger.exception(f"[LOGIN ERROR] identifier={identifier}, ip={ip}, error={str(e)}")
 
         if user:
             login(request, user)
@@ -250,6 +259,7 @@ def login_user(request):
             logger.warning(f"[LOGIN FAIL] identifier={identifier}, ip={ip}, reason={reason}, time={now()}")
 
     return render(request, 'login.html')
+
 
 # 🔐 Logout view
 def logout_user(request):
