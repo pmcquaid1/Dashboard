@@ -2,12 +2,17 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from django.views.generic import TemplateView
-# urls.py
-from .views import test_home
+
+
 
 
 urlpatterns = [
-    path("", test_home, name="test_home"),
+    # Test Environment
+    path('test_home/', views.test_home, name="test_home"),
+    path('ping/', views.ping),
+    path('healthcheck/', lambda r: HttpResponse("OK"), name='healthcheck'),
+    path('shipment_test/', views.shipment_test, name="shipment_test"),
+    path('document_test/', views.document_test, name="document_test"),
 
     # Core Pages
     path('', views.landing, name="landing"),
@@ -28,12 +33,9 @@ urlpatterns = [
     path('revops/', views.revops, name="revops"),
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
-    path('ping/', views.ping),
-    path('healthcheck/', lambda r: HttpResponse("OK"), name='healthcheck'),
+
 
     # Shipments
-    path('shipment_test/', views.shipment_test, name="shipment_test"),
-    path('document_test/', views.document_test, name="document_test"),
     path('add_shipment/', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>/', views.edit, name="edit"),
     path('delete/<list_id>/', views.delete, name="delete"),

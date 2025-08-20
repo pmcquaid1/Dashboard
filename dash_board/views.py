@@ -334,6 +334,7 @@ def shipment_test(request):
 from django.http import HttpResponse
 
 def document_test(request):
+    logger.warning("📍 document_test view executed")
     return HttpResponse("✅ document_test view executed")
 
 
