@@ -25,6 +25,13 @@ from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .resources import EmployeeResource
 
+from django.urls import get_resolver
+
+
+def list_routes(request):
+    urls = [str(p.pattern) for p in get_resolver().url_patterns]
+    return JsonResponse({"routes": urls})
+
 print("✅ views.py loaded")
 
 logger = logging.getLogger(__name__)

@@ -13,6 +13,8 @@ urlpatterns = [
     path('healthcheck/', lambda r: HttpResponse("OK"), name='healthcheck'),
     path('shipment_test/', views.shipment_test, name="shipment_test"),
     path('document_test/', views.document_test, name="document_test"),
+    path('routes/', views.list_routes),
+
 
     # Core Pages
     path('', views.landing, name="landing"),
