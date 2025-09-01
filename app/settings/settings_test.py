@@ -1,10 +1,15 @@
-from .settings import *
+from . import *
+from decouple import config
+from pathlib import Path
+from . import TEMPLATES, LOGGING, MIDDLEWARE
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # ✅ Explicit environment flag
 ENV = config('ENV', default='test')
 
 # ✅ Debug mode for test visibility
-DEBUG = True
+DEBUG = False
 
 # ✅ Allow all hosts for Heroku test environment
 ALLOWED_HOSTS = [
@@ -36,7 +41,7 @@ else:
     TWILIO_CLIENT = None
 
 # ✅ Optional dry-run flag for safe testing
-DRY_RUN_MODE = True
+DRY_RUN_MODE = False
 
 # ✅ Static file handling for Heroku
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -56,7 +61,13 @@ LOGGING['handlers']['console']['level'] = 'DEBUG'
 # ✅ Add test-only middleware
 MIDDLEWARE += [
     'app.middleware.TestModeMiddleware',
+    'app.middleware.ThirdPartyAuthMiddleware',
 ]
+
+VENDOR_CONTACT_TOKENS = {
+    config('VENDOR_CONTACT_1_EMAIL'): config('VENDOR_CONTACT_1_TOKEN'),
+    config('VENDOR_CONTACT_2_EMAIL'): config('VENDOR_CONTACT_2_TOKEN'),
+}
 
 
 

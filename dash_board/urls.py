@@ -1,10 +1,8 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from . import views
 from django.views.generic import TemplateView
 from django.conf import settings
-from django.http import HttpResponse
-
+from . import views
 
 urlpatterns = [
     # Core Pages
@@ -81,6 +79,26 @@ urlpatterns = [
 ]
 
 # ✅ Include test routes only in test mode
-if getattr(settings, 'APP_MODE', '') == 'test':
-    from . import test_urls
+if getattr(settings, 'APP_MODE', '') == 'test' or getattr(settings, 'ENV', '') == 'test':
+    from . import test_urls, test_views
+    from .decorators import log_test_access, dry_run_safe
+
     urlpatterns += test_urls.urlpatterns
+
+    urlpatterns += [
+        path(
+            'api/test/shipment/',
+            log_test_access(dry_run_safe(test_views.receive_shipment_xml)),
+            name='receive_shipment_xml'
+        ),
+        path(
+            'api/test/document/',
+            log_test_access(dry_run_safe(test_views.receive_document_xml)),
+            name='receive_document_xml'
+        ),
+        path(
+            'api/test/status/',
+            log_test_access(dry_run_safe(test_views.status_view)),
+            name='status_view'
+        ),
+    ]

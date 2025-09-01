@@ -3,11 +3,20 @@ from pathlib import Path
 from decouple import config, Csv
 import dj_database_url
 from dotenv import load_dotenv
+from decouple import config
+
+
 
 load_dotenv()
 
 # ✅ Environment flag
 ENV = config('ENV', default='production')
+
+if ENV == 'test':
+    from settings_test import APP_SETTINGS
+else:
+    from settings_prod import APP_SETTINGS
+
 
 # ✅ Twilio credentials via .env (wrapped for test safety)
 TWILIO_SID = config('TWILIO_SID', default=None)
@@ -123,6 +132,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # ✅ Email dispatch flag
 EMAIL_DISPATCH_ENABLED = os.getenv("EMAIL_DISPATCH_ENABLED", "False") == "True"
 
+__all__ = ['APP_SETTINGS']
 
 
 

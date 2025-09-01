@@ -1,66 +1,77 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+import logging
+import xml.etree.ElementTree as ET
+from django.conf import settings
+from django.http import JsonResponse
+from django.http import JsonResponse
+from django.conf import settings
+from datetime import datetime
 
+def status_view(request):
+    # Extract safe config vars
+    config_snapshot = {
+        'APP_MODE': getattr(settings, 'APP_MODE', 'undefined'),
+        'ENV': getattr(settings, 'ENV', 'undefined'),
+        'DEBUG': settings.DEBUG,
+        'ALLOWED_HOSTS': settings.ALLOWED_HOSTS,
+    }
 
-def test_home(request):
-    return render(request, "test_home.html")
+    # Extract request metadata
+    headers = {
+        'X-Contact-Email': request.headers.get('X-Contact-Email'),
+        'X-Access-Token': request.headers.get('X-Access-Token'),
+        'User-Agent': request.headers.get('User-Agent'),
+    }
 
-def test_home(request):
-    logger.info("Test home accessed from %s", request.META.get("REMOTE_ADDR"))
+    response = {
+        'timestamp': datetime.utcnow().isoformat() + 'Z',
+        'path': request.path,
+        'method': request.method,
+        'config': config_snapshot,
+        'headers': headers,
+        'remote_ip': request.META.get('REMOTE_ADDR'),
+    }
 
-    banner = ""
-    if getattr(settings, "DRY_RUN_MODE", False):
-        banner = "<div style='background:#ffc;padding:10px;text-align:center;'>⚠️ Test Environment – Data may be reset</div>"
-
-    return HttpResponse(f"""
-        {banner}
-        <h1>Welcome to SLLHub Test Environment</h1>
-        <p>This is a safe space for dry-run testing and vendor validation.</p>
-    """)
-
-
-def ping(request):
-    return HttpResponse("pong")
-def ping(request):
-    return HttpResponse("✅ Django is running and routing is working.")
-
-def healthcheck(request):
-    return HttpResponse("OK")
-
-def shipment_test(request):
-    return JsonResponse({"status": "shipment test passed"})
-
-def shipment_test(request):
-    return render(request, 'shipment_test.html')
-
-def document_test(request):
-    return render(request, 'document_test.html')
-
-
-
-def document_test(request):
-    logger.warning("📍 document_test view executed")
-    return HttpResponse("✅ document_test view executed")
-
-def document_test(request):
-    return JsonResponse({"status": "document test passed"})
-
-def list_routes(request):
-    return JsonResponse({
-        "routes": [
-            "test_home/",
-            "ping/",
-            "healthcheck/",
-            "shipment_test/",
-            "document_test/",
-            "routes/"
-        ]
-    })
-
-def list_routes(request):
-    urls = [str(p.pattern) for p in get_resolver().url_patterns]
-    return JsonResponse({"routes": urls})
-
-print("✅ views.py loaded")
+    return JsonResponse(response)
 
 logger = logging.getLogger(__name__)
+
+def ping_view(request):
+    contact = getattr(request, 'vendor_contact', 'unknown')
+    return JsonResponse({
+        "status": "ok",
+        "contact": contact,
+        "mode": getattr(request, 'APP_MODE', 'unknown')
+    })
+
+def test_payload_view(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Only POST allowed'}, status=405)
+
+    try:
+        xml_data = request.body.decode('utf-8')
+        root = ET.fromstring(xml_data)
+    except Exception as e:
+        logger.exception("[TEST_API] ❌ Failed to parse XML")
+        return JsonResponse({'error': 'Invalid XML payload'}, status=400)
+
+    # Determine endpoint type based on request path
+    if request.path.endswith('/shipment/'):
+        payload_type = 'shipment'
+        identifier = root.findtext('ShipmentID')
+    elif request.path.endswith('/document/'):
+        payload_type = 'document'
+        identifier = root.findtext('DocumentID')
+    else:
+        logger.warning(f"[TEST_API] ❓ Unknown endpoint: {request.path}")
+        return JsonResponse({'error': 'Unknown endpoint'}, status=404)
+
+    logger.info(f"[TEST_API] ✅ {payload_type.capitalize()} received: {identifier}")
+
+    if settings.DRY_RUN_MODE:
+        logger.debug(f"[TEST_API] 🚫 Dry-run mode: skipping DB write for {payload_type} {identifier}")
+    else:
+        # Replace with actual DB logic
+        logger.debug(f"[TEST_API] ✅ {payload_type.capitalize()} {identifier} would be saved")
+
+    return JsonResponse({'status': 'success', 'type': payload_type, 'id': identifier})
+

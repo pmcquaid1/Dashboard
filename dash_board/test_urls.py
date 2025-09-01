@@ -1,11 +1,32 @@
 from django.urls import path
 from . import test_views
+from app.dash_board.test_views import ping_view
+from .decorators import log_test_access, dry_run_safe
 
 urlpatterns = [
-    path("test_home/", test_views.test_home, name="test_home"),
-    path("ping/", test_views.ping),
-    path("healthcheck/", test_views.healthcheck),
-    path("shipment_test/", test_views.shipment_test),
-    path("document_test/", test_views.document_test),
-    path("routes/", test_views.list_routes),
+    # HTML pages for manual testing
+    path('test/shipment/', test_views.shipment_test, name='shipment_test'),
+    path('test/document/', test_views.document_test, name='document_test'),
+
+    # API endpoints with audit logging and dry-run support
+    path(
+        'api/test/ping',
+        log_test_access(dry_run_safe(ping_view)),
+        name='ping'
+    ),
+    path(
+        'api/test/shipment/',
+        log_test_access(dry_run_safe(test_views.receive_shipment_xml)),
+        name='receive_shipment_xml'
+    ),
+    path(
+        'api/test/document/',
+        log_test_access(dry_run_safe(test_views.receive_document_xml)),
+        name='receive_document_xml'
+    ),
+    path(
+        'api/test/status/',
+        log_test_access(dry_run_safe(test_views.status_view)),
+        name='status_view'
+    ),
 ]

@@ -2,6 +2,8 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+if os.environ.get('DJANGO_SETTINGS_MODULE') != 'app.settings.prod':
+    raise RuntimeError("Incorrect DJANGO_SETTINGS_MODULE for production")
 
 
 def main():
