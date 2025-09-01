@@ -5,13 +5,16 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'app.settings_test')
+    # Use Heroku config var if set, otherwise default to test
+    settings_module = os.getenv('DJANGO_SETTINGS_MODULE') or 'app.settings_test'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
-    # Enforce production settings only in production
-    if os.getenv('HEROKU_APP_NAME', '').endswith('-prod'):
-        if settings_module != 'app.settings.prod':
-            raise RuntimeError("Production app must use app.settings.prod")
+    # Enforce production settings only if HEROKU_APP_NAME indicates prod
+    heroku_app = os.getenv('HEROKU_APP_NAME', '')
+    if heroku_app.endswith('-prod') and settings_module != 'app.settings.prod':
+        raise RuntimeError(
+            f"App '{heroku_app}' must use 'app.settings.prod', but got '{settings_module}'"
+        )
 
     try:
         from django.core.management import execute_from_command_line
@@ -25,5 +28,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
 
