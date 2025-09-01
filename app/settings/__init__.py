@@ -1,22 +1,24 @@
 import os
+import logging
 from pathlib import Path
+from dotenv import load_dotenv
 from decouple import config, Csv
 import dj_database_url
-from dotenv import load_dotenv
-from decouple import config
-
-
 
 load_dotenv()
 
 # ✅ Environment flag
 ENV = config('ENV', default='production')
 
+# ✅ Modular settings import (safe for Heroku boot)
 if ENV == 'test':
-    from settings_test import APP_SETTINGS
+    from settings.settings_test import APP_SETTINGS
+elif ENV == 'prod':
+    from settings.settings_prod import APP_SETTINGS
 else:
-    from settings_prod import APP_SETTINGS
+    raise ValueError(f"Unknown ENV value: {ENV}")
 
+logging.info(f"🔧 Loaded APP_SETTINGS from {ENV}")
 
 # ✅ Twilio credentials via .env (wrapped for test safety)
 TWILIO_SID = config('TWILIO_SID', default=None)
@@ -49,7 +51,7 @@ INSTALLED_APPS = [
     'dash_board',
 ]
 
-# ✅ Middleware (test-only middleware removed)
+# ✅ Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -133,6 +135,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_DISPATCH_ENABLED = os.getenv("EMAIL_DISPATCH_ENABLED", "False") == "True"
 
 __all__ = ['APP_SETTINGS']
+
 
 
 
