@@ -1,8 +1,10 @@
 from .settings import *
 
+# ✅ Explicit environment flag
+ENV = config('ENV', default='test')
+
 # ✅ Debug mode for test visibility
 DEBUG = True
-
 
 # ✅ Allow all hosts for Heroku test environment
 ALLOWED_HOSTS = [
@@ -10,7 +12,6 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
-
 
 # ✅ Use console email backend to avoid sending real emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -42,6 +43,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
+# ✅ Override root URLs and WSGI if needed
 ROOT_URLCONF = 'app.urls'
 WSGI_APPLICATION = 'app.wsgi.application'
 
@@ -50,5 +52,11 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
+
+# ✅ Add test-only middleware
+MIDDLEWARE += [
+    'app.middleware.TestModeMiddleware',
+]
+
 
 

@@ -2,17 +2,17 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.http import HttpResponse
+
 
 urlpatterns = [
     # Core Pages
     path('', views.landing, name="landing"),
     path('base/', views.base, name="base"),
     path('dashboard/', views.dashboard, name="dashboard"),
-    #path('home3/', views.home3, name="home3"),
-    #path('<int:year>/<str:month>/', views.home3, name="home3"),
 
     # Dashboard & Modules
-    #path('samples/', views.samples, name="samples"),
     path('transport/', views.transport, name="transport"),
     path('c_f/', views.c_f, name="c_f"),
     path('warehouse/', views.warehouse, name="warehouse"),
@@ -21,12 +21,12 @@ urlpatterns = [
     path('qhse/', views.qhse, name="qhse"),
     path('hr_support/', views.hr_support, name="hr_support"),
     path('revops/', views.revops, name="revops"),
+
+    # Employee
     path('employee/', views.register, name='employee'),
     path('employee/confirmation/', TemplateView.as_view(template_name='employee_confirmation.html'), name='employee_confirmation'),
-    
+
     # Shipments
-    path('shipment_test/', views.shipment_test, name="shipment_test"),
-    path('document_test/', views.document_test, name="document_test"),
     path('add_shipment/', views.add_shipment, name="add_shipment"),
     path('edit/<list_id>/', views.edit, name="edit"),
     path('delete/<list_id>/', views.delete, name="delete"),
@@ -52,8 +52,6 @@ urlpatterns = [
     path('bills/', views.bills, name="bills"),
     path('add_bill/', views.add_bill, name="add_bill"),
     path('pretrip/', views.pretrip, name="pretrip"),
-  
-
     path('waybill/', views.waybill, name="waybill"),
 
     # Organization
@@ -66,10 +64,9 @@ urlpatterns = [
     path('fuelreq/', views.fuelreq, name="fuelreq"),
     path('fuelreq_sign/<int:pk>/', views.fuelreq_sign, name='fuelreq_sign'),
 
-
     # Signature
     path('signature/<int:pk>/', views.signature, name="signature"),
-    
+
     # User Management
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="logout"),
@@ -77,9 +74,13 @@ urlpatterns = [
     path('update_password/', views.update_password, name="update_password"),
     path('profile/', views.profile, name="profile"),
     path("import_employees/", views.import_employees, name="import_employees"),
-    path("import_csv/", views.import_csv, name="import_employees"),
+    path("import_csv/", views.import_csv, name="import_csv"),
+
     # Misc
     path('my_view/', views.my_view, name="my_view"),
 ]
 
-
+# ✅ Include test routes only in test mode
+if getattr(settings, 'APP_MODE', '') == 'test':
+    from . import test_urls
+    urlpatterns += test_urls.urlpatterns

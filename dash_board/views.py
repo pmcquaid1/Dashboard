@@ -20,10 +20,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 from import_export.formats.base_formats import CSV
 from tablib import Dataset
-
 from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
 from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
 from .resources import EmployeeResource
+
+from django.urls import get_resolver
+from .forms import PacklistForm, EmployeeForm, FuelReqForm, PretripForm
+from .models import Shipment, Packlist, Employee, FuelReq, Pretrip
+from .resources import EmployeeResource
+
 
 # 🔐 Rate limiting config
 RATE_LIMIT_KEY = "login_attempts:{ip}"
@@ -178,7 +183,9 @@ def import_employees(request):
         })
 
     return JsonResponse({"error": "No file uploaded"}, status=400)
+
 # 🔐 Login view (corrected)
+@csrf_exempt
 def login_user(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -188,8 +195,8 @@ def login_user(request):
         password = request.POST.get('password')
         ip = get_client_ip(request)
         key = RATE_LIMIT_KEY.format(ip=ip)
-
         attempts = cache.get(key) or 0
+
         if attempts >= RATE_LIMIT_MAX:
             messages.error(request, 'Too many login attempts. Please wait a few minutes.')
             logger.warning(f"[RATE LIMIT] IP={ip} blocked after {attempts} attempts")
@@ -200,20 +207,26 @@ def login_user(request):
 
         try:
             matches = User.objects.filter(email__iexact=identifier) if '@' in identifier else User.objects.filter(username=identifier)
+
             if matches.count() > 1:
                 logger.warning(f"⚠️ Duplicate identifier detected: {identifier} ({matches.count()} users)")
+
             user_obj = matches.first()
+            if user_obj:
+                logger.debug(f"[AUTH DEBUG] identifier={identifier}, resolved_username={user_obj.username}, resolved_email={user_obj.email}")
 
-            logger.debug(f"[AUTH DEBUG] identifier={identifier}, resolved_username={user_obj.username}, resolved_email={user_obj.email}")
-
-            if not user_obj.is_active:
-                reason = "User is inactive"
+                if not user_obj.is_active:
+                    reason = "User is inactive"
+                else:
+                    user = authenticate(request, username=user_obj.username, password=password)
+                    if user is None:
+                        reason = "Incorrect password"
             else:
-                user = authenticate(request, username=user_obj.username, password=password)
-                if user is None:
-                    reason = "Incorrect password"
-        except User.DoesNotExist:
-            reason = "User not found"
+                reason = "User not found"
+
+        except Exception as e:
+            reason = f"Unexpected error during login: {str(e)}"
+            logger.exception(f"[LOGIN ERROR] identifier={identifier}, ip={ip}, error={str(e)}")
 
         if user:
             login(request, user)
@@ -226,6 +239,7 @@ def login_user(request):
             logger.warning(f"[LOGIN FAIL] identifier={identifier}, ip={ip}, reason={reason}, time={now()}")
 
     return render(request, 'login.html')
+
 
 # 🔐 Logout view
 def logout_user(request):
@@ -310,12 +324,6 @@ def documentation(request):
 # 📄 Static views
 def base(request):
     return render(request, 'base.html')
-
-def shipment_test(request):
-    return render(request, 'shipment_test.html')
-
-def document_test(request):
-    return render(request, 'document_test.html')
 
 def add_shipment(request):
     return render(request, 'add_shipment.html')
@@ -462,7 +470,7 @@ def fuelreq_sign(request, pk):
 def signature_generic(request, pk, model_type):
     model_map = {
         'fuelreq': FuelReq,
-        'pretrip': Pretrip
+        'pretrip': Pretrip,
     }
     model = model_map.get(model_type)
     if not model:
@@ -508,3 +516,6 @@ def detail_view(request, id):
 # 🚚 Transport job detail
 def transport_job_detail(request):
     return render(request, 'transport_job_detail.html')
+
+
+
