@@ -5,7 +5,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    # Use Heroku config var if set, otherwise default to test
+    # Use Heroku config var if set, otherwise default to test settings
     settings_module = os.getenv('DJANGO_SETTINGS_MODULE') or 'app.settings_test'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
