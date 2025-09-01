@@ -3,12 +3,16 @@
 import os
 import sys
 
-# Default to test settings unless explicitly overridden
-settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'app.settings_test')
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
-
 def main():
     """Run administrative tasks."""
+    settings_module = os.getenv('DJANGO_SETTINGS_MODULE', 'app.settings_test')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
+
+    # Enforce production settings only in production
+    if os.getenv('HEROKU_APP_NAME', '').endswith('-prod'):
+        if settings_module != 'app.settings.prod':
+            raise RuntimeError("Production app must use app.settings.prod")
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -21,4 +25,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
