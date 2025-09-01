@@ -1,24 +1,19 @@
 import os
-import logging
 from pathlib import Path
-from dotenv import load_dotenv
 from decouple import config, Csv
 import dj_database_url
+from dotenv import load_dotenv
 
 load_dotenv()
 
 # ✅ Environment flag
 ENV = config('ENV', default='production')
 
-# ✅ Modular settings import (safe for Heroku boot)
+# ✅ Load correct settings module
 if ENV == 'test':
-    from settings.settings_test import APP_SETTINGS
-elif ENV == 'prod':
-    from settings.settings_prod import APP_SETTINGS
+    from settings_test import APP_SETTINGS
 else:
-    raise ValueError(f"Unknown ENV value: {ENV}")
-
-logging.info(f"🔧 Loaded APP_SETTINGS from {ENV}")
+    from settings_prod import APP_SETTINGS
 
 # ✅ Twilio credentials via .env (wrapped for test safety)
 TWILIO_SID = config('TWILIO_SID', default=None)
@@ -128,14 +123,13 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'your_email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your_app_password'  # Use an app-specific password
+EMAIL_HOST_PASSWORD = 'your_app_password'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # ✅ Email dispatch flag
 EMAIL_DISPATCH_ENABLED = os.getenv("EMAIL_DISPATCH_ENABLED", "False") == "True"
 
+# ✅ Exported settings
 __all__ = ['APP_SETTINGS']
-
-
 
 
