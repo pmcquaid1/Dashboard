@@ -52,7 +52,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ✅ Override root URLs and WSGI if needed
-ROOT_URLCONF = 'app.test_urls'
+ROOT_URLCONF = 'dash_board.test_urls'
 WSGI_APPLICATION = 'app.wsgi.application'
 
 # ✅ Template discovery for app-specific views
