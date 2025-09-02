@@ -88,6 +88,7 @@ logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run m
 VENDOR_CONTACT_TOKENS = {
     config('VENDOR_CONTACT_1_EMAIL'): config('VENDOR_CONTACT_1_TOKEN'),
     config('VENDOR_CONTACT_2_EMAIL'): config('VENDOR_CONTACT_2_TOKEN'),
+    config('VENDOR_CONTACT_3_EMAIL'): config('VENDOR_CONTACT_3_TOKEN'),
 }
 
 
