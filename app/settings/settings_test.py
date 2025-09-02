@@ -1,6 +1,5 @@
 from . import *
 from pathlib import Path
-import logging
 from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION
 import os
 from decouple import Config, RepositoryEnv, UndefinedValueError
@@ -13,7 +12,6 @@ except FileNotFoundError:
         def __call__(self, key, default=None):
             return os.environ.get(key, default)
     config = ConfigShim()
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -58,7 +56,7 @@ DRY_RUN_MODE = config('DRY_RUN_MODE', default='false').lower() == 'true'
 
 # ✅ Static file handling for Heroku
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-#STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ✅ Override root URLs and WSGI if needed
@@ -95,22 +93,14 @@ if ENV == 'test':
         'app.middleware.ThirdPartyAuthMiddleware',
     ]
 
-# ✅ Log settings confirmation
-logger = logging.getLogger(__name__)
-logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run mode: %s", DRY_RUN_MODE)
-
 # ✅ Vendor token mapping from .env.test only
 VENDOR_CONTACT_TOKENS = {}
 for i in range(1, 4):
     email = config(f'VENDOR_CONTACT_{i}_EMAIL', default=None)
     token = config(f'VENDOR_CONTACT_{i}_TOKEN', default='')
-    logger.debug(f"Vendor {i} — email: '{email}', token: '{token}'")
     if email and token:
         VENDOR_CONTACT_TOKENS[email] = token
-    else:
-        logger.warning(f"⚠️ Missing token or email for vendor {i} — skipping.")
 
-logger.info("✅ Loaded vendor emails: %s", list(VENDOR_CONTACT_TOKENS.keys()))
 
 
 
