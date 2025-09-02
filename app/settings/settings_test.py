@@ -1,12 +1,15 @@
 from . import *
 from decouple import config
 from pathlib import Path
-from . import TEMPLATES, LOGGING, MIDDLEWARE
+import logging
+
+from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION, MIDDLEWARE
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # ✅ Explicit environment flag
 ENV = config('ENV', default='test')
+assert ENV == 'test', "settings_test.py should only be used in test mode"
 
 # ✅ Debug mode for test visibility
 DEBUG = False
@@ -40,8 +43,8 @@ if TWILIO_SID and TWILIO_AUTH_TOKEN:
 else:
     TWILIO_CLIENT = None
 
-# ✅ Optional dry-run flag for safe testing
-DRY_RUN_MODE = False
+# ✅ Configurable dry-run flag
+DRY_RUN_MODE = config('DRY_RUN_MODE', default='false').lower() == 'true'
 
 # ✅ Static file handling for Heroku
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -58,16 +61,23 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
 
-# ✅ Add test-only middleware
-MIDDLEWARE += [
-    'app.middleware.TestModeMiddleware',
-    'app.middleware.ThirdPartyAuthMiddleware',
-]
+# ✅ Add test-only middleware safely
+if ENV == 'test':
+    MIDDLEWARE += [
+        'app.middleware.TestModeMiddleware',
+        'app.middleware.ThirdPartyAuthMiddleware',
+    ]
 
+# ✅ Log settings confirmation
+logger = logging.getLogger(__name__)
+logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run mode: %s", DRY_RUN_MODE)
+
+# ✅ Vendor token mapping for scoped access
 VENDOR_CONTACT_TOKENS = {
     config('VENDOR_CONTACT_1_EMAIL'): config('VENDOR_CONTACT_1_TOKEN'),
     config('VENDOR_CONTACT_2_EMAIL'): config('VENDOR_CONTACT_2_TOKEN'),
 }
+
 
 
 
