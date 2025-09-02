@@ -1,9 +1,11 @@
 from . import *
-from decouple import config
+from decouple import Config, RepositoryEnv
 from pathlib import Path
 import logging
-
 from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION
+
+# ✅ Load from .env.test explicitly
+config = Config(repository=RepositoryEnv('.env.test'))
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -24,7 +26,7 @@ ALLOWED_HOSTS = [
 # ✅ Use console email backend to avoid sending real emails
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# ✅ Optional: Use SQLite for isolated testing (or set a test DATABASE_URL in Heroku)
+# ✅ Optional: Use SQLite for isolated testing
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -61,7 +63,7 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
 
-# ✅ Local definition of base middleware (no broken import)
+# ✅ Local definition of base middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -84,27 +86,20 @@ if ENV == 'test':
 logger = logging.getLogger(__name__)
 logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run mode: %s", DRY_RUN_MODE)
 
-# ✅ Vendor token mapping with fallback emails and audit logging
-def get_vendor_contact(index, fallback_email):
-    email = config(f'VENDOR_CONTACT_{index}_EMAIL', default=fallback_email)
-    token = config(f'VENDOR_CONTACT_{index}_TOKEN', default='')
-    return email, token
-
-fallbacks = {
-    1: 'bassam.al-amin@cybernaptics.africa',  # Real vendor 1
-    2: 'sona.gokhool@cybernaptics.mu',  # Real vendor 2
-    3: 'patrick.mcquaid@stellar-africa.com',  # Your test email
-}
-
+# ✅ Vendor token mapping from .env.test only
 VENDOR_CONTACT_TOKENS = {}
+
 for i in range(1, 4):
-    email, token = get_vendor_contact(i, fallbacks[i])
-    if token:
+    email = config(f'VENDOR_CONTACT_{i}_EMAIL', default=None)
+    token = config(f'VENDOR_CONTACT_{i}_TOKEN', default='')
+
+    if email and token:
         VENDOR_CONTACT_TOKENS[email] = token
     else:
-        logger.warning(f"⚠️ Missing token for vendor {i} ({email}) — skipping.")
+        logger.warning(f"⚠️ Missing token or email for vendor {i} — skipping.")
 
 logger.info("✅ Loaded vendor emails: %s", list(VENDOR_CONTACT_TOKENS.keys()))
+
 
 
 
