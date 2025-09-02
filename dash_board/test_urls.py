@@ -7,6 +7,7 @@ urlpatterns = [
     # HTML pages for manual testing
     path('test/shipment/', test_views.shipment_test, name='shipment_test'),
     path('test/document/', test_views.document_test, name='document_test'),
+    path('test-template/', test_views.test_template_render),
 
     # API endpoints with audit logging and dry-run support
     path(

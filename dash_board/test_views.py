@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.http import JsonResponse
 from django.conf import settings
 from datetime import datetime
+from django.shortcuts import render
 
 def status_view(request):
     # Extract safe config vars
@@ -74,4 +75,10 @@ def test_payload_view(request):
         logger.debug(f"[TEST_API] ✅ {payload_type.capitalize()} {identifier} would be saved")
 
     return JsonResponse({'status': 'success', 'type': payload_type, 'id': identifier})
+
+
+
+def test_template_render(request):
+    return render(request, 'shipment_test.html')  # or any template you want to test
+
 
