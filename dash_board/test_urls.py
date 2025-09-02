@@ -1,6 +1,6 @@
 from django.urls import path
 from . import test_views
-from app.dash_board.test_views import ping_view
+from dash_board.test_views import ping_view
 from .decorators import log_test_access, dry_run_safe
 
 urlpatterns = [
