@@ -89,4 +89,7 @@ def receive_shipmentxml(request):
 def receive_documentxml(request):
     return test_payload_view(request)
 
+def landing(request):
+    return render(request, 'shipment_test.html')
+
 

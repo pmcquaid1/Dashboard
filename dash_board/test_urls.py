@@ -4,6 +4,7 @@ from dash_board.test_views import ping_view
 from .decorators import log_test_access, dry_run_safe
 
 urlpatterns = [
+    path('', test_views.landing, name='landing'),
     # HTML pages for manual testing
     path('test/shipment/', test_views.shipment_test, name='shipment_test'),
     path('test/document/', test_views.document_test, name='document_test'),
