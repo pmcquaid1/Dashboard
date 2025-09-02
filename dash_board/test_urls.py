@@ -14,5 +14,8 @@ urlpatterns = [
     path('api/test/shipment/', log_test_access(dry_run_safe(test_views.receive_shipmentxml)), name='receive_shipmentxml'),
     path('api/test/document/', log_test_access(dry_run_safe(test_views.receive_documentxml)), name='receive_documentxml'),
     path('api/test/status/', log_test_access(dry_run_safe(test_views.status_view)), name='status_view'),
+
+    # Optional: dummy favicon to silence 500 errors in test environments
+    path('favicon.ico', test_views.test_template_render),
 ]
 
