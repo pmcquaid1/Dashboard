@@ -86,19 +86,8 @@ if getattr(settings, 'APP_MODE', '') == 'test' or getattr(settings, 'ENV', '') =
     urlpatterns += test_urls.urlpatterns
 
     urlpatterns += [
-        path(
-            'api/test/shipment/',
-            log_test_access(dry_run_safe(test_views.receive_shipment_xml)),
-            name='receive_shipment_xml'
-        ),
-        path(
-            'api/test/document/',
-            log_test_access(dry_run_safe(test_views.receive_document_xml)),
-            name='receive_document_xml'
-        ),
-        path(
-            'api/test/status/',
-            log_test_access(dry_run_safe(test_views.status_view)),
-            name='status_view'
-        ),
+        path('api/test/shipment/', log_test_access(dry_run_safe(test_views.receive_shipmentxml)), name='receive_shipmentxml'),
+        path('api/test/document/', log_test_access(dry_run_safe(test_views.receive_documentxml)), name='receive_documentxml'),
+        path('api/test/status/', log_test_access(dry_run_safe(test_views.status_view)), name='status_view'),
     ]
+
