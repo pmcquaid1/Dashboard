@@ -1,7 +1,4 @@
-from django.urls import path
-from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
-from django.conf import settings
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -78,16 +75,4 @@ urlpatterns = [
     path('my_view/', views.my_view, name="my_view"),
 ]
 
-# ✅ Include test routes only in test mode
-if getattr(settings, 'APP_MODE', '') == 'test' or getattr(settings, 'ENV', '') == 'test':
-    from . import test_urls, test_views
-    from .decorators import log_test_access, dry_run_safe
-
-    urlpatterns += test_urls.urlpatterns
-
-    urlpatterns += [
-        path('api/test/shipment/', log_test_access(dry_run_safe(test_views.receive_shipmentxml)), name='receive_shipmentxml'),
-        path('api/test/document/', log_test_access(dry_run_safe(test_views.receive_documentxml)), name='receive_documentxml'),
-        path('api/test/status/', log_test_access(dry_run_safe(test_views.status_view)), name='status_view'),
-    ]
 
