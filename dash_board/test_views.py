@@ -88,5 +88,9 @@ def test_template_render(request):
 def shipment_test(request):
     return test_payload_view(request)
 
+@csrf_exempt
+def document_test(request):
+    return test_payload_view(request)
+
 
 
