@@ -68,11 +68,16 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
+
+if 'loggers' not in LOGGING:
+    LOGGING['loggers'] = {}
+
 LOGGING['loggers'][__name__] = {
     'handlers': ['console'],
     'level': 'DEBUG',
     'propagate': False,
 }
+
 
 # ✅ Local definition of base middleware
 MIDDLEWARE = [
