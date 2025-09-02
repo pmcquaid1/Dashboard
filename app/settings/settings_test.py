@@ -84,12 +84,27 @@ if ENV == 'test':
 logger = logging.getLogger(__name__)
 logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run mode: %s", DRY_RUN_MODE)
 
-# ✅ Vendor token mapping for scoped access
-VENDOR_CONTACT_TOKENS = {
-    config('VENDOR_CONTACT_1_EMAIL'): config('VENDOR_CONTACT_1_TOKEN'),
-    config('VENDOR_CONTACT_2_EMAIL'): config('VENDOR_CONTACT_2_TOKEN'),
-    config('VENDOR_CONTACT_3_EMAIL'): config('VENDOR_CONTACT_3_TOKEN'),
+# ✅ Vendor token mapping with fallback emails and audit logging
+def get_vendor_contact(index, fallback_email):
+    email = config(f'VENDOR_CONTACT_{index}_EMAIL', default=fallback_email)
+    token = config(f'VENDOR_CONTACT_{index}_TOKEN', default='')
+    return email, token
+
+fallbacks = {
+    1: 'bassam.al-amin@cybernaptics.africa',  # Real vendor 1
+    2: 'sona.gokhool@cybernaptics.mu',  # Real vendor 2
+    3: 'patrick.mcquaid@stellar-africa.com',  # Your test email
 }
+
+VENDOR_CONTACT_TOKENS = {}
+for i in range(1, 4):
+    email, token = get_vendor_contact(i, fallbacks[i])
+    if token:
+        VENDOR_CONTACT_TOKENS[email] = token
+    else:
+        logger.warning(f"⚠️ Missing token for vendor {i} ({email}) — skipping.")
+
+logger.info("✅ Loaded vendor emails: %s", list(VENDOR_CONTACT_TOKENS.keys()))
 
 
 
