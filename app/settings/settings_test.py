@@ -49,7 +49,7 @@ DRY_RUN_MODE = config('DRY_RUN_MODE', default='false').lower() == 'true'
 
 # ✅ Static file handling for Heroku
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+#STATICFILES_DIRS = [BASE_DIR / 'static']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # ✅ Override root URLs and WSGI if needed
