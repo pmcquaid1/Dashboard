@@ -3,7 +3,7 @@ from decouple import config
 from pathlib import Path
 import logging
 
-from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION, MIDDLEWARE
+from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -61,6 +61,18 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
 
+# ✅ Local definition of base middleware (no broken import)
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
 # ✅ Add test-only middleware safely
 if ENV == 'test':
     MIDDLEWARE += [
@@ -77,7 +89,6 @@ VENDOR_CONTACT_TOKENS = {
     config('VENDOR_CONTACT_1_EMAIL'): config('VENDOR_CONTACT_1_TOKEN'),
     config('VENDOR_CONTACT_2_EMAIL'): config('VENDOR_CONTACT_2_TOKEN'),
 }
-
 
 
 
