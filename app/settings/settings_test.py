@@ -1,11 +1,20 @@
 from . import *
-from decouple import Config, RepositoryEnv
 from pathlib import Path
 import logging
 from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION
+import os
+from decouple import Config, RepositoryEnv, UndefinedValueError
 
 # ✅ Load from .env.test explicitly
-config = Config(repository=RepositoryEnv('.env.test'))
+try:
+    config = Config(repository=RepositoryEnv('.env.test'))
+except FileNotFoundError:
+    class ConfigShim:
+        def __call__(self, key, default=None):
+            return os.environ.get(key, default)
+    config = ConfigShim()
+
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # ✅ Explicit environment flag
