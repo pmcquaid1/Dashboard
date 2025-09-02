@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from datetime import datetime
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 def status_view(request):
     # Extract safe config vars
@@ -80,5 +81,12 @@ def test_payload_view(request):
 
 def test_template_render(request):
     return render(request, 'shipment_test.html')  # or any template you want to test
+
+
+
+@csrf_exempt
+def shipment_test(request):
+    return test_payload_view(request)
+
 
 
