@@ -1,22 +1,16 @@
 from . import *
-import os
-import logging
+from decouple import Config, RepositoryEnv
 from pathlib import Path
+import logging
 from app.settings.constants import TEMPLATES, LOGGING, WSGI_APPLICATION
 
-# ✅ Try loading from .env.test, fallback to Heroku config vars
-try:
-    from decouple import Config, RepositoryEnv
-    config = Config(repository=RepositoryEnv('.env.test'))
-except Exception:
-    config = lambda key, default=None: os.environ.get(key, default)
-
+# ✅ Load from .env.test explicitly
+config = Config(repository=RepositoryEnv('.env.test'))
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # ✅ Explicit environment flag
 ENV = config('ENV', default='test')
-if ENV != 'test':
-    raise RuntimeError("❌ ENV must be 'test' in settings_test.py — check .env.test or Heroku config")
+assert ENV == 'test', "settings_test.py should only be used in test mode"
 
 # ✅ Debug mode for test visibility
 DEBUG = False
@@ -67,8 +61,13 @@ TEMPLATES[0]['DIRS'] += [BASE_DIR / 'dash_board' / 'templates']
 
 # ✅ Verbose logging for audit visibility
 LOGGING['handlers']['console']['level'] = 'DEBUG'
+LOGGING['loggers'][__name__] = {
+    'handlers': ['console'],
+    'level': 'DEBUG',
+    'propagate': False,
+}
 
-# ✅ Base middleware stack
+# ✅ Local definition of base middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -91,18 +90,18 @@ if ENV == 'test':
 logger = logging.getLogger(__name__)
 logger.info("✅ Loaded settings_test.py with test-only middleware and dry-run mode: %s", DRY_RUN_MODE)
 
-# ✅ Vendor token mapping from config or Heroku vars
+# ✅ Vendor token mapping from .env.test only
 VENDOR_CONTACT_TOKENS = {}
 for i in range(1, 4):
     email = config(f'VENDOR_CONTACT_{i}_EMAIL', default=None)
     token = config(f'VENDOR_CONTACT_{i}_TOKEN', default='')
+    logger.debug(f"Vendor {i} — email: '{email}', token: '{token}'")
     if email and token:
         VENDOR_CONTACT_TOKENS[email] = token
     else:
         logger.warning(f"⚠️ Missing token or email for vendor {i} — skipping.")
 
 logger.info("✅ Loaded vendor emails: %s", list(VENDOR_CONTACT_TOKENS.keys()))
-
 
 
 
