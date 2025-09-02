@@ -4,22 +4,24 @@ from decouple import config, Csv
 import dj_database_url
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 # ✅ Environment flag
 ENV = config('ENV', default='production')
 
-# ✅ Load correct settings module
-if ENV == 'test':
-    from settings_test import APP_SETTINGS
-else:
-    from settings_prod import APP_SETTINGS
+# ✅ Load correct settings module (fixed relative import)
+try:
+    if ENV == 'test':
+        from .settings_test import APP_SETTINGS
+    else:
+        from .settings_prod import APP_SETTINGS
+except ImportError as e:
+    raise RuntimeError(f"Failed to load APP_SETTINGS for ENV={ENV}: {e}")
 
 # ✅ Twilio credentials via .env (wrapped for test safety)
-TWILIO_SID = config('TWILIO_SID', default=None)
-TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=None)
-TWILIO_WHATSAPP_NUMBER = config('TWILIO_WHATSAPP_NUMBER', default=None)
+TWILIO_SID = config('TWILIO_SID', default=APP_SETTINGS.get('TWILIO_SID'))
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default=APP_SETTINGS.get('TWILIO_AUTH_TOKEN'))
+TWILIO_WHATSAPP_NUMBER = config('TWILIO_WHATSAPP_NUMBER', default=APP_SETTINGS.get('TWILIO_WHATSAPP_NUMBER'))
 
 if TWILIO_SID and TWILIO_AUTH_TOKEN:
     from twilio.rest import Client
